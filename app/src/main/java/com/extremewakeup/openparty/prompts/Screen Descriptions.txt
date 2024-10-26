@@ -1,0 +1,55 @@
+Budget Screen:
+- The aim of the budget screen is to represent the amount of spending in each area of government in pie chart form
+- It gets information about government spending from a database, calculates the percentage spending in each area, then displays that information to the user in a pie chart
+- The budget screen has three parts:
+    - A title saying "Budget"
+    - A pie chart. This has a legend showing what each section corresponds to
+    - A footer:
+        - The footer is used for navigation
+        - It is made up of two sections - a budget section and a minutes section
+        - Each section is represented by an icon
+        - When the user clicks on a section, it navigates to that page
+        - When the app is first opens, it defaults navigation to the budget section
+        - When the budget screen is open, the budget section is highlighted. When the minutes screen is open, the minutes section is highlighted
+- The pie chart will draw information from the budget database and use this to populate the pie chart
+- The logic for the pie chart is as follows:
+    - A SELECT statement is used to call the data from the budget database containing these columns - ID, Type, Subtype, Amount_GBP
+    - The Amount_GBP is then summed together based on Type e.g. all the rows in the "Healthcare" type would be summed together
+        - At this point the system should have the summed Amount_GBP for all Types e.g. the total amount spent on "Healthcare", "Waste Disposal" etc
+    - Then the percentage for each type is calculated e.g. if 22% of all spending was under Type "Heathcare", then 22% would be assigned to that type
+        - The percentage is calculated by finding the total amount spent on all Types, then dividing the amount for each individual amount by the total amount
+        - For example, the system sums all the rows under Type "Healthcare", finds it to be 22 million GBP, then finds that the total amount of spending across all types is 240 million GBP, then it would calculate the percentage to be 22/240*100 = 9.17%
+    - Now the system has the percentage spending for each Type, it displays this information in the pie chart
+        - For example if "Healthcare" is 22% spending, "Waste Disposal" is 60% spending, "Housing" is 18% spending, then these numbers would be displayed in the pie chart appropriately
+
+Budget Database:
+- The budget database contains financial information about how a local council is spending money
+- The database has these columns - ID, Type, Subtype, Amount_GBP
+    - ID is a unique identifier for each row, should be generated
+    - Type is the area of government spending where the money is spent. For example this might be "Healthcare"  or "Waste Disposal" etc
+    - Subtype is the more specific area where the money is spent. For example if "Healthcare" is the type, then the sub type might be "Mental Health"
+    - Amount_GBP is the amount in british pounds that is spent in each area. For example might be 423432.21
+
+Minutes Screen:
+- The aim of the budget screen is to summarise the latest meetings of the local council in an easy to understand form
+- It shows the user
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+z
