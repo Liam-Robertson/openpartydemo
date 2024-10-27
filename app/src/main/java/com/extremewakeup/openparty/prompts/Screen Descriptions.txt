@@ -32,12 +32,32 @@ Budget Database:
 
 Minutes Screen:
 - The aim of the budget screen is to summarise the latest meetings of the local council in an easy to understand form
-- It shows the user
+- It lets the user select a time period over which to see the summary of the latest meetings
+    - For example, if the user chose the last three months as the time period, the minutes screen will show them a summary of the latest meetings for the last three months
+    - The summaries of the meetings will be stored in a room database
+- The minutes screen has these parts:
+    - A time period slider
+        - The time period defaults to three months, if the user slides it less the time period shrinks (e.g. two months), if they slide it right it becomes bigger (e.g. four months)
+    - A title
+        - Title would say "Summary of West Lothian Council Meetings"
+        - A text display that shows the summary of the council meetings
+    - A footer:
+        - The footer is used for navigation
+        - It is made up of two sections - a budget section and a minutes section
+        - Each section is represented by an icon
+        - When the user clicks on a section, it navigates to that page
+        - When the app is first opens, it defaults navigation to the budget section
+        - When the user clicks the minutes section, it should navigate to the minutes screen
+- The summaries for the meetings are stored in a database
+- When the user opens the app, the time period defaults to three months and the summary of meetings for the last three months is automatically shown
+    - To do this, the app fetches data from the database that has Type "Summary",
 
+Minutes Database:
+- The minutes database contains the transcripts for the meetings and it also contains the summaries for the meetings
+- The minutes database has these columns - id, date, type, text, time period
 
-
-
-
+Chatbot screen:
+- Chatbot screen is the third screen and you can talk to it to get details of west lothians latest missions and agendas
 
 
 

@@ -1,0 +1,43 @@
+### Title: **West Lothian Internal Audit Summary - October 2024**
+
+### Key Information:
+
+1. **Purpose of the Report**:
+   - The report provides a summary of recent internal audit activities from June to September 2024. It aims to ensure transparency and accountability by summarizing audit findings not previously submitted in full to the Audit Committee.
+
+2. **Audit Approach**:
+   - Conducted in accordance with the Public Sector Internal Audit Standards (PSIAS), which mandate regular reporting of audit outcomes to senior management and the board.
+   - Recent audits assessed controls across multiple departments, including IT, payroll, and finance.
+
+3. **Key Audits and Findings**:
+
+   - **Network Accounts (Corporate Services)**:
+     - **Objective**: Reviewed deactivated IT accounts to ensure former employees are not accessing the network and that payroll records are updated when staff leave.
+     - **Conclusion**: Satisfactory. No critical issues were found.
+     - **Findings**: 
+       - 1 medium-level issue: Highlighted minor inconsistencies in account deactivation protocols.
+       - 1 low-level issue: Minor improvements suggested to further enhance deactivation processes.
+
+   - **Payroll (Corporate Services, Housing, and Operational Services)**:
+     - **Objective**: Examined controls for processing overtime claims, focusing on practices within Building Services and Operational Services (Roads).
+     - **Conclusion**: Satisfactory. No high-risk issues identified.
+     - **Findings**: 
+       - 4 medium-level issues: Noted areas for improvement, such as consistent documentation and oversight.
+       - 1 low-level issue: Minor adjustments suggested for efficiency in overtime claims processing.
+
+   - **Supplier Payments (Finance and Property Services)**:
+     - **Objective**: Assessed controls to detect and prevent duplicate payments to suppliers.
+     - **Conclusion**: Satisfactory. Effective controls were in place, though some improvements were needed.
+     - **Findings**: 
+       - 3 medium-level issues: Recommended enhanced verification processes to further minimize the risk of duplicate payments.
+
+4. **Overall Conclusion**:
+   - All audits concluded with a satisfactory rating, indicating generally effective controls across the audited areas. No high-risk issues were identified, which suggests adequate management of key processes.
+   - Recommendations from medium and low-level findings will be addressed to further strengthen the internal control environment.
+
+5. **Ongoing Compliance and Monitoring**:
+   - The Audit Committee continues to monitor audit outcomes, with regular reviews scheduled to ensure adherence to recommendations and improvements.
+   - The report highlights the importance of maintaining robust internal controls to safeguard the council’s resources and services.
+
+### Conclusion:
+The internal audit summary for October 2024 reflects a positive assessment of West Lothian Council's controls over IT accounts, payroll, and supplier payments. While several medium-level issues were identified, none were deemed critical, and steps are being taken to address all findings. This ongoing effort aligns with the council’s commitment to transparency, efficiency, and the protection of public resources.

@@ -1,0 +1,20 @@
+- Add descriptions to each section of the budget screen
+    - For example, on the main screen it should give a brief overview of what healthcare money is spent on
+    - If you click the healthcare section, it will give you a more granular explanation of what heathcare is spent on and what the subsections are
+- Add subsections to the budget screen
+    - Give the user the ability to click on a section like "Healthcare" and be taken to a more granular breakdown of that section
+    - The more granular breakdown should show all the subsections of healthcare spending and display them in a pie chart
+- If you suggest that more money should be spent on something, you need to also specify where that money comes from
+- Train the AI so that you can ask it questions and it can consume data from many different places
+
+Maybe:
+- AI accountability:
+    - You used to have an idea that there should be a series of lawyer/accountants who would hold government agencies accountable
+    - They would look into each agency, audit it and see if they were doing a good or a bad job
+    - What if you did that for local government
+
+-  Comparing audits:
+    - Get audits for every region
+    - Breakdown the audits to show spending for every region
+    - Use this to see where your council spends more/less money than other councils
+    - Then compare this against metrics for things like healthcare/education to see if these metrics are paying off

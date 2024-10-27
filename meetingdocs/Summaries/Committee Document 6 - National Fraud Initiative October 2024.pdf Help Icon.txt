@@ -1,0 +1,41 @@
+### Title: **National Fraud Initiative (NFI) in Scotland: October 2024 Update**
+
+### Key Information:
+
+1. **Purpose of the Report**:
+   - This report updates the Audit Committee on the National Fraud Initiative (NFI) data matching exercise conducted by Audit Scotland for 2022/23. The NFI aims to detect and prevent fraud across public sector bodies.
+
+2. **Overall Outcomes**:
+   - The 2022/23 NFI exercise identified outcomes valued at £21.5 million, an increase from £14.9 million in 2020/21. This includes actual savings, estimates of future savings, and notional values.
+   - Since its inception in 2006/07, the NFI has delivered cumulative outcomes of around £180 million across Scotland.
+
+3. **West Lothian Council’s Performance**:
+   - West Lothian Council reviewed all 1,844 high-risk data matches during the 2022/23 exercise.
+   - The investigation resulted in 649 outcomes, with a total value of £345,407. Audit Scotland praised the council’s established processes and noted no significant issues.
+
+4. **Key Data Match Areas and Findings**:
+   - **Payroll**: 12 cases of payroll fraud or multi-contract working identified, the highest since 2016/17. Overpayments totaled £100,000.
+   - **Creditor Payments**: 146 cases of duplicate payments across 31 bodies, recovering £0.75 million.
+   - **Council Tax Single Person Discounts (SPD)**: £1.8 million saved by identifying and removing improper claims, with an additional £2.7 million projected savings over two years.
+   - **Council Tax Reduction Scheme (CTRS)**: £0.92 million in additional income identified, with changes to estimation methodologies leading to higher forward savings.
+   - **Housing Benefits**: Over £2 million saved, with many cases investigated outside the NFI process via direct alerts from the Department for Work and Pensions (DWP).
+   - **Pensions**: £0.5 million in overpayments identified, with projected forward savings of £5.1 million.
+   - **Blue Badges**: 5,140 badges canceled, yielding a notional outcome of £3.3 million.
+   - **Housing Tenancy**: 10 properties recovered, totaling a notional outcome of £0.86 million.
+   - **Housing Waiting Lists**: 280 ineligible applicants removed, with a notional outcome value of £1.2 million.
+   - **Adult Concessionary Bus Travel**: Identified 99,600 travel passes linked to deceased individuals, preventing future misuse valued at £0.45 million.
+
+5. **Non-Monetary Benefits**:
+   - The NFI also serves as a deterrent to potential fraud, enhances confidence in public services, and helps identify where systems need improvement.
+
+6. **Recommendations**:
+   - **Resource Allocation**: Bodies should ensure sufficient resources are allocated to follow up on NFI matches efficiently.
+   - **Self-Appraisal**: Using the NFI Self-Appraisal Checklist is recommended for better planning and follow-up.
+   - **Monitoring**: Regular monitoring and understanding of outcomes are vital, especially where low results are observed.
+
+7. **Future Developments**:
+   - **Expansion**: Audit Scotland is exploring voluntary participation from other public sector bodies, including housing associations, for future NFI exercises.
+   - **Upcoming Exercise**: Preparations are underway for the 2024/25 NFI exercise, with data matches available from December 2024. The new exercise may include further pilot initiatives and involve updated methodologies.
+
+### Conclusion:
+The National Fraud Initiative continues to be a vital tool in detecting and preventing fraud across Scotland’s public sector. The 2022/23 exercise highlighted improvements in data matching and follow-up, with West Lothian Council actively participating and achieving notable results. Moving forward, efforts will focus on resource allocation, broader participation, and enhanced fraud detection methodologies to strengthen financial governance across the public sector.

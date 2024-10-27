@@ -1,0 +1,13 @@
+Three Screens:
+- Newsfeed
+- Budget
+- Proposal
+
+Newsfeed:
+- Should give you a summary of everything that the local council has been working on in the recent period
+- Should have two sliders, one for detail, one for timeline
+- If you increase the detail slider, it will give you a larger more detailed summary of what's been happening
+- In the future, the newsfeed will be tailored more to your interests. If you care about a certain proposal, it will bias the newsfeed towards showing you that proposal
+
+Proposal:
+- This lets users raise proposals about what should happen

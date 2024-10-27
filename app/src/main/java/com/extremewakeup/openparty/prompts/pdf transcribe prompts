@@ -1,0 +1,11 @@
+Summarise the followings pdfs i give you. Give them a title and summarise the key information
+
+Follow these rules:
+- Don't miss out any numbers or statistics that are brought up
+- I want the summaries to be very detailed.
+    - It's better to make a longer summary and include all important details than to be brief and miss details
+- Summarise each page on the document individually i.e. if a pdf has 100 pages, then I want 100 summaries
+- The summary size should correspond to the length of the document.
+    - For example, if it's a 100 page pdf then the summary should be very long
+    - For example, if it's a 2 page pdf then the summary should be much shorter
+- At the end, give an overall summary of the entire pdf
