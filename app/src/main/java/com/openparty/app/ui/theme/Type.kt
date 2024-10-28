@@ -1,4 +1,4 @@
-package com.extremewakeup.openparty.ui.theme
+package com.openparty.app.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

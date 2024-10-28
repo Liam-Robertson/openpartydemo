@@ -2,12 +2,9 @@ import os
 import re
 import logging
 import pdfplumber
-import openai
+from openai import OpenAI
 
 client = OpenAI()
-
-# Retrieve API key from environment variable
-openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Setup logging
 logging.basicConfig(
@@ -16,16 +13,8 @@ logging.basicConfig(
     handlers=[logging.StreamHandler()]
 )
 
-# Function to list available models using the correct API method
-def list_available_models():
-    try:
-        # Correct method to list models
-        response = openai.Model.list()
-        print("Available Models:")
-        for model in response['data']:
-            print(model['id'])
-    except Exception as e:
-        logging.error(f"Error retrieving models: {e}")
+# Initialize logger
+logger = logging.getLogger(__name__)
 
 # Function to extract text from a PDF using pdfplumber
 def extract_text_from_pdf(pdf_path):
@@ -37,45 +26,48 @@ def extract_text_from_pdf(pdf_path):
                     page_text = page.extract_text() or ''  # Handle None case
                     text += page_text
                 except Exception as e:
-                    logging.error(f"Error extracting text from page {page_number} of {pdf_path}: {e}")
+                    logger.error(f"Error extracting text from page {page_number} of {pdf_path}: {e}")
                     continue  # Skip problematic page
         return text if text else None  # Return None if no text was extracted
     except Exception as e:
-        logging.error(f"Error opening or reading {pdf_path}: {e}")
+        logger.error(f"Error opening or reading {pdf_path}: {e}")
         return None
 
 # Function to summarize text using GPT-4
 def summarize_text_with_gpt(text, page_number):
-    chunk_size = 3000
-    prompt_header = f"Summarize the following text from Page {page_number}:\n"
+    prompt_header = f"Page {page_number}:\n"
+
+    prompt = f"""
+    Don't cite your sources
+
+    With the following text, do this:
+    - Give it a title which should be this - Page {page_number}
+    - A detailed summary of the text
+    - All of the statistics in the text. The statistics are the most important part, don't miss any statistics
+
+    For the statistics, I want them to be very detailed. If 1/10 is an extremely low level of detail, and 10/10 is an unbelievably high level of detail, I want the level of detail for the statistics you give me to be a 10/10
+    """
+
+    logger.info(f"Summarizing text for Page {page_number}")
+    logger.debug(f"Text to summarize:\n{text}")
 
     try:
-        logging.info(f"Text length for Page {page_number}: {len(text)}")
-        text_chunks = [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
-        summary = ""
+        logger.info("Sending request to GPT-4 model")
+        completion = client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt_header + prompt + text}
+            ]
+        )
 
-        for idx, chunk in enumerate(text_chunks):
-            prompt = f"{prompt_header}{chunk}"
-
-            # Correct method to call chat-based completions
-            response = openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=[
-                    {"role": "system", "content": "You are a helpful assistant."},
-                    {"role": "user", "content": prompt}
-                ],
-                max_tokens=1000,
-                temperature=0.7
-            )
-
-            # Correct response extraction
-            chunk_summary = response['choices'][0]['message']['content']
-            summary += f"\nChunk {idx + 1} summary: {chunk_summary}\n"
-
-        return summary
+        logger.debug(f"Raw completion response: {completion}")
+        result = completion.choices[0].message
+        logger.info("Successfully retrieved completion")
+        return result
     except Exception as e:
-        logging.error(f"Error during GPT-4 API call for Page {page_number}: {e}")
-        return f"Error summarizing text for Page {page_number}."
+        logger.error(f"Error during GPT completion request: {e}")
+        raise
 
 # Function to extract the page number from the filename
 def extract_page_number_from_filename(filename):
@@ -83,7 +75,7 @@ def extract_page_number_from_filename(filename):
     if match:
         return int(match.group(1))  # Convert to integer for numerical sorting
     else:
-        logging.warning(f"Could not extract page number from {filename}")
+        logger.warning(f"Could not extract page number from {filename}")
         return float('inf')  # Put files without a page number at the end
 
 # Main function to process all PDFs in a folder and summarize them
@@ -96,14 +88,14 @@ def summarize_pdfs_in_folder(input_folder):
     # Create output folder if it doesn't exist
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
-        logging.info(f"Created output folder at {output_folder}")
+        logger.info(f"Created output folder at {output_folder}")
 
     output_summary_file = os.path.join(output_folder, 'pdf_summaries.txt')
 
     # Get all the PDF files and sort them numerically by page number
     pdf_files = [f for f in os.listdir(input_folder) if f.endswith('.pdf')]
     if not pdf_files:
-        logging.warning(f"No PDF files found in {input_folder}")
+        logger.warning(f"No PDF files found in {input_folder}")
         return
 
     # Sort by page number
@@ -111,17 +103,17 @@ def summarize_pdfs_in_folder(input_folder):
 
     # Open (or create) the output file to write summaries
     with open(output_summary_file, 'w', encoding='utf-8') as outfile:
-        logging.info(f"Opened output summary file: {output_summary_file}")
+        logger.info(f"Opened output summary file: {output_summary_file}")
 
         for filename in pdf_files:
             pdf_path = os.path.join(input_folder, filename)
-            logging.info(f"Processing {pdf_path}...")
+            logger.info(f"Processing {pdf_path}...")
 
             try:
                 # Extract text from the PDF
                 pdf_text = extract_text_from_pdf(pdf_path)
                 if not pdf_text:
-                    logging.error(f"Failed to extract text for {filename}")
+                    logger.error(f"Failed to extract text for {filename}")
                     continue
 
                 # Extract the page number from the filename
@@ -132,19 +124,16 @@ def summarize_pdfs_in_folder(input_folder):
 
                 # Write the summary to the output file
                 outfile.write(f"Summary of {filename}:\n")
-                outfile.write(summary + "\n\n")
-                logging.info(f"Summary of {filename} written to {output_summary_file}")
+                outfile.write(summary.content + "\n\n")  # Correct - access the 'content' attribute
+                logger.info(f"Summary of {filename} written to {output_summary_file}")
 
             except Exception as e:
-                logging.error(f"Error processing {pdf_path}: {e}")
+                logger.error(f"Error processing {pdf_path}: {e}")
 
-    logging.info("Summarization of all files completed.")
+    logger.info("Summarization of all files completed.")
 
 # Define input folder containing your PDF files
 input_folder = 'rawPdfOutput'
-
-# First, list available models
-list_available_models()
 
 # Then, run the summarization process
 summarize_pdfs_in_folder(input_folder)

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.extremewakeup.openparty"
+    namespace = "com.openparty.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.extremewakeup.openparty"
+        applicationId = "com.openparty.app"
         minSdk = 28
         targetSdk = 34
         versionCode = 1

@@ -18,3 +18,10 @@ Maybe:
     - Breakdown the audits to show spending for every region
     - Use this to see where your council spends more/less money than other councils
     - Then compare this against metrics for things like healthcare/education to see if these metrics are paying off
+
+- Crowdsourcing performance metrics:
+    - To make this system work, you would ideally want to cross reference financial spending against performance metrics
+    - This would show the constituents whether they're money was being spent well or badly
+    - Financial data you can probably get, but performance metrics are harder
+    - One way to get performance metrics would be to crowdsource them from the local users of the app in some way
+    - If you could do that it would be much more useful
