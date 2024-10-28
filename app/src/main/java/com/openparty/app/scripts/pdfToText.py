@@ -33,7 +33,7 @@ def extract_text_from_pdf(pdf_path):
         logger.error(f"Error opening or reading {pdf_path}: {e}")
         return None
 
-# Function to summarize text using GPT-4
+# Function to summarize text using GPT-4o
 def summarize_text_with_gpt(text, page_number):
     prompt_header = f"Page {page_number}:\n"
 
@@ -52,9 +52,9 @@ def summarize_text_with_gpt(text, page_number):
     logger.debug(f"Text to summarize:\n{text}")
 
     try:
-        logger.info("Sending request to GPT-4 model")
+        logger.info("Sending request to GPT-4o model")
         completion = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": prompt_header + prompt + text}
@@ -78,35 +78,41 @@ def extract_page_number_from_filename(filename):
         logger.warning(f"Could not extract page number from {filename}")
         return float('inf')  # Put files without a page number at the end
 
-# Main function to process all PDFs in a folder and summarize them
-def summarize_pdfs_in_folder(input_folder):
+# Function to remove the page number from the filename
+def remove_page_number(filename):
+    return re.sub(r'Page_\d+\s*-\s*', '', filename)
+
+# Main function to process all PDFs in the nested folder structure
+def summarize_pdfs_in_folders(input_root_folder):
     script_directory = os.path.dirname(os.path.abspath(__file__))
 
-    # Define the output summary folder
-    output_folder = os.path.join(script_directory, 'outputPdfSummaries')
+    # Define the output summary root folder
+    output_root_folder = os.path.join(script_directory, 'outputPdfSummaries')
 
     # Create output folder if it doesn't exist
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)
-        logger.info(f"Created output folder at {output_folder}")
+    if not os.path.exists(output_root_folder):
+        os.makedirs(output_root_folder)
+        logger.info(f"Created output folder at {output_root_folder}")
 
-    output_summary_file = os.path.join(output_folder, 'pdf_summaries.txt')
+    # Traverse each folder inside the root input folder (rawPdfOutput)
+    for subdir, _, files in os.walk(input_root_folder):
+        # Only process folders containing PDF files
+        pdf_files = [f for f in files if f.endswith('.pdf')]
+        if not pdf_files:
+            continue  # Skip directories that don't contain PDF files
 
-    # Get all the PDF files and sort them numerically by page number
-    pdf_files = [f for f in os.listdir(input_folder) if f.endswith('.pdf')]
-    if not pdf_files:
-        logger.warning(f"No PDF files found in {input_folder}")
-        return
+        # Get the folder name relative to the input root folder
+        relative_folder_name = os.path.relpath(subdir, input_root_folder)
 
-    # Sort by page number
-    pdf_files.sort(key=extract_page_number_from_filename)
+        # Create a corresponding folder in the output root folder
+        output_folder = os.path.join(output_root_folder, relative_folder_name)
+        if not os.path.exists(output_folder):
+            os.makedirs(output_folder)
+            logger.info(f"Created output folder: {output_folder}")
 
-    # Open (or create) the output file to write summaries
-    with open(output_summary_file, 'w', encoding='utf-8') as outfile:
-        logger.info(f"Opened output summary file: {output_summary_file}")
-
+        # Loop through each PDF file in the current subdir
         for filename in pdf_files:
-            pdf_path = os.path.join(input_folder, filename)
+            pdf_path = os.path.join(subdir, filename)
             logger.info(f"Processing {pdf_path}...")
 
             try:
@@ -119,21 +125,26 @@ def summarize_pdfs_in_folder(input_folder):
                 # Extract the page number from the filename
                 page_number = extract_page_number_from_filename(filename)
 
-                # Summarize the text using GPT-4
+                # Summarize the text using GPT-4o
                 summary = summarize_text_with_gpt(pdf_text, page_number)
 
-                # Write the summary to the output file
-                outfile.write(f"Summary of {filename}:\n")
-                outfile.write(summary.content + "\n\n")  # Correct - access the 'content' attribute
-                logger.info(f"Summary of {filename} written to {output_summary_file}")
+                # Remove page number from filename to create the output file name
+                clean_filename = f"Summary - {remove_page_number(filename).replace('.pdf', '')}.txt"
+                summary_file_path = os.path.join(output_folder, clean_filename)
+
+                # Append the summary to the output file
+                with open(summary_file_path, 'a', encoding='utf-8') as summary_file:
+                    summary_file.write(f"Summary of {filename}:\n")
+                    summary_file.write(summary.content + "\n\n")
+                    logger.info(f"Summary of {filename} written to {summary_file_path}")
 
             except Exception as e:
                 logger.error(f"Error processing {pdf_path}: {e}")
 
     logger.info("Summarization of all files completed.")
 
-# Define input folder containing your PDF files
-input_folder = 'rawPdfOutput'
+# Define the input root folder containing your PDF files inside subfolders
+input_root_folder = 'rawPdfOutput'
 
 # Then, run the summarization process
-summarize_pdfs_in_folder(input_folder)
+summarize_pdfs_in_folders(input_root_folder)
