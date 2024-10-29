@@ -1,0 +1,60 @@
+Budget Screen:
+- The aim of the budget screen is to represent the amount of spending in each area of government in pie chart form
+- It gets information about government spending from a database, calculates the percentage spending in each area, then displays that information to the user in a pie chart
+- The budget screen has three parts:
+    - A title saying "Budget"
+    - A pie chart. This has a legend showing what each section corresponds to
+    - A footer:
+        - The footer is used for navigation
+        - It is made up of three sections - a budget section, a newsfeed section and a proposals section
+        - Each section is represented by an icon
+        - When the user clicks on a section, it navigates to that page
+        - When the app is first opens, it defaults navigation to the budget section
+        - When the budget screen is open, the budget section is highlighted. When the minutes screen is open, the minutes section is highlighted
+
+When the user enters the budget screen this happens:
+- The data about the financial report is fetched
+    - The data about the financial report will be stored in a separate file
+    - Right now this is just a version 1 of an app, so the data will be hardcoded
+    - The data will be hardcoded for each section
+    - The data will be in this format:
+{
+  "areas_of_spending": [
+    {
+      "type_of_spending": "Education Services",
+      "cost": "£220.806 million",
+      "summary": "This category encompasses all spending related to educational services provided by the council, including staffing costs for teachers and support staff, educational materials, school maintenance, and administrative support.",
+      "subtypes_level_1": [
+        {
+          "type_of_spending": "Schools and Education Support",
+          "cost": "£220.806 million",
+          "summary": "This subtype includes costs for teaching staff salaries, educational materials, school facility maintenance, special education needs, and administrative support services.",
+          "subtypes_level_2": [
+            {
+              "type_of_spending": "Early Learning and Childcare",
+              "cost": "£17.850 million",
+              "summary": "Provision of early childhood education and childcare services for children under the age of five."
+            },
+.....
+
+    - i.e. the data will be in json format with the area of spending, the cost the summary and then the same again for all the subtypes of spending
+    - When the user enters the screen, the data will be fetched from the json file which is com.openparty.app.notes.descriptionsV1.financeDataV1.json
+    - This data will then be used to populate the pie chart
+    - The pie chart will initially just be populated using the highest level of data i.e. type of spending, not type of spending level 1 or level 2
+    - There will be a legend at the bottom of the screen which shows each area of spending, it's cost and it's colour on the pie chart
+    - If the user clicks on a section in the legend, the app shows a new pie chart which gives a more detailed breakdown of that type of spending
+    - For example, the initial pie chart might show up with Education Services, Social Care Services, Housing services
+    - Each of these would be represented in the pie chart as a different colour, and each would take up a piece of the pie chart proportional to the level of spending on them
+        - e.g. if Education was 37% of spending it would take up 37% of the pie chart
+    - At the bottom of the screen is a legend showing Education Services, Social Care Services, Housing services - along with the colour and cost associated with each
+    - If the user then clicked on Social Care Services in the legend, a new pie chart would appear which has all the subtypes of Social Care Services spending
+        - i.e."Adult and Elderly Services (IJB)", "Children's Services (Non-IJB)"
+    - The new pie chart would have each sub type of spending
+    - The new legend would have the sub type of spending, the colour on the pie chart, the cost
+    - If the user clicks on a subtype of spending in the legend, then a new pie chart would appear for sub type level 2
+    - The new pie chart and legend would have the type of spending, cost and colour for spending sub type 2 in the json file
+
+Navigation:
+- The navigation needs to be able to handle navigating between the budget section, newsfeed section and proposals section
+- This app is going to get a lot more complex so the navigation functionality needs to be able to handle that
+- The navigation should probably have it's own feature
