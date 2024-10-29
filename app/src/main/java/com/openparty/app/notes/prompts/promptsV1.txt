@@ -23,6 +23,12 @@ com.openparty.app
 │       ├── BudgetContent.kt
 │       ├── BudgetScreen.kt
 │       └── BudgetViewModel.kt
+├── feature_proposals
+│   └── presentation
+│       └── ProposalsScreen.kt
+├── feature_newsfeed
+│   └── presentation
+│       └── NewsfeedScreen.kt
 │── navigation
 │   ├── AppNavHost.kt
 │   ├── BottomNavBar.kt
@@ -99,6 +105,28 @@ Navigation:
 
 ---------------------------------
 
+// File: feature-budget/src/main/java/com/openparty/feature_budget/di/BudgetModule.kt
+package com.openparty.app.di
+
+import com.openparty.app.feature_budget.data.datasource.BudgetDataSource
+import com.openparty.app.feature_budget.data.repository.BudgetRepositoryImpl
+import com.openparty.app.feature_budget.domain.repository.BudgetRepository
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+object BudgetModule {
+
+    @Provides
+    @Singleton
+    fun provideBudgetRepository(
+        dataSource: BudgetDataSource
+    ): BudgetRepository = BudgetRepositoryImpl(dataSource)
+}
 // File: feature-budget/src/main/java/com/openparty/feature_budget/data/datasource/BudgetDataSource.kt
 package com.openparty.app.feature_budget.data.datasource
 
@@ -138,28 +166,6 @@ class BudgetRepositoryImpl @Inject constructor(
     override suspend fun getBudgetData(): List<BudgetItem> {
         return dataSource.fetchBudgetData()
     }
-}
-// File: feature-budget/src/main/java/com/openparty/feature_budget/di/BudgetModule.kt
-package com.openparty.app.feature_budget.di
-
-import com.openparty.app.feature_budget.data.datasource.BudgetDataSource
-import com.openparty.app.feature_budget.data.repository.BudgetRepositoryImpl
-import com.openparty.app.feature_budget.domain.repository.BudgetRepository
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
-
-@Module
-@InstallIn(SingletonComponent::class)
-object BudgetModule {
-
-    @Provides
-    @Singleton
-    fun provideBudgetRepository(
-        dataSource: BudgetDataSource
-    ): BudgetRepository = BudgetRepositoryImpl(dataSource)
 }
 // File: feature-budget/src/main/java/com/openparty/feature_budget/domain/model/BudgetItem.kt
 package com.openparty.app.feature_budget.domain.model
@@ -335,32 +341,18 @@ fun BudgetScreen(
     val budgetData = viewModel.budgetData.collectAsState().value
     BudgetContent(budgetData)
 }
-// File: feature-budget/src/main/java/com/openparty/feature_budget/presentation/BudgetViewModel.kt
+// File: feature-budget/src/main/java/com/openparty/feature_budget/presentation/BudgetScreen.kt
 package com.openparty.app.feature_budget.presentation
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.openparty.app.feature_budget.domain.model.BudgetItem
-import com.openparty.app.feature_budget.domain.usecase.GetBudgetDataUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 
-@HiltViewModel
-class BudgetViewModel @Inject constructor(
-    private val getBudgetDataUseCase: GetBudgetDataUseCase
-) : ViewModel() {
-
-    private val _budgetData = MutableStateFlow<List<BudgetItem>>(emptyList())
-    val budgetData: StateFlow<List<BudgetItem>> = _budgetData
-
-    init {
-        viewModelScope.launch {
-            _budgetData.value = getBudgetDataUseCase()
-        }
-    }
+@Composable
+fun BudgetScreen(
+    viewModel: BudgetViewModel = hiltViewModel()
+) {
+    val budgetData = viewModel.budgetData.collectAsState().value
+    BudgetContent(budgetData)
 }
 // File: app/src/main/java/com/openparty/app/navigation/AppNavHost.kt
 package com.openparty.app.navigation
@@ -483,3 +475,27 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class MyApplication : Application()
+
+---------------
+
+Here are some errors in the above code: 
+
+MainActivity: 
+in this method: 
+@Composable
+fun OpenPartyApp() {
+    val navController = rememberNavController()
+    Scaffold(
+        bottomBar = { BottomNavBar(navController) }
+    ) { paddingValues ->
+        Box(modifier = Modifier.padding(paddingValues)) {
+            AppNavHost(navController)
+        }
+    }
+}
+
+on this line - Scaffold(
+This material API is experimental and is likely to change or to be removed in the future.
+I can either opt in or change the code, tell me what you want 
+
+

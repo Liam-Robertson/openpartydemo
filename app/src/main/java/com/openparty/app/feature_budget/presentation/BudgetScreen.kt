@@ -2,6 +2,7 @@
 package com.openparty.app.feature_budget.presentation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable

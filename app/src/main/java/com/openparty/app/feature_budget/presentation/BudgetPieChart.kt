@@ -1,39 +1,44 @@
-// File: feature-budget/src/main/java/com/openparty/feature_budget/presentation/components/BudgetPieChart.kt
-package com.openparty.app.feature_budget.presentation
+// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/components/BudgetPieChart.kt
+package com.openparty.app.feature_budget.presentation.components
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import me.bytebeats.views.charts.pie.PieChart
+import me.bytebeats.views.charts.pie.PieChartData
+import me.bytebeats.views.charts.pie.render.SimpleSliceDrawer
 import com.openparty.app.feature_budget.domain.model.BudgetItem
-import io.github.devssrsouza.compose.charts.piechart.PieChart
-import io.github.devssrsouza.compose.charts.piechart.PieChartData
+import com.openparty.app.feature_budget.presentation.getColorForItem
 
 @Composable
 fun BudgetPieChart(
     budgetItems: List<BudgetItem>,
     onItemClick: (BudgetItem) -> Unit
 ) {
-    val chartData = budgetItems.map {
+    // Prepare the data for the PieChart
+    val pieSlices = budgetItems.mapNotNull { item ->
+        val parsedValue = item.cost
+            .replace("£", "")
+            .replace(",", "")
+            .replace(" million", "")
+            .trim()
+            .toFloatOrNull() ?: return@mapNotNull null
+
         PieChartData.Slice(
-            value = it.cost.removePrefix("£").removeSuffix(" million").toFloat(),
-            color = getColorForItem(it),
-            label = it.typeOfSpending
+            value = parsedValue,
+            color = Color(getColorForItem(item).toArgb())
         )
     }
 
+    // Render the PieChart component with Bytebeats
     PieChart(
-        pieChartData = PieChartData(chartData),
+        pieChartData = PieChartData(pieSlices),
         modifier = Modifier.size(200.dp),
+        sliceDrawer = SimpleSliceDrawer(sliceThickness = 50f),
         onSliceClicked = { index ->
             onItemClick(budgetItems[index])
         }
     )
-}
-
-fun getColorForItem(item: BudgetItem): Color {
-    // Implement a method to consistently get colors for items
-    // For example, map item types to specific colors
-    return Color.Gray // Placeholder
 }

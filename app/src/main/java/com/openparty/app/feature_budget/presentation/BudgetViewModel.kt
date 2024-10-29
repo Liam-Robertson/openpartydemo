@@ -6,10 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.openparty.app.feature_budget.domain.model.BudgetItem
 import com.openparty.app.feature_budget.domain.usecase.GetBudgetDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class BudgetViewModel @Inject constructor(
@@ -17,11 +16,12 @@ class BudgetViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _budgetData = MutableStateFlow<List<BudgetItem>>(emptyList())
-    val budgetData: StateFlow<List<BudgetItem>> = _budgetData
+    val budgetData: StateFlow<List<BudgetItem>> = _budgetData.asStateFlow()
 
     init {
         viewModelScope.launch {
-            _budgetData.value = getBudgetDataUseCase()
+            val data = getBudgetDataUseCase()
+            _budgetData.value = data
         }
     }
 }
