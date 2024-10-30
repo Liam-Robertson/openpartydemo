@@ -2,43 +2,51 @@
   "newsfeed": [
     {
       "id": 1,
-      "title": "City Council Approves New Park Renovation",
-      "subheader": "Transforming the city's outdoor spaces",
-      "image": "assets/images/park_renovation",
-      "content": "The city council has unanimously approved a new project to renovate the city's central park, aiming to add new playgrounds, walking trails, and green spaces. The renovation project, expected to start next month, is part of a larger initiative to promote outdoor activities and enhance the city's natural environment for families and individuals alike. Funding for this project has been allocated through both local government and state grants, ensuring the park will become a hub for the community.",
-      "timestamp": "2023-10-20T10:00:00Z"
+      "title": "Affordable Housing Expansion: West Lothian's Bold Steps to Combat the Housing Crisis",
+      "subheader": "Ambitious targets and ongoing projects for affordable housing",
+      "image": "assets/images/affordable_housing.jpg",
+      "content": {
+        "paragraphs": [
+          "West Lothian Council is intensifying its efforts to address the region's housing crisis through an expanded Affordable Housing Programme. This ambitious initiative, spanning from 2023 to 2028, aims to deliver a minimum of 1,621 new affordable homes. The program is deeply integrated with the Local Housing Strategy and Housing Need and Demand Assessment (HNDA3), making affordable housing accessible and sustainable for West Lothian residents.",
+          "Despite facing an 11% reduction in Scottish Government Resource Planning Assumptions (RPA) funding, which impacts budgeting and resource allocation, the Council has completed 1,127 homes as of the end of Q2 in the 2024/25 fiscal year. This progress marks nearly 70% of the target completion for 2028. Among the ongoing developments are notable projects such as Simpson Parkway and Almondvale Crescent, where a combination of innovative building techniques, including modular construction, and efficient land use strategies are being deployed to maximize housing output.",
+          "The Council is working creatively within budget constraints by prioritizing cost-effective construction techniques and adapting projects to meet shifting funding levels. One such strategy includes Open Market Acquisitions, which allow the Council to purchase existing properties and quickly increase affordable housing stock without waiting for new builds. Additionally, partnerships with Registered Social Landlords (RSLs) have led to increased funding and collaboration, supporting the delivery of over 1,200 homes through organizations like Link Group and Wheatley Homes East.",
+          "In tandem with these construction projects, West Lothian Council is emphasizing the importance of accessibility and support for diverse housing needs. For instance, the Almondvale Crescent site will include supported housing for young people, ensuring a mix of housing options to serve the community's varied demographic. Each new development is carefully planned to offer a mix of housing types, including council-owned homes and properties managed by RSLs, with a particular focus on families, individuals with disabilities, and young adults.",
+          "The Council's efforts to meet housing demands come at a time of significant economic challenges, including rising construction costs and a competitive market for contractors. These factors, coupled with reduced government funding, pose a risk to future housing projects. However, West Lothian Council remains committed to working within these constraints by prioritizing high-impact projects and continuing to engage with the community. The Council is actively seeking feedback and input from local residents to ensure the Affordable Housing Programme addresses the specific needs and priorities of the community while delivering sustainable and resilient housing solutions."
+        ]
+      },
+      "timestamp": "2024-11-02T10:00:00Z"
     },
     {
       "id": 2,
-      "title": "Public Transportation Fares Reduced by 20%",
-      "subheader": "Making transit more accessible",
-      "image": "assets/images/public_transport",
-      "content": "In an effort to increase accessibility and reduce emissions, the local government has reduced public transportation fares by 20% across all services. The change, which takes effect immediately, is part of a broader sustainability initiative aimed at encouraging citizens to opt for public transit over personal vehicles. Officials say this will make daily commuting easier and more affordable for residents.",
-      "timestamp": "2023-10-19T14:00:00Z"
+      "title": "Cracking Down on Fraud: West Lothian Council's Role in Scotland's National Fraud Initiative",
+      "subheader": "Protecting public funds through rigorous fraud prevention measures",
+      "image": "assets/images/fraud_prevention.jpg",
+      "content": {
+        "paragraphs": [
+          "West Lothian Council is playing a proactive role in Scotland’s National Fraud Initiative (NFI), a large-scale data-matching program led by Audit Scotland to detect and prevent fraud across the public sector. This initiative, which has saved over £21.5 million in public funds across Scotland in the 2022/23 cycle, is crucial in protecting taxpayer money and maintaining public trust. Through diligent efforts, West Lothian Council and other participating bodies have helped identify misuse in areas such as council tax discounts, benefits, and concessionary travel programs.",
+          "One of the major successes highlighted in the recent NFI report includes the prevention of fraudulent single-person council tax discounts. West Lothian, like many councils, has identified and stopped incorrect claims, saving thousands of pounds that can be redirected to essential services. Similarly, the initiative uncovered cases of fraud in housing benefits, blue badge permits, and concessionary travel, each of which had financial implications and affected the fair allocation of resources within the community.",
+          "In addition to saving public funds, the NFI also serves a deterrent function, discouraging potential fraudsters through increased oversight and regular auditing. This year’s data collection was expanded with the inclusion of records from HM Revenue and Customs, made possible by the Digital Economy Act of 2017. This expansion has allowed for more comprehensive cross-checking of information, leading to more robust fraud detection processes across Scotland.",
+          "West Lothian Council’s involvement with the NFI also highlights the importance of community and council collaboration in maintaining accountability. Local residents are encouraged to report suspected cases of fraud, which the council investigates alongside Audit Scotland. The Council emphasizes transparency and aims to educate the community on the importance of fraud prevention, showcasing the results of NFI efforts as a reminder of the value of public vigilance.",
+          "Despite these successes, Audit Scotland's report noted that some councils could improve their follow-up processes on identified fraud cases. West Lothian is enhancing its follow-up activities to ensure thorough investigation and resolution of flagged cases. This proactive approach is part of a larger commitment by the council to maintain high standards of governance and financial integrity. Moving forward, the Council plans to increase its resources dedicated to fraud prevention, ensuring West Lothian remains vigilant in safeguarding public funds for the benefit of the entire community."
+        ]
+      },
+      "timestamp": "2024-11-02T12:00:00Z"
     },
     {
       "id": 3,
-      "title": "New Waste Management Program Announced",
-      "subheader": "Cleaner streets, greener city",
-      "image": "assets/images/waste_management",
-      "content": "Starting next month, the city will implement a new waste management program designed to reduce littering and promote recycling. The program will see the addition of new recycling bins in public areas, and residents will receive clear instructions on proper disposal methods. The city hopes this initiative will lead to a cleaner, more sustainable community.",
-      "timestamp": "2023-10-18T09:30:00Z"
-    },
-    {
-      "id": 4,
-      "title": "Local Schools to Receive Additional Funding",
-      "subheader": "Enhancing education and resources",
-      "image": "assets/images/school_funding",
-      "content": "The local government has announced a substantial increase in funding for public schools, which will be used to improve facilities, acquire new learning materials, and provide additional training for teachers. This initiative is part of an ongoing commitment to enhance education quality and ensure that students have the resources they need to succeed.",
-      "timestamp": "2023-10-17T11:00:00Z"
-    },
-    {
-      "id": 5,
-      "title": "New Bike Lanes to Be Installed Downtown",
-      "subheader": "Safer, greener commuting options",
-      "image": "assets/images/bike_lanes",
-      "content": "To promote eco-friendly commuting, the city has approved the installation of new bike lanes throughout the downtown area. These lanes will make cycling a safer and more viable option for residents, as the city works to reduce traffic congestion and carbon emissions. Construction is set to begin later this month, with completion expected by early next year.",
-      "timestamp": "2023-10-16T08:45:00Z"
+      "title": "Challenges and Changes Ahead: West Lothian Council's Efforts to Address Local Housing Needs Amid Economic Uncertainty",
+      "subheader": "Balancing budget cuts with urgent housing needs",
+      "image": "assets/images/housing_needs.jpg",
+      "content": {
+        "paragraphs": [
+          "West Lothian Council is navigating complex economic challenges as it strives to address the growing demand for housing in the region. Recent cuts in government funding have placed additional strain on the Council’s resources, forcing it to make strategic decisions to maximize the impact of the available budget. For the 2024/25 fiscal year, the Resource Planning Assumptions from the Scottish Government were reduced by over 11%, impacting both new housing developments and existing accommodation support.",
+          "The Council’s Affordable Housing Supply Programme remains at the core of its strategy, aiming to deliver 383 new council-owned homes over the coming years. This program not only supports the creation of affordable housing but also includes initiatives to address homelessness and the availability of temporary accommodation. With the recent budget adjustments, the Council is prioritizing refurbishing vacant properties, enabling quicker turnover to accommodate those in immediate need.",
+          "One notable project within the supply program is the refurbishment and repurposing of void properties to reduce the pressures on temporary housing. As demand for housing continues to grow, particularly with the rising cost of living, the Council is intensifying efforts to make the most of existing properties. The Open Market Acquisition Scheme (OMAS) has proven effective, allowing the Council to acquire previously owned homes and convert them for council use, a method that has contributed significantly to West Lothian’s affordable housing stock.",
+          "Amid these financial pressures, the Council remains dedicated to serving residents and finding ways to meet diverse housing needs. Council leaders have noted the importance of community engagement in setting priorities, with consultations continuing to ensure that resources are directed towards the most impactful projects. The Council also aims to ensure that recent developments, such as the newly built Almondvale Crescent site, offer accessible housing for individuals with disabilities and young people seeking supported accommodation.",
+          "Looking ahead, West Lothian Council is closely monitoring potential further reductions in government funding, which may affect housing approval rates and completion timelines. However, by focusing on sustainable practices and collaborative solutions, the Council remains hopeful that it can continue to provide affordable, quality housing options. As the economic climate evolves, the Council is determined to balance financial prudence with the urgent need for housing, underscoring its commitment to ensuring housing stability for all residents of West Lothian."
+        ]
+      },
+      "timestamp": "2024-11-02T14:00:00Z"
     }
   ]
 }
