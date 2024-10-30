@@ -4,6 +4,7 @@ package com.openparty.app.feature_issues.presentation
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ThumbUp
@@ -23,10 +24,21 @@ fun IssuesContent(
 ) {
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = onAddIssueClick) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add Issue")
+            FloatingActionButton(
+                onClick = onAddIssueClick,
+                containerColor = MaterialTheme.colorScheme.primary,
+                shape = CircleShape,
+                modifier = Modifier.size(80.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Add Issue",
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.size(32.dp)
+                )
             }
-        }
+        },
+        floatingActionButtonPosition = FabPosition.Center
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -35,7 +47,9 @@ fun IssuesContent(
         ) {
             Text(
                 text = "Issues",
-                style = MaterialTheme.typography.headlineSmall,
+                style = MaterialTheme.typography.headlineSmall.copy(
+                    fontSize = MaterialTheme.typography.headlineSmall.fontSize * 1.2
+                ),
                 modifier = Modifier.padding(16.dp)
             )
             LazyColumn {
@@ -56,14 +70,29 @@ fun IssueCard(issue: Issue, onIssueClick: (Issue) -> Unit) {
             .padding(8.dp)
             .clickable { onIssueClick(issue) }
     ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(text = issue.title, style = MaterialTheme.typography.bodyLarge)
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(imageVector = Icons.Default.ThumbUp, contentDescription = "Upvotes")
-                Text(text = issue.upvotes.toString())
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = issue.title,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontSize = MaterialTheme.typography.bodyLarge.fontSize * 1.2
+                )
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ThumbUp,
+                    contentDescription = "Upvotes",
+                    modifier = Modifier.size(16.dp)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = issue.upvotes.toString(),
+                    style = MaterialTheme.typography.bodySmall
+                )
             }
         }
     }

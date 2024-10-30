@@ -38,7 +38,7 @@ fun IssueDetailContent(issue: Issue) {
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = issue.summary,
+            text = issue.content,
             style = MaterialTheme.typography.bodyLarge
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -46,7 +46,7 @@ fun IssueDetailContent(issue: Issue) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "By ${issue.author}")
+            Text(text = "By ${issue.user}")
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(imageVector = Icons.Default.ThumbUp, contentDescription = "Upvotes")
                 Text(text = issue.upvotes.toString())

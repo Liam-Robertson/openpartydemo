@@ -3,7 +3,7 @@ package com.openparty.app.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Article
-import androidx.compose.material.icons.filled.BugReport // Changed icon
+import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material.icons.filled.PieChart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -22,7 +22,7 @@ fun BottomNavBar(navController: NavHostController) {
         items.forEach { screen ->
             val icon = when (screen) {
                 is Screen.Budget -> Icons.Default.PieChart
-                is Screen.Issues -> Icons.Default.BugReport
+                is Screen.Issues -> Icons.Default.Lightbulb
                 is Screen.Newsfeed -> Icons.Default.Article
             }
             NavigationBarItem(

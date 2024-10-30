@@ -30,45 +30,45 @@
     },
     {
       "id": 2,
-      "title": "Need for Affordable Housing Options",
-      "content": "The cost of renting has skyrocketed. More affordable housing options are necessary for families. Many of us are on the verge of eviction as rents go up. What steps are being taken to address this?",
-      "upvotes": 98,
-      "user": "Anita K.",
-      "tag": "Housing",
+      "title": "Limited Access to Local GP Services",
+      "content": "It's nearly impossible to get an appointment with a GP in our area. I've been calling every morning, but there are rarely any slots available, and I often end up waiting weeks for even a basic consultation. This is particularly worrying for families with children or elderly residents. What is being done to improve access to healthcare?",
+      "upvotes": 104,
+      "user": "Helen M.",
+      "tag": "Healthcare",
       "comments": [
         {
           "id": 4,
-          "text": "It’s really difficult to afford rent these days. I’m worried about being priced out of my home.",
-          "author": "Mark D.",
-          "upvotes": 22
+          "text": "I completely agree! I've been trying to get an appointment for weeks, and it's affecting my health.",
+          "author": "Tom L.",
+          "upvotes": 29
         },
         {
           "id": 5,
-          "text": "More affordable housing should be a priority for the council. This is affecting too many people.",
-          "author": "Sophia J.",
-          "upvotes": 18
+          "text": "The healthcare system really needs to be improved. Our community deserves better.",
+          "author": "Rachel C.",
+          "upvotes": 24
         }
       ]
     },
     {
       "id": 3,
-      "title": "Poor Living Conditions in Council Flats",
-      "content": "Our building is in disrepair, with broken elevators, leaking pipes, and no heating in common areas. Despite complaints, repairs are slow or not completed at all. This needs immediate attention.",
-      "upvotes": 87,
-      "user": "Brian W.",
-      "tag": "Housing",
+      "title": "Road Safety Concerns on High Street",
+      "content": "The High Street has become very dangerous with cars speeding and heavy traffic, especially near the primary school. There have been multiple incidents recently, and it feels like only a matter of time before a serious accident happens. Can the council introduce speed bumps or a pedestrian crossing to ensure safety for residents and children?",
+      "upvotes": 91,
+      "user": "David P.",
+      "tag": "Road Safety",
       "comments": [
         {
           "id": 6,
-          "text": "We’re facing the same issues in our council block. This is unacceptable.",
-          "author": "Lucy M.",
-          "upvotes": 30
+          "text": "Absolutely agree. It’s not safe for children to cross that road. Speed bumps would make a big difference.",
+          "author": "Anna B.",
+          "upvotes": 33
         },
         {
           "id": 7,
-          "text": "The council really needs to step up their maintenance efforts.",
-          "author": "Dylan H.",
-          "upvotes": 25
+          "text": "We need a pedestrian crossing urgently. My kids go to that school, and I worry every day.",
+          "author": "Karen W.",
+          "upvotes": 28
         }
       ]
     }

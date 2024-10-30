@@ -1,4 +1,4 @@
-// File: feature_issues/src/main/java/com/openparty/feature_issues/data/datasource/IssueDataSource.kt
+// File: feature_issues/src/main/java/com/openparty/app/feature_issues/data/datasource/IssueDataSource.kt
 package com.openparty.app.feature_issues.data.datasource
 
 import android.content.Context
@@ -17,7 +17,7 @@ class IssueDataSource @Inject constructor(
 
     suspend fun fetchIssues(): List<Issue> {
         val jsonString = withContext(Dispatchers.IO) {
-            context.assets.open("issueScreen/issues.json").bufferedReader().use { it.readText() }
+            context.assets.open("feature_issues/issuesData.json").bufferedReader().use { it.readText() }
         }
         val response = jsonFormat.decodeFromString<IssueResponse>(jsonString)
         return response.issues
