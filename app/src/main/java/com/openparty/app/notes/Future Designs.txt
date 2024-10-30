@@ -25,3 +25,8 @@ Maybe:
     - Financial data you can probably get, but performance metrics are harder
     - One way to get performance metrics would be to crowdsource them from the local users of the app in some way
     - If you could do that it would be much more useful
+
+- Ad hoc data science
+    - At some point you'll have lots of performance metrics and financial data on many counties
+    - You allow the user to perform ad hoc data science on these metrics to find patterns
+    - Just let them generate their own graphs and charts

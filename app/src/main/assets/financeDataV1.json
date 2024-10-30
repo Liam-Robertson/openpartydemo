@@ -1,213 +1,233 @@
 {
   "areas_of_spending": [
     {
-      "type_of_spending": "Education Services",
-      "cost": "£220.806 million",
-      "summary": "This category encompasses all spending related to educational services provided by the council, including staffing costs for teachers and support staff, educational materials, school maintenance, and administrative support.",
-      "subtypes_level_1": [
-        {
-          "type_of_spending": "Schools and Education Support",
-          "cost": "£220.806 million",
-          "summary": "This subtype includes costs for teaching staff salaries, educational materials, school facility maintenance, special education needs, and administrative support services.",
-          "subtypes_level_2": [
-            {
-              "type_of_spending": "Early Learning and Childcare",
-              "cost": "£17.850 million",
-              "summary": "Provision of early childhood education and childcare services for children under the age of five."
-            },
-            {
-              "type_of_spending": "Pupil Equity Funding",
-              "cost": "£5.449 million",
-              "summary": "Additional funding allocated directly to schools to reduce the poverty-related attainment gap."
-            },
-            {
-              "type_of_spending": "Gaelic Education",
-              "cost": "£0.006 million",
-              "summary": "Supports Gaelic language education within the council area."
-            },
-            {
-              "type_of_spending": "Scottish Attainment Challenge",
-              "cost": "£0.762 million",
-              "summary": "National program aimed at improving educational outcomes in areas of deprivation."
-            }
-          ]
-        }
-      ]
+      "spending_level_1": {
+        "type_of_spending": "Education Services",
+        "cost": "£220.806 million",
+        "summary": "This category encompasses all spending related to educational services provided by the council, including staffing costs for teachers and support staff, educational materials, school maintenance, and administrative support.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Schools and Education Support",
+            "cost": "£220.806 million",
+            "summary": "This subtype includes costs for teaching staff salaries, educational materials, school facility maintenance, special education needs, and administrative support services.",
+            "spending_level_3": [
+              {
+                "type_of_spending": "Early Learning and Childcare",
+                "cost": "£17.850 million",
+                "summary": "Provision of early childhood education and childcare services for children under the age of five."
+              },
+              {
+                "type_of_spending": "Pupil Equity Funding",
+                "cost": "£5.449 million",
+                "summary": "Additional funding allocated directly to schools to reduce the poverty-related attainment gap."
+              },
+              {
+                "type_of_spending": "Gaelic Education",
+                "cost": "£0.006 million",
+                "summary": "Supports Gaelic language education within the council area."
+              },
+              {
+                "type_of_spending": "Scottish Attainment Challenge",
+                "cost": "£0.762 million",
+                "summary": "National program aimed at improving educational outcomes in areas of deprivation."
+              }
+            ]
+          }
+        ]
+      }
     },
     {
-      "type_of_spending": "Social Care Services",
-      "cost": "£257.899 million",
-      "summary": "Includes all expenditures related to the well-being of residents requiring assistance due to age, disability, or other factors.",
-      "subtypes_level_1": [
-        {
-          "type_of_spending": "Adult and Elderly Services (IJB)",
-          "cost": "£207.377 million",
-          "summary": "Services for adults and the elderly, including healthcare integration with the West Lothian Integration Joint Board (IJB).",
-          "subtypes_level_2": []
-        },
-        {
-          "type_of_spending": "Children's Services (Non-IJB)",
-          "cost": "£50.522 million",
-          "summary": "Child protection services, foster care, adoption services, and youth support programs.",
-          "subtypes_level_2": []
-        }
-      ]
+      "spending_level_1": {
+        "type_of_spending": "Social Care Services",
+        "cost": "£257.899 million",
+        "summary": "Includes all expenditures related to the well-being of residents requiring assistance due to age, disability, or other factors.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Adult and Elderly Services (IJB)",
+            "cost": "£207.377 million",
+            "summary": "Services for adults and the elderly, including healthcare integration with the West Lothian Integration Joint Board (IJB).",
+            "spending_level_3": []
+          },
+          {
+            "type_of_spending": "Children's Services (Non-IJB)",
+            "cost": "£50.522 million",
+            "summary": "Child protection services, foster care, adoption services, and youth support programs.",
+            "spending_level_3": []
+          }
+        ]
+      }
     },
     {
-      "type_of_spending": "Housing Services",
-      "cost": "£99.621 million",
-      "summary": "Covers all costs associated with the provision and maintenance of council housing, including management of housing stock and support services for tenants.",
-      "subtypes_level_1": [
-        {
-          "type_of_spending": "Housing, Customer, and Building Services",
-          "cost": "£23.672 million",
-          "summary": "Management and support of housing services, customer service centers, and building maintenance.",
-          "subtypes_level_2": []
-        },
-        {
-          "type_of_spending": "Housing Revenue Account (HRA)",
-          "cost": "£75.949 million",
-          "summary": "Includes repairs and maintenance, supervision and management, depreciation of housing assets, and other housing-related costs.",
-          "subtypes_level_2": [
-            {
-              "type_of_spending": "Repairs and Maintenance",
-              "cost": "£24.555 million",
-              "summary": "Routine and emergency repairs to council housing stock."
-            },
-            {
-              "type_of_spending": "Supervision and Management",
-              "cost": "£9.045 million",
-              "summary": "Administrative costs associated with managing council housing."
-            },
-            {
-              "type_of_spending": "Depreciation and Impairment",
-              "cost": "£38.143 million",
-              "summary": "Accounting charges reflecting the consumption of housing assets."
-            },
-            {
-              "type_of_spending": "Bad Debt Provision",
-              "cost": "£1.112 million",
-              "summary": "Funds set aside to cover potential losses from unpaid rent."
-            },
-            {
-              "type_of_spending": "Other Expenditure",
-              "cost": "£3.094 million",
-              "summary": "Miscellaneous costs related to housing services."
-            }
-          ]
-        }
-      ]
+      "spending_level_1": {
+        "type_of_spending": "Housing Services",
+        "cost": "£99.621 million",
+        "summary": "Covers all costs associated with the provision and maintenance of council housing, including management of housing stock and support services for tenants.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Housing, Customer, and Building Services",
+            "cost": "£23.672 million",
+            "summary": "Management and support of housing services, customer service centers, and building maintenance.",
+            "spending_level_3": []
+          },
+          {
+            "type_of_spending": "Housing Revenue Account (HRA)",
+            "cost": "£75.949 million",
+            "summary": "Includes repairs and maintenance, supervision and management, depreciation of housing assets, and other housing-related costs.",
+            "spending_level_3": [
+              {
+                "type_of_spending": "Repairs and Maintenance",
+                "cost": "£24.555 million",
+                "summary": "Routine and emergency repairs to council housing stock."
+              },
+              {
+                "type_of_spending": "Supervision and Management",
+                "cost": "£9.045 million",
+                "summary": "Administrative costs associated with managing council housing."
+              },
+              {
+                "type_of_spending": "Depreciation and Impairment",
+                "cost": "£38.143 million",
+                "summary": "Accounting charges reflecting the consumption of housing assets."
+              },
+              {
+                "type_of_spending": "Bad Debt Provision",
+                "cost": "£1.112 million",
+                "summary": "Funds set aside to cover potential losses from unpaid rent."
+              },
+              {
+                "type_of_spending": "Other Expenditure",
+                "cost": "£3.094 million",
+                "summary": "Miscellaneous costs related to housing services."
+              }
+            ]
+          }
+        ]
+      }
     },
     {
-      "type_of_spending": "Environmental and Operational Services",
-      "cost": "£92.841 million",
-      "summary": "Expenditures related to the upkeep of the local environment and essential operational services.",
-      "subtypes_level_1": [
-        {
-          "type_of_spending": "Operational Services",
-          "cost": "£92.841 million",
-          "summary": "Includes waste disposal, recycling services, street cleaning, road maintenance, parks and open spaces, and environmental health services.",
-          "subtypes_level_2": []
-        }
-      ]
+      "spending_level_1": {
+        "type_of_spending": "Environmental and Operational Services",
+        "cost": "£92.841 million",
+        "summary": "Expenditures related to the upkeep of the local environment and essential operational services.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Operational Services",
+            "cost": "£92.841 million",
+            "summary": "Includes waste disposal, recycling services, street cleaning, road maintenance, parks and open spaces, and environmental health services.",
+            "spending_level_3": []
+          }
+        ]
+      }
     },
     {
-      "type_of_spending": "Corporate and Central Services",
-      "cost": "£134.487 million",
-      "summary": "Central administrative functions that support the operations of the council, including executive management and support services.",
-      "subtypes_level_1": [
-        {
-          "type_of_spending": "Chief Executive, Finance, and Property Services",
-          "cost": "£132.021 million",
-          "summary": "Corporate management, financial services, property management, legal services, and human resources.",
-          "subtypes_level_2": []
-        },
-        {
-          "type_of_spending": "Corporate Services",
-          "cost": "£2.466 million",
-          "summary": "Support services including IT and communications.",
-          "subtypes_level_2": []
-        }
-      ]
+      "spending_level_1": {
+        "type_of_spending": "Corporate and Central Services",
+        "cost": "£134.487 million",
+        "summary": "Central administrative functions that support the operations of the council, including executive management and support services.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Chief Executive, Finance, and Property Services",
+            "cost": "£132.021 million",
+            "summary": "Corporate management, financial services, property management, legal services, and human resources.",
+            "spending_level_3": []
+          },
+          {
+            "type_of_spending": "Corporate Services",
+            "cost": "£2.466 million",
+            "summary": "Support services including IT and communications.",
+            "spending_level_3": []
+          }
+        ]
+      }
     },
     {
-      "type_of_spending": "Other Services",
-      "cost": "£45.371 million",
-      "summary": "Various services essential for community support and development.",
-      "subtypes_level_1": [
-        {
-          "type_of_spending": "Miscellaneous Services",
-          "cost": "£45.371 million",
-          "summary": "May include community development projects, economic initiatives, and support for voluntary organizations.",
-          "subtypes_level_2": []
-        }
-      ]
+      "spending_level_1": {
+        "type_of_spending": "Other Services",
+        "cost": "£45.371 million",
+        "summary": "Various services essential for community support and development.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Miscellaneous Services",
+            "cost": "£45.371 million",
+            "summary": "May include community development projects, economic initiatives, and support for voluntary organizations.",
+            "spending_level_3": []
+          }
+        ]
+      }
     },
     {
-      "type_of_spending": "Planning and Economic Development",
-      "cost": "£15.602 million",
-      "summary": "Expenditures aimed at planning and facilitating economic growth within the council area.",
-      "subtypes_level_1": [
-        {
-          "type_of_spending": "Planning, Economic Development, and Regeneration",
-          "cost": "£15.602 million",
-          "summary": "Urban planning, building control, economic regeneration projects, and support for local businesses.",
-          "subtypes_level_2": []
-        }
-      ]
+      "spending_level_1": {
+        "type_of_spending": "Planning and Economic Development",
+        "cost": "£15.602 million",
+        "summary": "Expenditures aimed at planning and facilitating economic growth within the council area.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Planning, Economic Development, and Regeneration",
+            "cost": "£15.602 million",
+            "summary": "Urban planning, building control, economic regeneration projects, and support for local businesses.",
+            "spending_level_3": []
+          }
+        ]
+      }
     },
     {
-      "type_of_spending": "Culture, Leisure, and Recreation",
-      "cost": "£13.351 million",
-      "summary": "Funding for cultural activities, recreational facilities, and leisure services to enhance the quality of life for residents.",
-      "subtypes_level_1": [
-        {
-          "type_of_spending": "West Lothian Leisure Ltd.",
-          "cost": "£13.351 million",
-          "summary": "Operation of leisure centers, sports facilities, swimming pools, and recreational programs.",
-          "subtypes_level_2": []
-        }
-      ]
+      "spending_level_1": {
+        "type_of_spending": "Culture, Leisure, and Recreation",
+        "cost": "£13.351 million",
+        "summary": "Funding for cultural activities, recreational facilities, and leisure services to enhance the quality of life for residents.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "West Lothian Leisure Ltd.",
+            "cost": "£13.351 million",
+            "summary": "Operation of leisure centers, sports facilities, swimming pools, and recreational programs.",
+            "spending_level_3": []
+          }
+        ]
+      }
     },
     {
-      "type_of_spending": "Trading Operations",
-      "cost": "£2.940 million",
-      "summary": "Costs associated with the council's trading activities, primarily focusing on property management for economic development.",
-      "subtypes_level_1": [
-        {
-          "type_of_spending": "Economic Development Properties",
-          "cost": "£2.940 million",
-          "summary": "Management and leasing of industrial units, offices, and shops to support local businesses.",
-          "subtypes_level_2": []
-        }
-      ]
+      "spending_level_1": {
+        "type_of_spending": "Trading Operations",
+        "cost": "£2.940 million",
+        "summary": "Costs associated with the council's trading activities, primarily focusing on property management for economic development.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Economic Development Properties",
+            "cost": "£2.940 million",
+            "summary": "Management and leasing of industrial units, offices, and shops to support local businesses.",
+            "spending_level_3": []
+          }
+        ]
+      }
     },
     {
-      "type_of_spending": "Miscellaneous Expenditures",
-      "cost": "£2.800 million",
-      "summary": "Minor expenditures not significant enough to warrant individual categories.",
-      "subtypes_level_1": [
-        {
-          "type_of_spending": "Local Bus Services Subsidies",
-          "cost": "£0.566 million",
-          "summary": "Expenditures to subsidize local bus services."
-        },
-        {
-          "type_of_spending": "Residential Schools and Social Work Payments",
-          "cost": "£0.737 million",
-          "summary": "Payments for children placed in residential schools and additional social work-related expenditures."
-        },
-        {
-          "type_of_spending": "Special School Placements",
-          "cost": "£0.199 million",
-          "summary": "Costs associated with placing children in special schools outside the council area."
-        },
-        {
-          "type_of_spending": "Other Services",
-          "cost": "£1.298 million",
-          "summary": "Various minor services and expenditures not significant enough for separate categorization."
-        }
-      ]
+      "spending_level_1": {
+        "type_of_spending": "Miscellaneous Expenditures",
+        "cost": "£2.800 million",
+        "summary": "Minor expenditures not significant enough to warrant individual categories.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Local Bus Services Subsidies",
+            "cost": "£0.566 million",
+            "summary": "Expenditures to subsidize local bus services."
+          },
+          {
+            "type_of_spending": "Residential Schools and Social Work Payments",
+            "cost": "£0.737 million",
+            "summary": "Payments for children placed in residential schools and additional social work-related expenditures."
+          },
+          {
+            "type_of_spending": "Special School Placements",
+            "cost": "£0.199 million",
+            "summary": "Costs associated with placing children in special schools outside the council area."
+          },
+          {
+            "type_of_spending": "Other Services",
+            "cost": "£1.298 million",
+            "summary": "Various minor services and expenditures not significant enough for separate categorization."
+          }
+        ]
+      }
     }
   ]
 }

@@ -105,6 +105,148 @@ Navigation:
 
 ---------------------------------
 
+{
+  "areas_of_spending": [
+    {
+      "spending_level_1": {
+        "type_of_spending": "Education Services",
+        "cost": "£220.806 million",
+        "summary": "This category encompasses all spending related to educational services provided by the council, including staffing costs for teachers and support staff, educational materials, school maintenance, and administrative support.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Schools and Education Support",
+            "cost": "£220.806 million",
+            "summary": "This subtype includes costs for teaching staff salaries, educational materials, school facility maintenance, special education needs, and administrative support services.",
+            "spending_level_3": [
+              {
+                "type_of_spending": "Early Learning and Childcare",
+                "cost": "£17.850 million",
+                "summary": "Provision of early childhood education and childcare services for children under the age of five."
+              },
+              {
+                "type_of_spending": "Pupil Equity Funding",
+                "cost": "£5.449 million",
+                "summary": "Additional funding allocated directly to schools to reduce the poverty-related attainment gap."
+              },
+              {
+                "type_of_spending": "Gaelic Education",
+                "cost": "£0.006 million",
+                "summary": "Supports Gaelic language education within the council area."
+              },
+              {
+                "type_of_spending": "Scottish Attainment Challenge",
+                "cost": "£0.762 million",
+                "summary": "National program aimed at improving educational outcomes in areas of deprivation."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "spending_level_1": {
+        "type_of_spending": "Housing Services",
+        "cost": "£99.621 million",
+        "summary": "Covers all costs associated with the provision and maintenance of council housing, including management of housing stock and support services for tenants.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Housing, Customer, and Building Services",
+            "cost": "£23.672 million",
+            "summary": "Management and support of housing services, customer service centers, and building maintenance.",
+            "spending_level_3": []
+          },
+          {
+            "type_of_spending": "Housing Revenue Account (HRA)",
+            "cost": "£75.949 million",
+            "summary": "Includes repairs and maintenance, supervision and management, depreciation of housing assets, and other housing-related costs.",
+            "spending_level_3": [
+              {
+                "type_of_spending": "Repairs and Maintenance",
+                "cost": "£24.555 million",
+                "summary": "Routine and emergency repairs to council housing stock."
+              },
+              {
+                "type_of_spending": "Supervision and Management",
+                "cost": "£9.045 million",
+                "summary": "Administrative costs associated with managing council housing."
+              },
+              {
+                "type_of_spending": "Depreciation and Impairment",
+                "cost": "£38.143 million",
+                "summary": "Accounting charges reflecting the consumption of housing assets."
+              },
+              {
+                "type_of_spending": "Bad Debt Provision",
+                "cost": "£1.112 million",
+                "summary": "Funds set aside to cover potential losses from unpaid rent."
+              },
+              {
+                "type_of_spending": "Other Expenditure",
+                "cost": "£3.094 million",
+                "summary": "Miscellaneous costs related to housing services."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "spending_level_1": {
+        "type_of_spending": "Corporate and Central Services",
+        "cost": "£134.487 million",
+        "summary": "Central administrative functions that support the operations of the council, including executive management and support services.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Chief Executive, Finance, and Property Services",
+            "cost": "£132.021 million",
+            "summary": "Corporate management, financial services, property management, legal services, and human resources.",
+            "spending_level_3": []
+          },
+          {
+            "type_of_spending": "Corporate Services",
+            "cost": "£2.466 million",
+            "summary": "Support services including IT and communications.",
+            "spending_level_3": []
+          }
+        ]
+      }
+    },
+    {
+      "spending_level_1": {
+        "type_of_spending": "Culture, Leisure, and Recreation",
+        "cost": "£13.351 million",
+        "summary": "Funding for cultural activities, recreational facilities, and leisure services to enhance the quality of life for residents.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "West Lothian Leisure Ltd.",
+            "cost": "£13.351 million",
+            "summary": "Operation of leisure centers, sports facilities, swimming pools, and recreational programs.",
+            "spending_level_3": []
+          }
+        ]
+      }
+    },
+    {
+      "spending_level_1": {
+        "type_of_spending": "Trading Operations",
+        "cost": "£2.940 million",
+        "summary": "Costs associated with the council's trading activities, primarily focusing on property management for economic development.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Economic Development Properties",
+            "cost": "£2.940 million",
+            "summary": "Management and leasing of industrial units, offices, and shops to support local businesses.",
+            "spending_level_3": []
+          }
+        ]
+      }
+    },
+  ]
+}
+
+
+--------------------
+
 // File: feature-budget/src/main/java/com/openparty/feature_budget/di/BudgetModule.kt
 package com.openparty.app.di
 
@@ -167,7 +309,7 @@ class BudgetRepositoryImpl @Inject constructor(
         return dataSource.fetchBudgetData()
     }
 }
-// File: feature-budget/src/main/java/com/openparty/feature_budget/domain/model/BudgetItem.kt
+// File: feature_budget/src/main/java/com/openparty/feature_budget/domain/model/BudgetItem.kt
 package com.openparty.app.feature_budget.domain.model
 
 import kotlinx.serialization.SerialName
@@ -179,7 +321,8 @@ data class BudgetItem(
     val cost: String,
     val summary: String,
     @SerialName("subtypes_level_1") val subtypesLevel1: List<BudgetItem> = emptyList(),
-    @SerialName("subtypes_level_2") val subtypesLevel2: List<BudgetItem> = emptyList()
+    @SerialName("subtypes_level_2") val subtypesLevel2: List<BudgetItem> = emptyList(),
+    val groupedItems: List<BudgetItem>? = null
 )
 // File: feature-budget/src/main/java/com/openparty/feature_budget/domain/model/BudgetResponse.kt
 package com.openparty.app.feature_budget.domain.model
@@ -254,6 +397,7 @@ fun Legend(
         }
     }
 }
+// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/BudgetContent.kt
 package com.openparty.app.feature_budget.presentation
 
 import androidx.compose.foundation.layout.*
@@ -269,7 +413,7 @@ import com.openparty.app.feature_budget.presentation.components.Legend
 
 @Composable
 fun BudgetContent(budgetItems: List<BudgetItem>) {
-    var currentItems by remember { mutableStateOf(budgetItems) }
+    var currentItems by remember(budgetItems) { mutableStateOf(groupSmallBudgetItems(budgetItems)) }
 
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp)
@@ -289,10 +433,14 @@ fun BudgetContent(budgetItems: List<BudgetItem>) {
             BudgetPieChart(
                 budgetItems = currentItems,
                 onItemClick = { selectedItem ->
-                    currentItems = when {
-                        selectedItem.subtypesLevel1.isNotEmpty() -> selectedItem.subtypesLevel1
-                        selectedItem.subtypesLevel2.isNotEmpty() -> selectedItem.subtypesLevel2
-                        else -> listOf(selectedItem)
+                    if (selectedItem.typeOfSpending == "Miscellaneous" && selectedItem.groupedItems != null) {
+                        currentItems = groupSmallBudgetItems(selectedItem.groupedItems)
+                    } else {
+                        currentItems = when {
+                            selectedItem.subtypesLevel1.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel1)
+                            selectedItem.subtypesLevel2.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel2)
+                            else -> listOf(selectedItem)
+                        }
                     }
                 }
             )
@@ -303,14 +451,50 @@ fun BudgetContent(budgetItems: List<BudgetItem>) {
         Legend(
             budgetItems = currentItems,
             onItemClick = { selectedItem ->
-                currentItems = when {
-                    selectedItem.subtypesLevel1.isNotEmpty() -> selectedItem.subtypesLevel1
-                    selectedItem.subtypesLevel2.isNotEmpty() -> selectedItem.subtypesLevel2
-                    else -> listOf(selectedItem)
+                if (selectedItem.typeOfSpending == "Miscellaneous" && selectedItem.groupedItems != null) {
+                    currentItems = groupSmallBudgetItems(selectedItem.groupedItems)
+                } else {
+                    currentItems = when {
+                        selectedItem.subtypesLevel1.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel1)
+                        selectedItem.subtypesLevel2.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel2)
+                        else -> listOf(selectedItem)
+                    }
                 }
             }
         )
     }
+}
+
+fun groupSmallBudgetItems(budgetItems: List<BudgetItem>): List<BudgetItem> {
+    val totalCost = budgetItems.sumOf { parseCost(it.cost) }
+    val threshold = totalCost * 0.05
+
+    val (largeItems, smallItems) = budgetItems.partition { parseCost(it.cost) >= threshold }
+
+    return if (smallItems.isNotEmpty()) {
+        val miscellaneousCost = smallItems.sumOf { parseCost(it.cost) }
+        largeItems + BudgetItem(
+            typeOfSpending = "Miscellaneous",
+            cost = formatCost(miscellaneousCost),
+            summary = "Grouped small items",
+            groupedItems = smallItems
+        )
+    } else {
+        budgetItems
+    }
+}
+
+fun parseCost(costString: String): Double {
+    return costString
+        .replace("£", "")
+        .replace(",", "")
+        .replace(" million", "")
+        .trim()
+        .toDoubleOrNull() ?: 0.0
+}
+
+fun formatCost(cost: Double): String {
+    return "£${"%.3f".format(cost)} million"
 }
 // File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/components/BudgetPieChart.kt
 package com.openparty.app.feature_budget.presentation.components
@@ -318,14 +502,13 @@ package com.openparty.app.feature_budget.presentation.components
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import me.bytebeats.views.charts.pie.PieChart
 import me.bytebeats.views.charts.pie.PieChartData
 import me.bytebeats.views.charts.pie.render.SimpleSliceDrawer
 import com.openparty.app.feature_budget.domain.model.BudgetItem
 import com.openparty.app.feature_budget.presentation.getColorForItem
+import com.openparty.app.feature_budget.presentation.parseCost
 
 @Composable
 fun BudgetPieChart(
@@ -333,15 +516,10 @@ fun BudgetPieChart(
     onItemClick: (BudgetItem) -> Unit
 ) {
     val pieSlices = budgetItems.mapNotNull { item ->
-        val parsedValue = item.cost
-            .replace("£", "")
-            .replace(",", "")
-            .replace(" million", "")
-            .trim()
-            .toFloatOrNull() ?: return@mapNotNull null
+        val value = parseCost(item.cost).toFloat()
 
         PieChartData.Slice(
-            value = parsedValue,
+            value = value,
             color = getColorForItem(item)
         )
     }
@@ -352,7 +530,7 @@ fun BudgetPieChart(
         sliceDrawer = SimpleSliceDrawer(sliceThickness = 50f)
     )
 }
-// File: feature-budget/src/main/java/com/openparty/feature_budget/presentation/BudgetScreen.kt
+// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/BudgetScreen.kt
 package com.openparty.app.feature_budget.presentation
 
 import androidx.compose.runtime.Composable
@@ -363,10 +541,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 fun BudgetScreen(
     viewModel: BudgetViewModel = hiltViewModel()
 ) {
+    val isLoading = viewModel.isLoading.collectAsState().value
     val budgetData = viewModel.budgetData.collectAsState().value
-    BudgetContent(budgetData)
+    if (isLoading) {
+        LoadingScreen()
+    } else {
+        BudgetContent(budgetData)
+    }
 }
-// File: feature-budget/src/main/java/com/openparty/feature_budget/presentation/BudgetViewModel.kt
+// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/BudgetViewModel.kt
 package com.openparty.app.feature_budget.presentation
 
 import androidx.lifecycle.ViewModel
@@ -374,6 +557,7 @@ import androidx.lifecycle.viewModelScope
 import com.openparty.app.feature_budget.domain.model.BudgetItem
 import com.openparty.app.feature_budget.domain.usecase.GetBudgetDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -386,10 +570,20 @@ class BudgetViewModel @Inject constructor(
     private val _budgetData = MutableStateFlow<List<BudgetItem>>(emptyList())
     val budgetData: StateFlow<List<BudgetItem>> = _budgetData.asStateFlow()
 
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
     init {
         viewModelScope.launch {
+            val startTime = System.currentTimeMillis()
             val data = getBudgetDataUseCase()
             _budgetData.value = data
+            val elapsedTime = System.currentTimeMillis() - startTime
+            val remainingTime = 1000L - elapsedTime
+            if (remainingTime > 0) {
+                delay(remainingTime)
+            }
+            _isLoading.value = false
         }
     }
 }
@@ -401,12 +595,53 @@ import com.openparty.app.feature_budget.domain.model.BudgetItem
 
 fun getColorForItem(item: BudgetItem): Color {
     return when (item.typeOfSpending) {
-        "Housing Services" -> Color(0xFF42A5F5) // Blue
-        "Transportation Services" -> Color(0xFFFFA726) // Orange
-        "Education Services" -> Color(0xFF66BB6A) // Green
-        "Social Care Services" -> Color(0xFFAB47BC) // Purple
-        "Healthcare Services" -> Color(0xFFEF5350) // Red
-        else -> Color(0xFF9E9E9E) // Default Grey
+        "Housing Services" -> Color(0xFF42A5F5)
+        "Transportation Services" -> Color(0xFFFFA726)
+        "Education Services" -> Color(0xFF66BB6A)
+        "Social Care Services" -> Color(0xFFAB47BC)
+        "Healthcare Services" -> Color(0xFFEF5350)
+        "Miscellaneous" -> Color(0xFF9E9E9E)
+        else -> Color(0xFF9E9E9E)
+    }
+}
+// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/LoadingScreen.kt
+package com.openparty.app.feature_budget.presentation
+
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Compost
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.unit.dp
+
+@Composable
+fun LoadingScreen() {
+    val infiniteTransition = rememberInfiniteTransition()
+    val scale by infiniteTransition.animateFloat(
+        initialValue = 0.8f,
+        targetValue = 1.2f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(500, easing = LinearOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            imageVector = Icons.Default.Compost,
+            contentDescription = "Loading",
+            modifier = Modifier
+                .size(64.dp)
+                .scale(scale)
+        )
     }
 }
 // File: app/src/main/java/com/openparty/app/navigation/AppNavHost.kt
@@ -417,8 +652,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.openparty.app.feature_budget.presentation.BudgetScreen
-import com.openparty.feature_proposals.presentation.ProposalsScreen
-import com.openparty.feature_newsfeed.presentation.NewsfeedScreen
+import com.openparty.app.feature_proposals.presentation.ProposalsScreen
+import com.openparty.app.feature_newsfeed.presentation.NewsfeedScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
@@ -434,7 +669,7 @@ fun AppNavHost(navController: NavHostController) {
         }
     }
 }
-// File: app/src/main/java/com/openparty/app/ui/components/BottomNavBar.kt
+// File: app/src/main/java/com/openparty/app/navigation/BottomNavBar.kt
 package com.openparty.app.navigation
 
 import androidx.compose.material.icons.Icons
@@ -533,67 +768,164 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class MyApplication : Application()
 
--------------------
+----------------------
 
-This code mostly works but it has some issues
+I want to add a back button to the budget screen. Take this data as an example: 
 
-When the user opens the app I want this to happen: 
-- The user opens the app
-- The app defaults to the budget screen
-- The budget screen shows the title, the pie chart and the legend 
+{
+  "areas_of_spending": [
+    {
+      "spending_level_1": {
+        "type_of_spending": "Education Services",
+        "cost": "£220.806 million",
+        "summary": "This category encompasses all spending related to educational services provided by the council, including staffing costs for teachers and support staff, educational materials, school maintenance, and administrative support.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Schools and Education Support",
+            "cost": "£220.806 million",
+            "summary": "This subtype includes costs for teaching staff salaries, educational materials, school facility maintenance, special education needs, and administrative support services.",
+            "spending_level_3": [
+              {
+                "type_of_spending": "Early Learning and Childcare",
+                "cost": "£17.850 million",
+                "summary": "Provision of early childhood education and childcare services for children under the age of five."
+              },
+              {
+                "type_of_spending": "Pupil Equity Funding",
+                "cost": "£5.449 million",
+                "summary": "Additional funding allocated directly to schools to reduce the poverty-related attainment gap."
+              },
+              {
+                "type_of_spending": "Gaelic Education",
+                "cost": "£0.006 million",
+                "summary": "Supports Gaelic language education within the council area."
+              },
+              {
+                "type_of_spending": "Scottish Attainment Challenge",
+                "cost": "£0.762 million",
+                "summary": "National program aimed at improving educational outcomes in areas of deprivation."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "spending_level_1": {
+        "type_of_spending": "Housing Services",
+        "cost": "£99.621 million",
+        "summary": "Covers all costs associated with the provision and maintenance of council housing, including management of housing stock and support services for tenants.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Housing, Customer, and Building Services",
+            "cost": "£23.672 million",
+            "summary": "Management and support of housing services, customer service centers, and building maintenance.",
+            "spending_level_3": []
+          },
+          {
+            "type_of_spending": "Housing Revenue Account (HRA)",
+            "cost": "£75.949 million",
+            "summary": "Includes repairs and maintenance, supervision and management, depreciation of housing assets, and other housing-related costs.",
+            "spending_level_3": [
+              {
+                "type_of_spending": "Repairs and Maintenance",
+                "cost": "£24.555 million",
+                "summary": "Routine and emergency repairs to council housing stock."
+              },
+              {
+                "type_of_spending": "Supervision and Management",
+                "cost": "£9.045 million",
+                "summary": "Administrative costs associated with managing council housing."
+              },
+              {
+                "type_of_spending": "Depreciation and Impairment",
+                "cost": "£38.143 million",
+                "summary": "Accounting charges reflecting the consumption of housing assets."
+              },
+              {
+                "type_of_spending": "Bad Debt Provision",
+                "cost": "£1.112 million",
+                "summary": "Funds set aside to cover potential losses from unpaid rent."
+              },
+              {
+                "type_of_spending": "Other Expenditure",
+                "cost": "£3.094 million",
+                "summary": "Miscellaneous costs related to housing services."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "spending_level_1": {
+        "type_of_spending": "Corporate and Central Services",
+        "cost": "£134.487 million",
+        "summary": "Central administrative functions that support the operations of the council, including executive management and support services.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Chief Executive, Finance, and Property Services",
+            "cost": "£132.021 million",
+            "summary": "Corporate management, financial services, property management, legal services, and human resources.",
+            "spending_level_3": []
+          },
+          {
+            "type_of_spending": "Corporate Services",
+            "cost": "£2.466 million",
+            "summary": "Support services including IT and communications.",
+            "spending_level_3": []
+          }
+        ]
+      }
+    },
+    {
+      "spending_level_1": {
+        "type_of_spending": "Culture, Leisure, and Recreation",
+        "cost": "£13.351 million",
+        "summary": "Funding for cultural activities, recreational facilities, and leisure services to enhance the quality of life for residents.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "West Lothian Leisure Ltd.",
+            "cost": "£13.351 million",
+            "summary": "Operation of leisure centers, sports facilities, swimming pools, and recreational programs.",
+            "spending_level_3": []
+          }
+        ]
+      }
+    },
+    {
+      "spending_level_1": {
+        "type_of_spending": "Trading Operations",
+        "cost": "£2.940 million",
+        "summary": "Costs associated with the council's trading activities, primarily focusing on property management for economic development.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Economic Development Properties",
+            "cost": "£2.940 million",
+            "summary": "Management and leasing of industrial units, offices, and shops to support local businesses.",
+            "spending_level_3": []
+          }
+        ]
+      }
+    },
+  ]
+}
 
-When the user opens the app I want this to happen: 
-- The user opens the app
-- The app defaults to the budget screen
-- The budget screen shows the title and nothing else
 
-Problem:
-- The budget screen, when opened, shows the title but doesn't show the pie chart 
-- If I swipe to the proposals screen then back to the budget screen, the pie chart then shows up 
-- This suggests the problem is likely a loading error i.e. the screen renders before the pie chart has loaded 
-- Fix this
-- If it's a loading error, it's probably best to show a loading screen while the app is loading 
-- If you use a loading screen, have the loading screen just show the material compost icon 
-  - Give the compost icon a pulsing animation 
-  - Make sure that, if the loading screen is shown, it appears for at least 1 second
-  - I don't want the loading screen to be shown for 0.1 seconds because that's disorienting to the user 
-  - Instead, I want the minimum loading screen time to be 1 second 
-  - For example, if it takes 0.05 seconds for the data to load, the loading screen should be shown for 1 second
-  - If the data takes 2 seconds to load, the loading screen should be shown for 2 seconds 
+Here is the breakdown of the costs and their percentage of the total:
 
------
+Education Services: £220.806 million, representing 46.86% of the total budget.
+Housing Services: £99.621 million, representing 21.14% of the total budget.
+Corporate and Central Services: £134.487 million, representing 28.54% of the total budget.
+Culture, Leisure, and Recreation: £13.351 million, representing 2.83% of the total budget.
+Trading Operations: £2.940 million, representing 0.62% of the total budget.
 
-Thank you, that works. 
-
-I also want to add this functionality: 
-
-What happens right now, when the user clicks a category in the legend on the budget screen: 
-- The user opens the budget screen, it shows the title, pie chart and legend
-- The user clicks a category on the budget screen like Social Care Services
-- The user is shown a new screen which has a title, pie chart and legend, but now it's showing the pie chart data for social care services subtype level 1 data 
-
-What I want to happen, when the user clicks a category in the legend on the budget screen: 
-- The user opens the budget screen, it shows the title, pie chart and legend
-- The user clicks a category on the budget screen like Social Care Services
-- The user is shown a new screen which has a back button at the top, title, pie chart and legend, but now it's showing the pie chart data for social care services subtype level 1 data 
-
-Problem: 
-- When the user clicks on a category of spending it shows them the screen for the sub level of spending (as it should) but it doesn't give them a way to get back to the previous level of spending 
-- For example, Let's call "Housing Services" level 1 spending, "Housing Revenue Account" level 2 spending, "Repairs and Maintenance" level 3 spending 
-  - I want the user to be able to navigate between level 1, 2 and 3 spending easily 
-  - Right now they can navigate from level 1 to level 2 spending by clicking on the spending category in the legend, however they cannot navigate  from level 2 back to level 1 
-  - I want to add a back button on sub types of spending which take you back to the previous level of spending 
-  - If you click on the back button when you are on level 2 spending, it takes you back to level 1 spending 
-  - If you click on the back button when you are on level 3 spending, it takes you back to level 2 spending 
-
-----
-
-I also want to add another change: 
-- Right now, the pie chart will show the user all types of spending in the budget screen, even if they are extremely small types of spending 
-  - For example, if their was 0.005% of spending on "Gaelic Lessons" then the budget screen would show that in the pie chart 
-- I don't want that. On the initial screen of the budget screen (which represents level 1 spending), any types of spending that represent 5% of the overall total should be grouped together in a category called "Miscellaneous" 
-- If the user clicks on the Miscellaneous section of the legend, it will show the user a level 2 spending screen, but this time, the level 2 spending will be all of the spending will be all of the spending types that are grouped under miscelleous 
-
-I'll give you an example to make this more clear: 
-- The user clicks on the budget screen 
-- The hardcoded data has this in it: 
+Right now, when the user clicks on the Budget screen they will be shown this: 
+- Education Services, Housing Services, Corporate and Central Services, Miscellanous
+  - The last two are grouped under Miscellaneous since they're all less than five percent of total spending 
+- when the user clicks on  Education Services, they are shown Schools and Education Support, 
+- When the user clicks Schools and Education Support, they are shown Early Learning and Childcare, Pupil Equity Funding etc
+- These represent spending levels 1, 2 and 3 
+- Right now, the user can navigate from spending level 1 to spending level 2, by clicking on the legend in the budget screen
+- However the user cannot navigate back from spending level 2 to spending level 1
+- I want to add a back screen on all sub levels of spending (i.e. spending level 2, spending level 3 etc) that takes the user back to the previous level of spending 
