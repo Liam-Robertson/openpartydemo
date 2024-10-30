@@ -44,286 +44,11 @@ com.openparty.app
 
 ---------------------------------
 
-Budget Screen:
-- The aim of the budget screen is to represent the amount of spending in each area of government in pie chart form
-- It gets information about government spending from a json file, calculates the percentage spending in each area, then displays that information to the user in a pie chart#
-  - The json data file is stored in the file path: app/assets
-  - I have included an example of what the json data will look like at the bottom 
-- The budget screen has three parts:
-    - A title saying "West Lothian Budget"
-    - A pie chart. This has a legend showing what each section corresponds to
-    - A footer:
-        - The footer is used for navigation
-        - It is made up of three sections - a budget section, a newsfeed section and a proposals section
-        - Each section is represented by an icon
-        - When the user clicks on a section, it navigates to that page
-        - When the app is first opens, it defaults navigation to the budget section
-        - When the budget screen is open, the budget section is highlighted. When the minutes screen is open, the minutes section is highlighted
-
-When the user enters the budget screen this happens:
-- The data about the financial report is fetched from the json file
-    - In future, this data will be stored in a table but since this is a version 1 it's hardcoded in a json file 
-- The percentage cost of each area of level 1 spending is calculated
-  - For example, if Education costs £10 million, and the total cost is £100 million, then education is 10% 
-- If an area of spending is less than 5% of total spending, it is grouped into a Miscellaneous category 
-- The pie chart is then populated with the data
-  - It will show all areas of spending greater than 5% such as Education or Social Services, and it will also show a miscellaneous category (which represents everything under 5%)
-  - The pie chart is populated using data only from level 1 of spending at this point, not from level 2 or level 3 spending
-  - The pie chart shows each section of spending proportionally to it's percentage of overall spending 
-    - For example, if education spending was 22% of total spending, it would take up 22% of the overall pie chart 
-- There will be a legend at the bottom of the screen which shows each area of spending, it's cost and it's colour on the pie chart
-- If the user clicks on a section in the legend, the app shows a new pie chart which gives a more detailed breakdown of that type of spending
-  - For example if the user clicks on Education Services in the legend, it shows the user a new title, pie chart and legend
-    - This time, the title would be the level 1 spending, the pie chart and legend would show all the level 2 spending inside the level 1 spending 
-    - For example, if the user clicks Social Care Services in the legend, then a screen is shown where the title is Social Care Services, and the pie chart and legend have Adult and Elderly Services (IJB), Children's Services (Non-IJB)
-    - There is also a back button at the top left of the page which takes the user back to the level 1 spending diagram 
-- The same applies for level 3 of spending i.e. if the user clicks a section of level 2 spending in the legend, it will take them to level 3 spending diagram 
-  - For example, if the user clicked Housing Revenue Account (HRA), it would show a screen where the title is Housing Revenue Account (HRA), and the pie chart and legend show Repairs and Maintenance, Supervision and Management etc
-
----------------------------------
-
-{
-  "areas_of_spending": [
-    {
-      "spending_level_1": {
-        "type_of_spending": "Education Services",
-        "cost": "£220.806 million",
-        "summary": "This category encompasses all spending related to educational services provided by the council, including staffing costs for teachers and support staff, educational materials, school maintenance, and administrative support.",
-        "spending_level_2": [
-          {
-            "type_of_spending": "Schools and Education Support",
-            "cost": "£220.806 million",
-            "summary": "This subtype includes costs for teaching staff salaries, educational materials, school facility maintenance, special education needs, and administrative support services.",
-            "spending_level_3": [
-              {
-                "type_of_spending": "Early Learning and Childcare",
-                "cost": "£17.850 million",
-                "summary": "Provision of early childhood education and childcare services for children under the age of five."
-              },
-              {
-                "type_of_spending": "Pupil Equity Funding",
-                "cost": "£5.449 million",
-                "summary": "Additional funding allocated directly to schools to reduce the poverty-related attainment gap."
-              },
-              {
-                "type_of_spending": "Gaelic Education",
-                "cost": "£0.006 million",
-                "summary": "Supports Gaelic language education within the council area."
-              },
-              {
-                "type_of_spending": "Scottish Attainment Challenge",
-                "cost": "£0.762 million",
-                "summary": "National program aimed at improving educational outcomes in areas of deprivation."
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "spending_level_1": {
-        "type_of_spending": "Social Care Services",
-        "cost": "£257.899 million",
-        "summary": "Includes all expenditures related to the well-being of residents requiring assistance due to age, disability, or other factors.",
-        "spending_level_2": [
-          {
-            "type_of_spending": "Adult and Elderly Services (IJB)",
-            "cost": "£207.377 million",
-            "summary": "Services for adults and the elderly, including healthcare integration with the West Lothian Integration Joint Board (IJB).",
-            "spending_level_3": []
-          },
-          {
-            "type_of_spending": "Children's Services (Non-IJB)",
-            "cost": "£50.522 million",
-            "summary": "Child protection services, foster care, adoption services, and youth support programs.",
-            "spending_level_3": []
-          }
-        ]
-      }
-    },
-    {
-      "spending_level_1": {
-        "type_of_spending": "Housing Services",
-        "cost": "£99.621 million",
-        "summary": "Covers all costs associated with the provision and maintenance of council housing, including management of housing stock and support services for tenants.",
-        "spending_level_2": [
-          {
-            "type_of_spending": "Housing, Customer, and Building Services",
-            "cost": "£23.672 million",
-            "summary": "Management and support of housing services, customer service centers, and building maintenance.",
-            "spending_level_3": []
-          },
-          {
-            "type_of_spending": "Housing Revenue Account (HRA)",
-            "cost": "£75.949 million",
-            "summary": "Includes repairs and maintenance, supervision and management, depreciation of housing assets, and other housing-related costs.",
-            "spending_level_3": [
-              {
-                "type_of_spending": "Repairs and Maintenance",
-                "cost": "£24.555 million",
-                "summary": "Routine and emergency repairs to council housing stock."
-              },
-              {
-                "type_of_spending": "Supervision and Management",
-                "cost": "£9.045 million",
-                "summary": "Administrative costs associated with managing council housing."
-              },
-              {
-                "type_of_spending": "Depreciation and Impairment",
-                "cost": "£38.143 million",
-                "summary": "Accounting charges reflecting the consumption of housing assets."
-              },
-              {
-                "type_of_spending": "Bad Debt Provision",
-                "cost": "£1.112 million",
-                "summary": "Funds set aside to cover potential losses from unpaid rent."
-              },
-              {
-                "type_of_spending": "Other Expenditure",
-                "cost": "£3.094 million",
-                "summary": "Miscellaneous costs related to housing services."
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "spending_level_1": {
-        "type_of_spending": "Environmental and Operational Services",
-        "cost": "£92.841 million",
-        "summary": "Expenditures related to the upkeep of the local environment and essential operational services.",
-        "spending_level_2": [
-          {
-            "type_of_spending": "Operational Services",
-            "cost": "£92.841 million",
-            "summary": "Includes waste disposal, recycling services, street cleaning, road maintenance, parks and open spaces, and environmental health services.",
-            "spending_level_3": []
-          }
-        ]
-      }
-    },
-    {
-      "spending_level_1": {
-        "type_of_spending": "Corporate and Central Services",
-        "cost": "£134.487 million",
-        "summary": "Central administrative functions that support the operations of the council, including executive management and support services.",
-        "spending_level_2": [
-          {
-            "type_of_spending": "Chief Executive, Finance, and Property Services",
-            "cost": "£132.021 million",
-            "summary": "Corporate management, financial services, property management, legal services, and human resources.",
-            "spending_level_3": []
-          },
-          {
-            "type_of_spending": "Corporate Services",
-            "cost": "£2.466 million",
-            "summary": "Support services including IT and communications.",
-            "spending_level_3": []
-          }
-        ]
-      }
-    },
-    {
-      "spending_level_1": {
-        "type_of_spending": "Other Services",
-        "cost": "£45.371 million",
-        "summary": "Various services essential for community support and development.",
-        "spending_level_2": [
-          {
-            "type_of_spending": "Miscellaneous Services",
-            "cost": "£45.371 million",
-            "summary": "May include community development projects, economic initiatives, and support for voluntary organizations.",
-            "spending_level_3": []
-          }
-        ]
-      }
-    },
-    {
-      "spending_level_1": {
-        "type_of_spending": "Planning and Economic Development",
-        "cost": "£15.602 million",
-        "summary": "Expenditures aimed at planning and facilitating economic growth within the council area.",
-        "spending_level_2": [
-          {
-            "type_of_spending": "Planning, Economic Development, and Regeneration",
-            "cost": "£15.602 million",
-            "summary": "Urban planning, building control, economic regeneration projects, and support for local businesses.",
-            "spending_level_3": []
-          }
-        ]
-      }
-    },
-    {
-      "spending_level_1": {
-        "type_of_spending": "Culture, Leisure, and Recreation",
-        "cost": "£13.351 million",
-        "summary": "Funding for cultural activities, recreational facilities, and leisure services to enhance the quality of life for residents.",
-        "spending_level_2": [
-          {
-            "type_of_spending": "West Lothian Leisure Ltd.",
-            "cost": "£13.351 million",
-            "summary": "Operation of leisure centers, sports facilities, swimming pools, and recreational programs.",
-            "spending_level_3": []
-          }
-        ]
-      }
-    },
-    {
-      "spending_level_1": {
-        "type_of_spending": "Trading Operations",
-        "cost": "£2.940 million",
-        "summary": "Costs associated with the council's trading activities, primarily focusing on property management for economic development.",
-        "spending_level_2": [
-          {
-            "type_of_spending": "Economic Development Properties",
-            "cost": "£2.940 million",
-            "summary": "Management and leasing of industrial units, offices, and shops to support local businesses.",
-            "spending_level_3": []
-          }
-        ]
-      }
-    },
-    {
-      "spending_level_1": {
-        "type_of_spending": "Miscellaneous Expenditures",
-        "cost": "£2.800 million",
-        "summary": "Minor expenditures not significant enough to warrant individual categories.",
-        "spending_level_2": [
-          {
-            "type_of_spending": "Local Bus Services Subsidies",
-            "cost": "£0.566 million",
-            "summary": "Expenditures to subsidize local bus services."
-          },
-          {
-            "type_of_spending": "Residential Schools and Social Work Payments",
-            "cost": "£0.737 million",
-            "summary": "Payments for children placed in residential schools and additional social work-related expenditures."
-          },
-          {
-            "type_of_spending": "Special School Placements",
-            "cost": "£0.199 million",
-            "summary": "Costs associated with placing children in special schools outside the council area."
-          },
-          {
-            "type_of_spending": "Other Services",
-            "cost": "£1.298 million",
-            "summary": "Various minor services and expenditures not significant enough for separate categorization."
-          }
-        ]
-      }
-    }
-  ]
-}
-
---------------------
-
-// File: feature-budget/src/main/java/com/openparty/feature_budget/di/BudgetModule.kt
 package com.openparty.app.di
 
-import com.openparty.app.feature_budget.data.datasource.BudgetDataSource
-import com.openparty.app.feature_budget.data.repository.BudgetRepositoryImpl
-import com.openparty.app.feature_budget.domain.repository.BudgetRepository
+import com.openparty.app.feature_issues.data.datasource.IssueDataSource
+import com.openparty.app.feature_issues.data.repository.IssueRepositoryImpl
+import com.openparty.app.feature_issues.domain.repository.IssueRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -332,412 +57,363 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object BudgetModule {
+object IssueModule {
 
     @Provides
     @Singleton
-    fun provideBudgetRepository(
-        dataSource: BudgetDataSource
-    ): BudgetRepository = BudgetRepositoryImpl(dataSource)
-}
-package com.openparty.app.feature_budget.data.datasource
+    fun provideIssueRepository(
+        dataSource: IssueDataSource
+    ): IssueRepository = IssueRepositoryImpl(dataSource)
+}// File: feature_issues/src/main/java/com/openparty/feature_issues/data/datasource/IssueDataSource.kt
+package com.openparty.app.feature_issues.data.datasource
 
 import android.content.Context
-import com.openparty.app.feature_budget.domain.model.BudgetItem
-import com.openparty.app.feature_budget.domain.model.BudgetResponse
-import com.openparty.app.feature_budget.domain.model.SpendingLevel1
+import com.openparty.app.feature_issues.domain.model.Issue
+import com.openparty.app.feature_issues.domain.model.IssueResponse
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-class BudgetDataSource @Inject constructor(
+class IssueDataSource @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     private val jsonFormat = Json { ignoreUnknownKeys = true }
 
-    suspend fun fetchBudgetData(): List<BudgetItem> {
+    suspend fun fetchIssues(): List<Issue> {
         val jsonString = withContext(Dispatchers.IO) {
-            context.assets.open("financeDataV1.json").bufferedReader().use { it.readText() }
+            context.assets.open("issueScreen/issues.json").bufferedReader().use { it.readText() }
         }
-        val response = jsonFormat.decodeFromString<BudgetResponse>(jsonString)
-        return response.areasOfSpending.map { it.level1 }
+        val response = jsonFormat.decodeFromString<IssueResponse>(jsonString)
+        return response.issues
     }
 }
-// File: feature-budget/src/main/java/com/openparty/feature_budget/data/repository/BudgetRepositoryImpl.kt
-package com.openparty.app.feature_budget.data.repository
+// File: feature_issues/src/main/java/com/openparty/feature_issues/data/repository/IssueRepositoryImpl.kt
+package com.openparty.app.feature_issues.data.repository
 
-import com.openparty.app.feature_budget.data.datasource.BudgetDataSource
-import com.openparty.app.feature_budget.domain.model.BudgetItem
-import com.openparty.app.feature_budget.domain.repository.BudgetRepository
+import com.openparty.app.feature_issues.data.datasource.IssueDataSource
+import com.openparty.app.feature_issues.domain.model.Issue
+import com.openparty.app.feature_issues.domain.repository.IssueRepository
 import javax.inject.Inject
 
-class BudgetRepositoryImpl @Inject constructor(
-    private val dataSource: BudgetDataSource
-) : BudgetRepository {
-    override suspend fun getBudgetData(): List<BudgetItem> {
-        return dataSource.fetchBudgetData()
+class IssueRepositoryImpl @Inject constructor(
+    private val dataSource: IssueDataSource
+) : IssueRepository {
+    override suspend fun getIssues(): List<Issue> {
+        return dataSource.fetchIssues()
     }
 }
-package com.openparty.app.feature_budget.domain.model
+package com.openparty.app.feature_issues.domain.model
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class BudgetItem(
-    @SerialName("type_of_spending") val typeOfSpending: String,
-    val cost: String,
+data class Comment(
+    val id: Int,
+    val text: String,
+    val author: String,
+    val upvotes: Int
+)package com.openparty.app.feature_issues.domain.model
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Issue(
+    val id: Int,
+    val title: String,
     val summary: String,
-    @SerialName("spending_level_2") val subtypesLevel2: List<BudgetItem> = emptyList(),
-    @SerialName("spending_level_3") val subtypesLevel3: List<BudgetItem> = emptyList(),
-    val groupedItems: List<BudgetItem>? = null
-)
-// File: feature-budget/src/main/java/com/openparty/feature_budget/domain/model/BudgetResponse.kt
-package com.openparty.app.feature_budget.domain.model
+    val author: String,
+    val upvotes: Int,
+    val comments: List<Comment> = emptyList()
+)package com.openparty.app.feature_issues.domain.model
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class BudgetResponse(
-    @SerialName("areas_of_spending") val areasOfSpending: List<SpendingLevel1>
-)package com.openparty.app.feature_budget.domain.model
+data class IssueResponse(
+    val issues: List<Issue>
+)// File: feature_issues/src/main/java/com/openparty/feature_issues/domain/repository/IssueRepository.kt
+package com.openparty.app.feature_issues.domain.repository
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.openparty.app.feature_issues.domain.model.Issue
 
-@Serializable
-data class SpendingLevel1(
-    @SerialName("spending_level_1") val level1: BudgetItem
-)// File: feature-budget/src/main/java/com/openparty/feature_budget/domain/repository/BudgetRepository.kt
-package com.openparty.app.feature_budget.domain.repository
-
-import com.openparty.app.feature_budget.domain.model.BudgetItem
-
-interface BudgetRepository {
-    suspend fun getBudgetData(): List<BudgetItem>
+interface IssueRepository {
+    suspend fun getIssues(): List<Issue>
 }
-// File: feature-budget/src/main/java/com/openparty/feature_budget/domain/usecase/GetBudgetDataUseCase.kt
-package com.openparty.app.feature_budget.domain.usecase
+// File: feature_issues/src/main/java/com/openparty/feature_issues/domain/usecase/GetIssuesUseCase.kt
+package com.openparty.app.feature_issues.domain.usecase
 
-import com.openparty.app.feature_budget.domain.model.BudgetItem
-import com.openparty.app.feature_budget.domain.repository.BudgetRepository
+import com.openparty.app.feature_issues.domain.model.Issue
+import com.openparty.app.feature_issues.domain.repository.IssueRepository
 import javax.inject.Inject
 
-class GetBudgetDataUseCase @Inject constructor(
-    private val repository: BudgetRepository
+class GetIssuesUseCase @Inject constructor(
+    private val repository: IssueRepository
 ) {
-    suspend operator fun invoke(): List<BudgetItem> = repository.getBudgetData()
+    suspend operator fun invoke(): List<Issue> {
+        return repository.getIssues()
+    }
 }
-// File: feature-budget/src/main/java/com/openparty/feature_budget/presentation/components/Legend.kt
-package com.openparty.app.feature_budget.presentation.components
+// File: feature_issues/src/main/java/com/openparty/feature_issues/presentation/IssuesContent.kt
+package com.openparty.app.feature_issues.presentation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.background
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.openparty.app.feature_budget.domain.model.BudgetItem
-import com.openparty.app.feature_budget.presentation.getColorForItem
+import com.openparty.app.feature_issues.domain.model.Issue
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Legend(
-    budgetItems: List<BudgetItem>,
-    onItemClick: (BudgetItem) -> Unit
+fun IssuesContent(
+    issues: List<Issue>,
+    onIssueClick: (Issue) -> Unit,
+    onAddIssueClick: () -> Unit
 ) {
-    Column {
-        budgetItems.forEach { item ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { onItemClick(item) }
-                    .padding(8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(16.dp)
-                        .background(color = getColorForItem(item))
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = "${item.typeOfSpending} - ${item.cost}",
-                    style = MaterialTheme.typography.bodyMedium
-                )
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(onClick = onAddIssueClick) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Add Issue")
             }
         }
-    }
-}
-// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/BudgetContent.kt
-package com.openparty.app.feature_budget.presentation
-
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.openparty.app.feature_budget.domain.model.BudgetItem
-import com.openparty.app.feature_budget.presentation.components.BudgetPieChart
-import com.openparty.app.feature_budget.presentation.components.Legend
-
-import androidx.compose.material3.Button
-
-@Composable
-fun BudgetContent(budgetItems: List<BudgetItem>) {
-    var currentItems by remember(budgetItems) { mutableStateOf(groupSmallBudgetItems(budgetItems)) }
-    val navigationStack = remember { mutableStateListOf<List<BudgetItem>>() }
-
-    Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp)
-    ) {
-        Text(
-            text = "West Lothian Budget",
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.align(Alignment.Start)
-        )
-
-        if (navigationStack.isNotEmpty()) {
-            Button(
-                onClick = {
-                    if (navigationStack.isNotEmpty()) {
-                        currentItems = navigationStack.removeLast()
-                    }
-                },
-                modifier = Modifier.padding(vertical = 16.dp)
-            ) {
-                Text("Back")
-            }
-        }
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
-            BudgetPieChart(
-                budgetItems = currentItems,
-                onItemClick = { selectedItem ->
-                    val nextLevelItems = when {
-                        selectedItem.subtypesLevel2.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel2)
-                        selectedItem.subtypesLevel3.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel3)
-                        else -> listOf(selectedItem)
-                    }
-
-                    if (nextLevelItems != currentItems) {
-                        navigationStack.add(currentItems)
-                        currentItems = nextLevelItems
-                    }
-                }
+            Text(
+                text = "Issues",
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.padding(16.dp)
             )
-        }
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        Legend(
-            budgetItems = currentItems,
-            onItemClick = { selectedItem ->
-                val nextLevelItems = when {
-                    selectedItem.subtypesLevel2.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel2)
-                    selectedItem.subtypesLevel3.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel3)
-                    else -> listOf(selectedItem)
-                }
-
-                if (nextLevelItems != currentItems) {
-                    navigationStack.add(currentItems)
-                    currentItems = nextLevelItems
+            LazyColumn {
+                items(issues.size) { index ->
+                    val issue = issues[index]
+                    IssueCard(issue, onIssueClick)
                 }
             }
-        )
+        }
     }
 }
-
-fun groupSmallBudgetItems(budgetItems: List<BudgetItem>): List<BudgetItem> {
-    val totalCost = budgetItems.sumOf { parseCost(it.cost) }
-    val threshold = totalCost * 0.05
-
-    val (largeItems, smallItems) = budgetItems.partition { parseCost(it.cost) >= threshold }
-
-    return if (smallItems.isNotEmpty()) {
-        val miscellaneousCost = smallItems.sumOf { parseCost(it.cost) }
-        largeItems + BudgetItem(
-            typeOfSpending = "Miscellaneous",
-            cost = formatCost(miscellaneousCost),
-            summary = "Grouped small items",
-            groupedItems = smallItems
-        )
-    } else {
-        budgetItems
-    }
-}
-
-fun parseCost(costString: String): Double {
-    return costString
-        .replace("£", "")
-        .replace(",", "")
-        .replace(" million", "")
-        .trim()
-        .toDoubleOrNull() ?: 0.0
-}
-
-fun formatCost(cost: Double): String {
-    return "£${"%.3f".format(cost)} million"
-}
-// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/components/BudgetPieChart.kt
-package com.openparty.app.feature_budget.presentation.components
-
-import androidx.compose.foundation.layout.size
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import me.bytebeats.views.charts.pie.PieChart
-import me.bytebeats.views.charts.pie.PieChartData
-import me.bytebeats.views.charts.pie.render.SimpleSliceDrawer
-import com.openparty.app.feature_budget.domain.model.BudgetItem
-import com.openparty.app.feature_budget.presentation.getColorForItem
-import com.openparty.app.feature_budget.presentation.parseCost
 
 @Composable
-fun BudgetPieChart(
-    budgetItems: List<BudgetItem>,
-    onItemClick: (BudgetItem) -> Unit
-) {
-    val pieSlices = budgetItems.mapNotNull { item ->
-        val value = parseCost(item.cost).toFloat()
-
-        PieChartData.Slice(
-            value = value,
-            color = getColorForItem(item)
-        )
+fun IssueCard(issue: Issue, onIssueClick: (Issue) -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable { onIssueClick(issue) }
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(text = issue.title, style = MaterialTheme.typography.bodyLarge)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(imageVector = Icons.Default.ThumbUp, contentDescription = "Upvotes")
+                Text(text = issue.upvotes.toString())
+            }
+        }
     }
-
-    PieChart(
-        pieChartData = PieChartData(pieSlices),
-        modifier = Modifier.size(200.dp),
-        sliceDrawer = SimpleSliceDrawer(sliceThickness = 50f)
-    )
 }
-// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/BudgetScreen.kt
-package com.openparty.app.feature_budget.presentation
+// File: feature_issues/src/main/java/com/openparty/feature_issues/presentation/IssuesScreen.kt
+package com.openparty.app.feature_issues.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 
 @Composable
-fun BudgetScreen(
-    viewModel: BudgetViewModel = hiltViewModel()
+fun IssuesScreen(
+    navController: NavController,
+    viewModel: IssuesViewModel = hiltViewModel()
 ) {
-    val isLoading = viewModel.isLoading.collectAsState().value
-    val budgetData = viewModel.budgetData.collectAsState().value
-    if (isLoading) {
-        LoadingScreen()
-    } else {
-        BudgetContent(budgetData)
-    }
+    val issues = viewModel.issues.collectAsState().value
+    IssuesContent(
+        issues = issues,
+        onIssueClick = { issue ->
+            navController.currentBackStackEntry?.savedStateHandle?.set("issue", issue)
+            navController.navigate("view_issue")
+        },
+        onAddIssueClick = {
+            navController.navigate("raise_issue")
+        }
+    )
 }
-// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/BudgetViewModel.kt
-package com.openparty.app.feature_budget.presentation
+// File: feature_issues/src/main/java/com/openparty/feature_issues/presentation/IssuesViewModel.kt
+package com.openparty.app.feature_issues.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.openparty.app.feature_budget.domain.model.BudgetItem
-import com.openparty.app.feature_budget.domain.usecase.GetBudgetDataUseCase
+import com.openparty.app.feature_issues.domain.model.Issue
+import com.openparty.app.feature_issues.domain.usecase.GetIssuesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BudgetViewModel @Inject constructor(
-    private val getBudgetDataUseCase: GetBudgetDataUseCase
+class IssuesViewModel @Inject constructor(
+    private val getIssuesUseCase: GetIssuesUseCase
 ) : ViewModel() {
 
-    private val _budgetData = MutableStateFlow<List<BudgetItem>>(emptyList())
-    val budgetData: StateFlow<List<BudgetItem>> = _budgetData.asStateFlow()
-
-    private val _isLoading = MutableStateFlow(true)
-    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+    private val _issues = MutableStateFlow<List<Issue>>(emptyList())
+    val issues: StateFlow<List<Issue>> = _issues.asStateFlow()
 
     init {
         viewModelScope.launch {
-            val startTime = System.currentTimeMillis()
-            val data = getBudgetDataUseCase()
-            _budgetData.value = data
-            val elapsedTime = System.currentTimeMillis() - startTime
-            val remainingTime = 1000L - elapsedTime
-            if (remainingTime > 0) {
-                delay(remainingTime)
-            }
-            _isLoading.value = false
+            val data = getIssuesUseCase()
+            _issues.value = data.sortedByDescending { it.upvotes }
         }
     }
 }
-// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/getColorForItem.kt
-package com.openparty.app.feature_budget.presentation
+// File: feature_issues/src/main/java/com/openparty/feature_issues/presentation/RaiseIssueScreen.kt
+package com.openparty.app.feature_issues.presentation
 
-import androidx.compose.ui.graphics.Color
-import com.openparty.app.feature_budget.domain.model.BudgetItem
-
-fun getColorForItem(item: BudgetItem): Color {
-    return when (item.typeOfSpending) {
-        "Housing Services" -> Color(0xFF42A5F5)
-        "Transportation Services" -> Color(0xFFFFA726)
-        "Education Services" -> Color(0xFF66BB6A)
-        "Social Care Services" -> Color(0xFFAB47BC)
-        "Healthcare Services" -> Color(0xFFEF5350)
-        "Miscellaneous" -> Color(0xFF9E9E9E)
-        else -> Color(0xFF9E9E9E)
-    }
-}
-// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/LoadingScreen.kt
-package com.openparty.app.feature_budget.presentation
-
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Compost
-import androidx.compose.material3.Icon
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RaiseIssueScreen(navController: NavController) {
+    var text by remember { mutableStateOf("") }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Text(
+            text = "Raise An Issue",
+            style = MaterialTheme.typography.headlineSmall
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(
+            value = text,
+            onValueChange = { text = it },
+            label = { Text("Describe your issue") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = {
+                // Handle submission (for now, we can just navigate back)
+                navController.popBackStack()
+            },
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text("Submit")
+        }
+    }
+}
+// File: feature_issues/src/main/java/com/openparty/feature_issues/presentation/ViewIssueScreen.kt
+package com.openparty.app.feature_issues.presentation
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.openparty.app.feature_issues.domain.model.Issue
 
 @Composable
-fun LoadingScreen() {
-    val infiniteTransition = rememberInfiniteTransition()
-    val scale by infiniteTransition.animateFloat(
-        initialValue = 0.8f,
-        targetValue = 1.2f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(500, easing = LinearOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
+fun ViewIssueScreen(
+    navController: NavController
+) {
+    val issue = navController.previousBackStackEntry?.savedStateHandle?.get<Issue>("issue")
+    issue?.let {
+        IssueDetailContent(issue)
+    } ?: run {
+        // Handle error or navigate back
+    }
+}
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+@Composable
+fun IssueDetailContent(issue: Issue) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
-        Icon(
-            imageVector = Icons.Default.Compost,
-            contentDescription = "Loading",
-            modifier = Modifier
-                .size(64.dp)
-                .scale(scale)
+        Text(
+            text = issue.title,
+            style = MaterialTheme.typography.headlineSmall
         )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = issue.summary,
+            style = MaterialTheme.typography.bodyLarge
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(text = "By ${issue.author}")
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(imageVector = Icons.Default.ThumbUp, contentDescription = "Upvotes")
+                Text(text = issue.upvotes.toString())
+            }
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Divider()
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Comments",
+            style = MaterialTheme.typography.headlineSmall
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        LazyColumn {
+            items(issue.comments.size) { index ->
+                val comment = issue.comments[index]
+                CommentCard(comment)
+            }
+        }
+    }
+}
+
+@Composable
+fun CommentCard(comment: com.openparty.app.feature_issues.domain.model.Comment) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = comment.text)
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = "By ${comment.author}")
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(imageVector = Icons.Default.ThumbUp, contentDescription = "Upvotes")
+                    Text(text = comment.upvotes.toString())
+                }
+            }
+        }
     }
 }
 // File: app/src/main/java/com/openparty/app/navigation/AppNavHost.kt
@@ -748,7 +424,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.openparty.app.feature_budget.presentation.BudgetScreen
-import com.openparty.app.feature_proposals.presentation.ProposalsScreen
+import com.openparty.app.feature_issues.presentation.IssuesScreen
+import com.openparty.app.feature_issues.presentation.RaiseIssueScreen
+import com.openparty.app.feature_issues.presentation.ViewIssueScreen
 import com.openparty.app.feature_newsfeed.presentation.NewsfeedScreen
 
 @Composable
@@ -757,8 +435,14 @@ fun AppNavHost(navController: NavHostController) {
         composable(Screen.Budget.route) {
             BudgetScreen()
         }
-        composable(Screen.Proposals.route) {
-            ProposalsScreen()
+        composable(Screen.Issues.route) {
+            IssuesScreen(navController)
+        }
+        composable("view_issue") {
+            ViewIssueScreen(navController)
+        }
+        composable("raise_issue") {
+            RaiseIssueScreen(navController)
         }
         composable(Screen.Newsfeed.route) {
             NewsfeedScreen()
@@ -770,27 +454,26 @@ package com.openparty.app.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Article
-import androidx.compose.material.icons.filled.Lightbulb
+import androidx.compose.material.icons.filled.BugReport // Changed icon
 import androidx.compose.material.icons.filled.PieChart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
 fun BottomNavBar(navController: NavHostController) {
     val items = listOf(
         Screen.Budget,
-        Screen.Proposals,
+        Screen.Issues,
         Screen.Newsfeed
     )
     NavigationBar {
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
         items.forEach { screen ->
-            val icon: ImageVector = when (screen) {
+            val icon = when (screen) {
                 is Screen.Budget -> Icons.Default.PieChart
-                is Screen.Proposals -> Icons.Default.Lightbulb
+                is Screen.Issues -> Icons.Default.BugReport
                 is Screen.Newsfeed -> Icons.Default.Article
             }
             NavigationBarItem(
@@ -813,7 +496,7 @@ package com.openparty.app.navigation
 
 sealed class Screen(val route: String) {
     object Budget : Screen("budget")
-    object Proposals : Screen("proposals")
+    object Issues : Screen("issues")
     object Newsfeed : Screen("newsfeed")
 }
 // File: app/src/main/java/com/openparty/app/MainActivity.kt
@@ -864,15 +547,93 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class MyApplication : Application()
 
+-------------------
 
-----------------
+Raise Issue Screen:
+- The issue screen allows users to raise issues about the local area that will be seen by the councillors and other consistuents 
+- It also allows the user to see all the issues raised by other users 
 
-Right now, the budget screen doesn't assign colours to all areas of spending 
+What the Raise Issues screen will look like: 
+- The user clicks on the issue icon in the footer to go to the issues screen
+- There is a title in the top left that says "Issues" 
+- Under that there are cards, each containing a issue 
+    - The card has a title on it that says what the issue is 
+    - It also has a thumbs up icon which shows how many upvotes the issue has 
+    - Issues are ranked by upvotes, so the issues with the most upvotes will be shown at the top of the page and the less upvotes will be shown further down 
+    - If a user clicks on a card, it navigates to the View Issue Screen
+- Near the bottom of the screen, centred horizontally, would be a big + button
+    - This button would be circular with a plus inside it 
+    - A user would click the button to navigate to the Raise Issue Screen 
+- The bottom of the screen shows the navigation footer with the budget icon, issues icon and newsfeed icon 
+- When the user is on the issues screen, the issues icon will be the one that's highlighted 
 
-For example, right now if the user enters the budget screen, only Education, social and housing have colours assigned to them 
+What the View Issue Screen will look like: 
+- The view issue screen allows the user to see a specific issue in more detail
+- It has a title which is the name of the issue 
+- It has a Summary of the issue which is written by the user. It states what the issue the user is raising is 
+    - For example, the user might be raising an issue about long wait list for social housing 
+    - They would write a summary of their problem 
+- At the bottom of the summary on the left hand side, it shows the name of the user who raised the issue
+- At the bottom of the summary on the right hand side, it shows how many upvotes the issue has 
+- Under the summary, there is a comments section where other users can reply to the the issue 
+- Each comment has text saying what the comment is
+    - On the left bottom of the comment it says the name of the user who raised it 
+    - On the right bottom of the comment it says the number of upvotes for the comment 
 
-environemtn, corporate, other services, miscellaneous don't have a colour assigned to them 
+What the Raise Issue Screen would look like: 
+- In the top left, there is a title that says "Raise An Issue" 
+- In the centre of the screen, there is a text box where a user can input text they want to submit 
+- There is also a submit button
 
-I want the colours to be assigned dynamically rather than hardcoded so that each section of spedning always has a colour, even if i change the data 
+Data: 
+- In future this system will use a database to store all of it's data
+- However this is just a version 1 so right now all of the data is hardcoded in json 
+- The data will be stored in app/assets/issueScreen
 
-Also keep the colours you're using in a list somewhere so i can change the colours being used if i want to 
+-------------
+
+I've given you the code for my feature_issues feature and the description of how it should work. 
+
+Now I need dummy data for this 
+
+The data is descibed here: 
+Data: 
+- In future this system will use a database to store all of it's data
+- However this is just a version 1 so right now all of the data is hardcoded in json 
+- The data will be stored in app/assets/issueScreen
+
+What the issues data should look like: 
+- Stored in json 
+- Each issue should have: a title, content, number of upvote, a user, a tag 
+- The user is the user who submitted the issue
+- The tag is the area of spending of the issue. For example if the issue relates to social housing then the tag would be "housing" 
+
+What the comment data should look like: 
+- Stored in json 
+- Each comment should have: Content, user, number of upvotes 
+- The content is the text that the user wrote in the comment 
+- The user is the user who submitted it
+- The number of upvotes is the number of times other users have upvoted the comment
+
+----
+
+Give me dummy data that matches this. 
+
+The dummy data about the issue raised should be based on this: 
+
+A common example of an issue a constituent might raise with their local MP could be:
+
+### **Housing Concerns and Social Housing Availability**
+
+A constituent may approach their MP regarding difficulties finding suitable social housing in their area. They might explain that they've been on the council housing waiting list for a long time and are facing overcrowded or unsuitable living conditions. They may also be concerned about rising rental costs, lack of available affordable housing, or deteriorating conditions in their current accommodation due to delayed repairs or maintenance issues.
+
+### **Example Problem Raised by the Constituent**  
+> "I've been on the waiting list for social housing for three years now, and my family and I are still living in a small one-bedroom flat despite having two young children. We simply don't have enough space, and the private rental costs in our area are too high for us to move. I've contacted the council numerous times, but nothing seems to change. Can you help us get a priority status or find out why the waiting times are so long? Also, what are you doing to address the overall housing shortage in our area?"
+
+### **Possible MP Actions**
+The MP might:
+1. Write to the local council's housing department on behalf of the constituent, urging them to reassess the case.
+2. Raise the issue in Parliament or in a committee if it's a widespread problem, calling for increased investment in social housing.
+3. Hold a meeting with the council and housing associations to discuss improving housing availability and addressing maintenance delays.
+
+Local MPs often act as intermediaries, helping constituents navigate complex systems and highlighting local issues on a national stage.

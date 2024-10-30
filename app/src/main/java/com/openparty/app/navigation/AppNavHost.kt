@@ -6,7 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.openparty.app.feature_budget.presentation.BudgetScreen
-import com.openparty.app.feature_proposals.presentation.ProposalsScreen
+import com.openparty.app.feature_issues.presentation.IssuesScreen
+import com.openparty.app.feature_issues.presentation.RaiseIssueScreen
+import com.openparty.app.feature_issues.presentation.ViewIssueScreen
 import com.openparty.app.feature_newsfeed.presentation.NewsfeedScreen
 
 @Composable
@@ -15,8 +17,14 @@ fun AppNavHost(navController: NavHostController) {
         composable(Screen.Budget.route) {
             BudgetScreen()
         }
-        composable(Screen.Proposals.route) {
-            ProposalsScreen()
+        composable(Screen.Issues.route) {
+            IssuesScreen(navController)
+        }
+        composable("view_issue") {
+            ViewIssueScreen(navController)
+        }
+        composable("raise_issue") {
+            RaiseIssueScreen(navController)
         }
         composable(Screen.Newsfeed.route) {
             NewsfeedScreen()

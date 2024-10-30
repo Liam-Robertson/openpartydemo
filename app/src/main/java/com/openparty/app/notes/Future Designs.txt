@@ -8,6 +8,16 @@
 - Train the AI so that you can ask it questions and it can consume data from many different places
 
 Maybe:
+- The big thing:
+	- The most useful thing that local councillors have is that people report problems to them
+	    - This means they have a list of everyone in the community who has a problem that needs solved
+	    - That's essentially a list of everyone in the community who could be convinced to use the app
+	- Get Local MPs to tell you what they get contacted for most i.e. what problems are reported most
+	- Catalogue those problems and rank them by how popular they are
+	- Contact the people who have those problems to get them to sign up to the app
+	- Network them with each other to help them form a group
+	- This group could either help resolve their own issues or they could form a pressure group
+
 - AI accountability:
     - You used to have an idea that there should be a series of lawyer/accountants who would hold government agencies accountable
     - They would look into each agency, audit it and see if they were doing a good or a bad job
@@ -30,3 +40,4 @@ Maybe:
     - At some point you'll have lots of performance metrics and financial data on many counties
     - You allow the user to perform ad hoc data science on these metrics to find patterns
     - Just let them generate their own graphs and charts
+

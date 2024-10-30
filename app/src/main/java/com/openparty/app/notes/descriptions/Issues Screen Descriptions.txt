@@ -1,0 +1,53 @@
+Raise Issue Screen:
+- The issue screen allows users to raise issues about the local area that will be seen by the councillors and other consistuents 
+- It also allows the user to see all the issues raised by other users 
+
+What the Raise Issues screen will look like: 
+- The user clicks on the issue icon in the footer to go to the issues screen
+- There is a title in the top left that says "Issues" 
+- Under that there are cards, each containing a issue 
+    - The card has a title on it that says what the issue is 
+    - It also has a thumbs up icon which shows how many upvotes the issue has 
+    - Issues are ranked by upvotes, so the issues with the most upvotes will be shown at the top of the page and the less upvotes will be shown further down 
+    - If a user clicks on a card, it navigates to the View Issue Screen
+- Near the bottom of the screen, centred horizontally, would be a big + button
+    - This button would be circular with a plus inside it 
+    - A user would click the button to navigate to the Raise Issue Screen 
+- The bottom of the screen shows the navigation footer with the budget icon, issues icon and newsfeed icon 
+- When the user is on the issues screen, the issues icon will be the one that's highlighted 
+
+What the View Issue Screen will look like: 
+- The view issue screen allows the user to see a specific issue in more detail
+- It has a title which is the name of the issue 
+- It has a Summary of the issue which is written by the user. It states what the issue the user is raising is 
+    - For example, the user might be raising an issue about long wait list for social housing 
+    - They would write a summary of their problem 
+- At the bottom of the summary on the left hand side, it shows the name of the user who raised the issue
+- At the bottom of the summary on the right hand side, it shows how many upvotes the issue has 
+- Under the summary, there is a comments section where other users can reply to the the issue 
+- Each comment has text saying what the comment is
+    - On the left bottom of the comment it says the name of the user who raised it 
+    - On the right bottom of the comment it says the number of upvotes for the comment 
+
+What the Raise Issue Screen would look like: 
+- In the top left, there is a title that says "Raise An Issue" 
+- In the centre of the screen, there is a text box where a user can input text they want to submit 
+- There is also a submit button
+
+Data: 
+- In future this system will use a database to store all of it's data
+- However this is just a version 1 so right now all of the data is hardcoded in json 
+- The data will be stored in app/assets/issueScreen
+
+What the issues data should look like: 
+- Stored in json 
+- Each issue should have: a title, content, number of upvote, a user, a tag 
+- The user is the user who submitted the issue
+- The tag is the area of spending of the issue. For example if the issue relates to social housing then the tag would be "housing" 
+
+What the comment data should look like: 
+- Stored in json 
+- Each comment should have: Content, user, number of upvotes 
+- The content is the text that the user wrote in the comment 
+- The user is the user who submitted it
+- The number of upvotes is the number of times other users have upvoted the comment
