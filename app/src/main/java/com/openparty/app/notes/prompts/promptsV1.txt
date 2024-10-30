@@ -867,3 +867,12 @@ class MyApplication : Application()
 
 ----------------
 
+Right now, the budget screen doesn't assign colours to all areas of spending 
+
+For example, right now if the user enters the budget screen, only Education, social and housing have colours assigned to them 
+
+environemtn, corporate, other services, miscellaneous don't have a colour assigned to them 
+
+I want the colours to be assigned dynamically rather than hardcoded so that each section of spedning always has a colour, even if i change the data 
+
+Also keep the colours you're using in a list somewhere so i can change the colours being used if i want to 
