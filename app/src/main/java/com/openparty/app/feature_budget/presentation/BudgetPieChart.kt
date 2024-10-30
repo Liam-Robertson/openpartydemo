@@ -4,14 +4,13 @@ package com.openparty.app.feature_budget.presentation.components
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import me.bytebeats.views.charts.pie.PieChart
 import me.bytebeats.views.charts.pie.PieChartData
 import me.bytebeats.views.charts.pie.render.SimpleSliceDrawer
 import com.openparty.app.feature_budget.domain.model.BudgetItem
 import com.openparty.app.feature_budget.presentation.getColorForItem
+import com.openparty.app.feature_budget.presentation.parseCost
 
 @Composable
 fun BudgetPieChart(
@@ -19,15 +18,10 @@ fun BudgetPieChart(
     onItemClick: (BudgetItem) -> Unit
 ) {
     val pieSlices = budgetItems.mapNotNull { item ->
-        val parsedValue = item.cost
-            .replace("£", "")
-            .replace(",", "")
-            .replace(" million", "")
-            .trim()
-            .toFloatOrNull() ?: return@mapNotNull null
+        val value = parseCost(item.cost).toFloat()
 
         PieChartData.Slice(
-            value = parsedValue,
+            value = value,
             color = getColorForItem(item)
         )
     }

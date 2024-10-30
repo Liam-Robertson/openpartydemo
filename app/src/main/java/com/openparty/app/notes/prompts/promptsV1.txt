@@ -254,29 +254,52 @@ fun Legend(
         }
     }
 }
-// File: feature-budget/src/main/java/com/openparty/feature_budget/presentation/BudgetContent.kt
 package com.openparty.app.feature_budget.presentation
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.openparty.app.feature_budget.domain.model.BudgetItem
+import com.openparty.app.feature_budget.presentation.components.BudgetPieChart
 import com.openparty.app.feature_budget.presentation.components.Legend
 
 @Composable
 fun BudgetContent(budgetItems: List<BudgetItem>) {
     var currentItems by remember { mutableStateOf(budgetItems) }
 
-    Column {
-        BudgetPieChart(
-            budgetItems = currentItems,
-            onItemClick = { selectedItem ->
-                currentItems = when {
-                    selectedItem.subtypesLevel1.isNotEmpty() -> selectedItem.subtypesLevel1
-                    selectedItem.subtypesLevel2.isNotEmpty() -> selectedItem.subtypesLevel2
-                    else -> listOf(selectedItem)
-                }
-            }
+    Column(
+        modifier = Modifier.fillMaxSize().padding(16.dp)
+    ) {
+        Text(
+            text = "West Lothian Budget",
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.align(Alignment.Start)
         )
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            BudgetPieChart(
+                budgetItems = currentItems,
+                onItemClick = { selectedItem ->
+                    currentItems = when {
+                        selectedItem.subtypesLevel1.isNotEmpty() -> selectedItem.subtypesLevel1
+                        selectedItem.subtypesLevel2.isNotEmpty() -> selectedItem.subtypesLevel2
+                        else -> listOf(selectedItem)
+                    }
+                }
+            )
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
+
         Legend(
             budgetItems = currentItems,
             onItemClick = { selectedItem ->
@@ -289,70 +312,102 @@ fun BudgetContent(budgetItems: List<BudgetItem>) {
         )
     }
 }
-// File: feature-budget/src/main/java/com/openparty/feature_budget/presentation/components/BudgetPieChart.kt
-package com.openparty.app.feature_budget.presentation
+// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/components/BudgetPieChart.kt
+package com.openparty.app.feature_budget.presentation.components
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
+import me.bytebeats.views.charts.pie.PieChart
+import me.bytebeats.views.charts.pie.PieChartData
+import me.bytebeats.views.charts.pie.render.SimpleSliceDrawer
 import com.openparty.app.feature_budget.domain.model.BudgetItem
-import io.github.devssrsouza.compose.charts.piechart.PieChart
-import io.github.devssrsouza.compose.charts.piechart.PieChartData
+import com.openparty.app.feature_budget.presentation.getColorForItem
 
 @Composable
 fun BudgetPieChart(
     budgetItems: List<BudgetItem>,
     onItemClick: (BudgetItem) -> Unit
 ) {
-    val chartData = budgetItems.map {
+    val pieSlices = budgetItems.mapNotNull { item ->
+        val parsedValue = item.cost
+            .replace("£", "")
+            .replace(",", "")
+            .replace(" million", "")
+            .trim()
+            .toFloatOrNull() ?: return@mapNotNull null
+
         PieChartData.Slice(
-            value = it.cost.removePrefix("£").removeSuffix(" million").toFloat(),
-            color = getColorForItem(it),
-            label = it.typeOfSpending
+            value = parsedValue,
+            color = getColorForItem(item)
         )
     }
 
     PieChart(
-        pieChartData = PieChartData(chartData),
+        pieChartData = PieChartData(pieSlices),
         modifier = Modifier.size(200.dp),
-        onSliceClicked = { index ->
-            onItemClick(budgetItems[index])
-        }
+        sliceDrawer = SimpleSliceDrawer(sliceThickness = 50f)
     )
 }
+// File: feature-budget/src/main/java/com/openparty/feature_budget/presentation/BudgetScreen.kt
+package com.openparty.app.feature_budget.presentation
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.hilt.navigation.compose.hiltViewModel
+
+@Composable
+fun BudgetScreen(
+    viewModel: BudgetViewModel = hiltViewModel()
+) {
+    val budgetData = viewModel.budgetData.collectAsState().value
+    BudgetContent(budgetData)
+}
+// File: feature-budget/src/main/java/com/openparty/feature_budget/presentation/BudgetViewModel.kt
+package com.openparty.app.feature_budget.presentation
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.openparty.app.feature_budget.domain.model.BudgetItem
+import com.openparty.app.feature_budget.domain.usecase.GetBudgetDataUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class BudgetViewModel @Inject constructor(
+    private val getBudgetDataUseCase: GetBudgetDataUseCase
+) : ViewModel() {
+
+    private val _budgetData = MutableStateFlow<List<BudgetItem>>(emptyList())
+    val budgetData: StateFlow<List<BudgetItem>> = _budgetData.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            val data = getBudgetDataUseCase()
+            _budgetData.value = data
+        }
+    }
+}
+// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/getColorForItem.kt
+package com.openparty.app.feature_budget.presentation
+
+import androidx.compose.ui.graphics.Color
+import com.openparty.app.feature_budget.domain.model.BudgetItem
 
 fun getColorForItem(item: BudgetItem): Color {
-    // Implement a method to consistently get colors for items
-    // For example, map item types to specific colors
-    return Color.Gray // Placeholder
-}
-// File: feature-budget/src/main/java/com/openparty/feature_budget/presentation/BudgetScreen.kt
-package com.openparty.app.feature_budget.presentation
-
-import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
-
-@Composable
-fun BudgetScreen(
-    viewModel: BudgetViewModel = hiltViewModel()
-) {
-    val budgetData = viewModel.budgetData.collectAsState().value
-    BudgetContent(budgetData)
-}
-// File: feature-budget/src/main/java/com/openparty/feature_budget/presentation/BudgetScreen.kt
-package com.openparty.app.feature_budget.presentation
-
-import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
-
-@Composable
-fun BudgetScreen(
-    viewModel: BudgetViewModel = hiltViewModel()
-) {
-    val budgetData = viewModel.budgetData.collectAsState().value
-    BudgetContent(budgetData)
+    return when (item.typeOfSpending) {
+        "Housing Services" -> Color(0xFF42A5F5) // Blue
+        "Transportation Services" -> Color(0xFFFFA726) // Orange
+        "Education Services" -> Color(0xFF66BB6A) // Green
+        "Social Care Services" -> Color(0xFFAB47BC) // Purple
+        "Healthcare Services" -> Color(0xFFEF5350) // Red
+        else -> Color(0xFF9E9E9E) // Default Grey
+    }
 }
 // File: app/src/main/java/com/openparty/app/navigation/AppNavHost.kt
 package com.openparty.app.navigation
@@ -438,6 +493,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -456,6 +512,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OpenPartyApp() {
     val navController = rememberNavController()
@@ -476,26 +533,67 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class MyApplication : Application()
 
----------------
+-------------------
 
-Here are some errors in the above code: 
+This code mostly works but it has some issues
 
-MainActivity: 
-in this method: 
-@Composable
-fun OpenPartyApp() {
-    val navController = rememberNavController()
-    Scaffold(
-        bottomBar = { BottomNavBar(navController) }
-    ) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues)) {
-            AppNavHost(navController)
-        }
-    }
-}
+When the user opens the app I want this to happen: 
+- The user opens the app
+- The app defaults to the budget screen
+- The budget screen shows the title, the pie chart and the legend 
 
-on this line - Scaffold(
-This material API is experimental and is likely to change or to be removed in the future.
-I can either opt in or change the code, tell me what you want 
+When the user opens the app I want this to happen: 
+- The user opens the app
+- The app defaults to the budget screen
+- The budget screen shows the title and nothing else
 
+Problem:
+- The budget screen, when opened, shows the title but doesn't show the pie chart 
+- If I swipe to the proposals screen then back to the budget screen, the pie chart then shows up 
+- This suggests the problem is likely a loading error i.e. the screen renders before the pie chart has loaded 
+- Fix this
+- If it's a loading error, it's probably best to show a loading screen while the app is loading 
+- If you use a loading screen, have the loading screen just show the material compost icon 
+  - Give the compost icon a pulsing animation 
+  - Make sure that, if the loading screen is shown, it appears for at least 1 second
+  - I don't want the loading screen to be shown for 0.1 seconds because that's disorienting to the user 
+  - Instead, I want the minimum loading screen time to be 1 second 
+  - For example, if it takes 0.05 seconds for the data to load, the loading screen should be shown for 1 second
+  - If the data takes 2 seconds to load, the loading screen should be shown for 2 seconds 
 
+-----
+
+Thank you, that works. 
+
+I also want to add this functionality: 
+
+What happens right now, when the user clicks a category in the legend on the budget screen: 
+- The user opens the budget screen, it shows the title, pie chart and legend
+- The user clicks a category on the budget screen like Social Care Services
+- The user is shown a new screen which has a title, pie chart and legend, but now it's showing the pie chart data for social care services subtype level 1 data 
+
+What I want to happen, when the user clicks a category in the legend on the budget screen: 
+- The user opens the budget screen, it shows the title, pie chart and legend
+- The user clicks a category on the budget screen like Social Care Services
+- The user is shown a new screen which has a back button at the top, title, pie chart and legend, but now it's showing the pie chart data for social care services subtype level 1 data 
+
+Problem: 
+- When the user clicks on a category of spending it shows them the screen for the sub level of spending (as it should) but it doesn't give them a way to get back to the previous level of spending 
+- For example, Let's call "Housing Services" level 1 spending, "Housing Revenue Account" level 2 spending, "Repairs and Maintenance" level 3 spending 
+  - I want the user to be able to navigate between level 1, 2 and 3 spending easily 
+  - Right now they can navigate from level 1 to level 2 spending by clicking on the spending category in the legend, however they cannot navigate  from level 2 back to level 1 
+  - I want to add a back button on sub types of spending which take you back to the previous level of spending 
+  - If you click on the back button when you are on level 2 spending, it takes you back to level 1 spending 
+  - If you click on the back button when you are on level 3 spending, it takes you back to level 2 spending 
+
+----
+
+I also want to add another change: 
+- Right now, the pie chart will show the user all types of spending in the budget screen, even if they are extremely small types of spending 
+  - For example, if their was 0.005% of spending on "Gaelic Lessons" then the budget screen would show that in the pie chart 
+- I don't want that. On the initial screen of the budget screen (which represents level 1 spending), any types of spending that represent 5% of the overall total should be grouped together in a category called "Miscellaneous" 
+- If the user clicks on the Miscellaneous section of the legend, it will show the user a level 2 spending screen, but this time, the level 2 spending will be all of the spending will be all of the spending types that are grouped under miscelleous 
+
+I'll give you an example to make this more clear: 
+- The user clicks on the budget screen 
+- The hardcoded data has this in it: 

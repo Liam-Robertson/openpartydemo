@@ -1,4 +1,4 @@
-// File: app/src/main/java/com/openparty/app/ui/components/BottomNavBar.kt
+// File: app/src/main/java/com/openparty/app/navigation/BottomNavBar.kt
 package com.openparty.app.navigation
 
 import androidx.compose.material.icons.Icons

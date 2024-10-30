@@ -1,5 +1,5 @@
 // File: feature-proposals/src/main/java/com/openparty/feature_proposals/presentation/ProposalsScreen.kt
-package com.openparty.feature_proposals.presentation
+package com.openparty.app.feature_proposals.presentation
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

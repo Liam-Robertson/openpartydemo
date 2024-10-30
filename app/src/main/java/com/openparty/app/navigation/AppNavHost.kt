@@ -6,8 +6,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.openparty.app.feature_budget.presentation.BudgetScreen
-import com.openparty.feature_proposals.presentation.ProposalsScreen
-import com.openparty.feature_newsfeed.presentation.NewsfeedScreen
+import com.openparty.app.feature_proposals.presentation.ProposalsScreen
+import com.openparty.app.feature_newsfeed.presentation.NewsfeedScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
