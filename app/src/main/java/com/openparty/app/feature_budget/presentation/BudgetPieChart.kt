@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import me.bytebeats.views.charts.pie.PieChart
 import me.bytebeats.views.charts.pie.PieChartData
@@ -17,7 +18,6 @@ fun BudgetPieChart(
     budgetItems: List<BudgetItem>,
     onItemClick: (BudgetItem) -> Unit
 ) {
-    // Prepare the data for the PieChart
     val pieSlices = budgetItems.mapNotNull { item ->
         val parsedValue = item.cost
             .replace("£", "")
@@ -28,17 +28,13 @@ fun BudgetPieChart(
 
         PieChartData.Slice(
             value = parsedValue,
-            color = Color(getColorForItem(item).toArgb())
+            color = getColorForItem(item)
         )
     }
 
-    // Render the PieChart component with Bytebeats
     PieChart(
         pieChartData = PieChartData(pieSlices),
         modifier = Modifier.size(200.dp),
-        sliceDrawer = SimpleSliceDrawer(sliceThickness = 50f),
-        onSliceClicked = { index ->
-            onItemClick(budgetItems[index])
-        }
+        sliceDrawer = SimpleSliceDrawer(sliceThickness = 50f)
     )
 }

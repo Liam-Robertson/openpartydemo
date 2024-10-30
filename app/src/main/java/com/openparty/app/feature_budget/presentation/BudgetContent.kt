@@ -4,6 +4,7 @@ package com.openparty.app.feature_budget.presentation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.*
 import com.openparty.app.feature_budget.domain.model.BudgetItem
+import com.openparty.app.feature_budget.presentation.components.BudgetPieChart
 import com.openparty.app.feature_budget.presentation.components.Legend
 
 @Composable
