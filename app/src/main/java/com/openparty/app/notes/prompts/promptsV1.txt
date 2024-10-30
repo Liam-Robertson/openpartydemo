@@ -22,21 +22,23 @@ com.openparty.app
 │       │   └── Legend.kt
 │       ├── BudgetContent.kt
 │       ├── BudgetScreen.kt
-│       └── BudgetViewModel.kt
+│       ├── BudgetViewModel.kt
+│       └── LoadingScreen.kt
 ├── feature_proposals
 │   └── presentation
 │       └── ProposalsScreen.kt
 ├── feature_newsfeed
 │   └── presentation
 │       └── NewsfeedScreen.kt
-│── navigation
+├── navigation
 │   ├── AppNavHost.kt
 │   ├── BottomNavBar.kt
 │   └── Screen.kt
-│── ui.theme
-│   ├── Color.kt
-│   ├── Theme.kt
-│   └── Type.kt
+├── ui
+│   └── theme
+│       ├── Color.kt
+│       ├── Theme.kt
+│       └── Type.kt
 ├── MainActivity.kt
 └── MyApplication.kt
 
@@ -44,9 +46,11 @@ com.openparty.app
 
 Budget Screen:
 - The aim of the budget screen is to represent the amount of spending in each area of government in pie chart form
-- It gets information about government spending from a database, calculates the percentage spending in each area, then displays that information to the user in a pie chart
+- It gets information about government spending from a json file, calculates the percentage spending in each area, then displays that information to the user in a pie chart#
+  - The json data file is stored in the file path: app/assets
+  - I have included an example of what the json data will look like at the bottom 
 - The budget screen has three parts:
-    - A title saying "Budget"
+    - A title saying "West Lothian Budget"
     - A pie chart. This has a legend showing what each section corresponds to
     - A footer:
         - The footer is used for navigation
@@ -57,51 +61,24 @@ Budget Screen:
         - When the budget screen is open, the budget section is highlighted. When the minutes screen is open, the minutes section is highlighted
 
 When the user enters the budget screen this happens:
-- The data about the financial report is fetched
-    - The data about the financial report will be stored in a separate file
-    - Right now this is just a version 1 of an app, so the data will be hardcoded
-    - The data will be hardcoded for each section
-    - The data will be in this format:
-{
-  "areas_of_spending": [
-    {
-      "type_of_spending": "Education Services",
-      "cost": "£220.806 million",
-      "summary": "This category encompasses all spending related to educational services provided by the council, including staffing costs for teachers and support staff, educational materials, school maintenance, and administrative support.",
-      "subtypes_level_1": [
-        {
-          "type_of_spending": "Schools and Education Support",
-          "cost": "£220.806 million",
-          "summary": "This subtype includes costs for teaching staff salaries, educational materials, school facility maintenance, special education needs, and administrative support services.",
-          "subtypes_level_2": [
-            {
-              "type_of_spending": "Early Learning and Childcare",
-              "cost": "£17.850 million",
-              "summary": "Provision of early childhood education and childcare services for children under the age of five."
-            },
-.....
-
-    - i.e. the data will be in json format with the area of spending, the cost the summary and then the same again for all the subtypes of spending
-    - When the user enters the screen, the data will be fetched from the json file which is com.openparty.app.notes.descriptionsV1.financeDataV1.json
-    - This data will then be used to populate the pie chart
-    - The pie chart will initially just be populated using the highest level of data i.e. type of spending, not type of spending level 1 or level 2
-    - There will be a legend at the bottom of the screen which shows each area of spending, it's cost and it's colour on the pie chart
-    - If the user clicks on a section in the legend, the app shows a new pie chart which gives a more detailed breakdown of that type of spending
-    - For example, the initial pie chart might show up with Education Services, Social Care Services, Housing services
-    - Each of these would be represented in the pie chart as a different colour, and each would take up a piece of the pie chart proportional to the level of spending on them
-        - e.g. if Education was 37% of spending it would take up 37% of the pie chart
-    - At the bottom of the screen is a legend showing Education Services, Social Care Services, Housing services - along with the colour and cost associated with each
-    - If the user then clicked on Social Care Services in the legend, a new pie chart would appear which has all the subtypes of Social Care Services spending
-        - i.e."Adult and Elderly Services (IJB)", "Children's Services (Non-IJB)"
-    - The new pie chart would have each sub type of spending
-    - The new legend would have the sub type of spending, the colour on the pie chart, the cost
-    - If the user clicks on a subtype of spending in the legend, then a new pie chart would appear for sub type level 2
-    - The new pie chart and legend would have the type of spending, cost and colour for spending sub type 2 in the json file
-
-Navigation:
-- The navigation needs to be able to handle navigating between the budget section, newsfeed section and proposals section
-- This app is going to get a lot more complex so the navigation functionality needs to be able to handle that
-- The navigation should probably have it's own feature
+- The data about the financial report is fetched from the json file
+    - In future, this data will be stored in a table but since this is a version 1 it's hardcoded in a json file 
+- The percentage cost of each area of level 1 spending is calculated
+  - For example, if Education costs £10 million, and the total cost is £100 million, then education is 10% 
+- If an area of spending is less than 5% of total spending, it is grouped into a Miscellaneous category 
+- The pie chart is then populated with the data
+  - It will show all areas of spending greater than 5% such as Education or Social Services, and it will also show a miscellaneous category (which represents everything under 5%)
+  - The pie chart is populated using data only from level 1 of spending at this point, not from level 2 or level 3 spending
+  - The pie chart shows each section of spending proportionally to it's percentage of overall spending 
+    - For example, if education spending was 22% of total spending, it would take up 22% of the overall pie chart 
+- There will be a legend at the bottom of the screen which shows each area of spending, it's cost and it's colour on the pie chart
+- If the user clicks on a section in the legend, the app shows a new pie chart which gives a more detailed breakdown of that type of spending
+  - For example if the user clicks on Education Services in the legend, it shows the user a new title, pie chart and legend
+    - This time, the title would be the level 1 spending, the pie chart and legend would show all the level 2 spending inside the level 1 spending 
+    - For example, if the user clicks Social Care Services in the legend, then a screen is shown where the title is Social Care Services, and the pie chart and legend have Adult and Elderly Services (IJB), Children's Services (Non-IJB)
+    - There is also a back button at the top left of the page which takes the user back to the level 1 spending diagram 
+- The same applies for level 3 of spending i.e. if the user clicks a section of level 2 spending in the legend, it will take them to level 3 spending diagram 
+  - For example, if the user clicked Housing Revenue Account (HRA), it would show a screen where the title is Housing Revenue Account (HRA), and the pie chart and legend show Repairs and Maintenance, Supervision and Management etc
 
 ---------------------------------
 
@@ -139,6 +116,27 @@ Navigation:
                 "summary": "National program aimed at improving educational outcomes in areas of deprivation."
               }
             ]
+          }
+        ]
+      }
+    },
+    {
+      "spending_level_1": {
+        "type_of_spending": "Social Care Services",
+        "cost": "£257.899 million",
+        "summary": "Includes all expenditures related to the well-being of residents requiring assistance due to age, disability, or other factors.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Adult and Elderly Services (IJB)",
+            "cost": "£207.377 million",
+            "summary": "Services for adults and the elderly, including healthcare integration with the West Lothian Integration Joint Board (IJB).",
+            "spending_level_3": []
+          },
+          {
+            "type_of_spending": "Children's Services (Non-IJB)",
+            "cost": "£50.522 million",
+            "summary": "Child protection services, foster care, adoption services, and youth support programs.",
+            "spending_level_3": []
           }
         ]
       }
@@ -192,6 +190,21 @@ Navigation:
     },
     {
       "spending_level_1": {
+        "type_of_spending": "Environmental and Operational Services",
+        "cost": "£92.841 million",
+        "summary": "Expenditures related to the upkeep of the local environment and essential operational services.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Operational Services",
+            "cost": "£92.841 million",
+            "summary": "Includes waste disposal, recycling services, street cleaning, road maintenance, parks and open spaces, and environmental health services.",
+            "spending_level_3": []
+          }
+        ]
+      }
+    },
+    {
+      "spending_level_1": {
         "type_of_spending": "Corporate and Central Services",
         "cost": "£134.487 million",
         "summary": "Central administrative functions that support the operations of the council, including executive management and support services.",
@@ -206,6 +219,36 @@ Navigation:
             "type_of_spending": "Corporate Services",
             "cost": "£2.466 million",
             "summary": "Support services including IT and communications.",
+            "spending_level_3": []
+          }
+        ]
+      }
+    },
+    {
+      "spending_level_1": {
+        "type_of_spending": "Other Services",
+        "cost": "£45.371 million",
+        "summary": "Various services essential for community support and development.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Miscellaneous Services",
+            "cost": "£45.371 million",
+            "summary": "May include community development projects, economic initiatives, and support for voluntary organizations.",
+            "spending_level_3": []
+          }
+        ]
+      }
+    },
+    {
+      "spending_level_1": {
+        "type_of_spending": "Planning and Economic Development",
+        "cost": "£15.602 million",
+        "summary": "Expenditures aimed at planning and facilitating economic growth within the council area.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Planning, Economic Development, and Regeneration",
+            "cost": "£15.602 million",
+            "summary": "Urban planning, building control, economic regeneration projects, and support for local businesses.",
             "spending_level_3": []
           }
         ]
@@ -241,9 +284,37 @@ Navigation:
         ]
       }
     },
+    {
+      "spending_level_1": {
+        "type_of_spending": "Miscellaneous Expenditures",
+        "cost": "£2.800 million",
+        "summary": "Minor expenditures not significant enough to warrant individual categories.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Local Bus Services Subsidies",
+            "cost": "£0.566 million",
+            "summary": "Expenditures to subsidize local bus services."
+          },
+          {
+            "type_of_spending": "Residential Schools and Social Work Payments",
+            "cost": "£0.737 million",
+            "summary": "Payments for children placed in residential schools and additional social work-related expenditures."
+          },
+          {
+            "type_of_spending": "Special School Placements",
+            "cost": "£0.199 million",
+            "summary": "Costs associated with placing children in special schools outside the council area."
+          },
+          {
+            "type_of_spending": "Other Services",
+            "cost": "£1.298 million",
+            "summary": "Various minor services and expenditures not significant enough for separate categorization."
+          }
+        ]
+      }
+    }
   ]
 }
-
 
 --------------------
 
@@ -269,16 +340,17 @@ object BudgetModule {
         dataSource: BudgetDataSource
     ): BudgetRepository = BudgetRepositoryImpl(dataSource)
 }
-// File: feature-budget/src/main/java/com/openparty/feature_budget/data/datasource/BudgetDataSource.kt
 package com.openparty.app.feature_budget.data.datasource
 
 import android.content.Context
 import com.openparty.app.feature_budget.domain.model.BudgetItem
 import com.openparty.app.feature_budget.domain.model.BudgetResponse
+import com.openparty.app.feature_budget.domain.model.SpendingLevel1
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 class BudgetDataSource @Inject constructor(
@@ -291,7 +363,7 @@ class BudgetDataSource @Inject constructor(
             context.assets.open("financeDataV1.json").bufferedReader().use { it.readText() }
         }
         val response = jsonFormat.decodeFromString<BudgetResponse>(jsonString)
-        return response.areasOfSpending
+        return response.areasOfSpending.map { it.level1 }
     }
 }
 // File: feature-budget/src/main/java/com/openparty/feature_budget/data/repository/BudgetRepositoryImpl.kt
@@ -309,7 +381,6 @@ class BudgetRepositoryImpl @Inject constructor(
         return dataSource.fetchBudgetData()
     }
 }
-// File: feature_budget/src/main/java/com/openparty/feature_budget/domain/model/BudgetItem.kt
 package com.openparty.app.feature_budget.domain.model
 
 import kotlinx.serialization.SerialName
@@ -320,8 +391,8 @@ data class BudgetItem(
     @SerialName("type_of_spending") val typeOfSpending: String,
     val cost: String,
     val summary: String,
-    @SerialName("subtypes_level_1") val subtypesLevel1: List<BudgetItem> = emptyList(),
-    @SerialName("subtypes_level_2") val subtypesLevel2: List<BudgetItem> = emptyList(),
+    @SerialName("spending_level_2") val subtypesLevel2: List<BudgetItem> = emptyList(),
+    @SerialName("spending_level_3") val subtypesLevel3: List<BudgetItem> = emptyList(),
     val groupedItems: List<BudgetItem>? = null
 )
 // File: feature-budget/src/main/java/com/openparty/feature_budget/domain/model/BudgetResponse.kt
@@ -332,9 +403,16 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class BudgetResponse(
-    @SerialName("areas_of_spending") val areasOfSpending: List<BudgetItem>
-)
-// File: feature-budget/src/main/java/com/openparty/feature_budget/domain/repository/BudgetRepository.kt
+    @SerialName("areas_of_spending") val areasOfSpending: List<SpendingLevel1>
+)package com.openparty.app.feature_budget.domain.model
+
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class SpendingLevel1(
+    @SerialName("spending_level_1") val level1: BudgetItem
+)// File: feature-budget/src/main/java/com/openparty/feature_budget/domain/repository/BudgetRepository.kt
 package com.openparty.app.feature_budget.domain.repository
 
 import com.openparty.app.feature_budget.domain.model.BudgetItem
@@ -411,9 +489,12 @@ import com.openparty.app.feature_budget.domain.model.BudgetItem
 import com.openparty.app.feature_budget.presentation.components.BudgetPieChart
 import com.openparty.app.feature_budget.presentation.components.Legend
 
+import androidx.compose.material3.Button
+
 @Composable
 fun BudgetContent(budgetItems: List<BudgetItem>) {
     var currentItems by remember(budgetItems) { mutableStateOf(groupSmallBudgetItems(budgetItems)) }
+    val navigationStack = remember { mutableStateListOf<List<BudgetItem>>() }
 
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp)
@@ -424,6 +505,19 @@ fun BudgetContent(budgetItems: List<BudgetItem>) {
             modifier = Modifier.align(Alignment.Start)
         )
 
+        if (navigationStack.isNotEmpty()) {
+            Button(
+                onClick = {
+                    if (navigationStack.isNotEmpty()) {
+                        currentItems = navigationStack.removeLast()
+                    }
+                },
+                modifier = Modifier.padding(vertical = 16.dp)
+            ) {
+                Text("Back")
+            }
+        }
+
         Spacer(modifier = Modifier.height(32.dp))
 
         Box(
@@ -433,14 +527,15 @@ fun BudgetContent(budgetItems: List<BudgetItem>) {
             BudgetPieChart(
                 budgetItems = currentItems,
                 onItemClick = { selectedItem ->
-                    if (selectedItem.typeOfSpending == "Miscellaneous" && selectedItem.groupedItems != null) {
-                        currentItems = groupSmallBudgetItems(selectedItem.groupedItems)
-                    } else {
-                        currentItems = when {
-                            selectedItem.subtypesLevel1.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel1)
-                            selectedItem.subtypesLevel2.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel2)
-                            else -> listOf(selectedItem)
-                        }
+                    val nextLevelItems = when {
+                        selectedItem.subtypesLevel2.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel2)
+                        selectedItem.subtypesLevel3.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel3)
+                        else -> listOf(selectedItem)
+                    }
+
+                    if (nextLevelItems != currentItems) {
+                        navigationStack.add(currentItems)
+                        currentItems = nextLevelItems
                     }
                 }
             )
@@ -451,14 +546,15 @@ fun BudgetContent(budgetItems: List<BudgetItem>) {
         Legend(
             budgetItems = currentItems,
             onItemClick = { selectedItem ->
-                if (selectedItem.typeOfSpending == "Miscellaneous" && selectedItem.groupedItems != null) {
-                    currentItems = groupSmallBudgetItems(selectedItem.groupedItems)
-                } else {
-                    currentItems = when {
-                        selectedItem.subtypesLevel1.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel1)
-                        selectedItem.subtypesLevel2.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel2)
-                        else -> listOf(selectedItem)
-                    }
+                val nextLevelItems = when {
+                    selectedItem.subtypesLevel2.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel2)
+                    selectedItem.subtypesLevel3.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel3)
+                    else -> listOf(selectedItem)
+                }
+
+                if (nextLevelItems != currentItems) {
+                    navigationStack.add(currentItems)
+                    currentItems = nextLevelItems
                 }
             }
         )
@@ -768,164 +864,6 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class MyApplication : Application()
 
-----------------------
 
-I want to add a back button to the budget screen. Take this data as an example: 
+----------------
 
-{
-  "areas_of_spending": [
-    {
-      "spending_level_1": {
-        "type_of_spending": "Education Services",
-        "cost": "£220.806 million",
-        "summary": "This category encompasses all spending related to educational services provided by the council, including staffing costs for teachers and support staff, educational materials, school maintenance, and administrative support.",
-        "spending_level_2": [
-          {
-            "type_of_spending": "Schools and Education Support",
-            "cost": "£220.806 million",
-            "summary": "This subtype includes costs for teaching staff salaries, educational materials, school facility maintenance, special education needs, and administrative support services.",
-            "spending_level_3": [
-              {
-                "type_of_spending": "Early Learning and Childcare",
-                "cost": "£17.850 million",
-                "summary": "Provision of early childhood education and childcare services for children under the age of five."
-              },
-              {
-                "type_of_spending": "Pupil Equity Funding",
-                "cost": "£5.449 million",
-                "summary": "Additional funding allocated directly to schools to reduce the poverty-related attainment gap."
-              },
-              {
-                "type_of_spending": "Gaelic Education",
-                "cost": "£0.006 million",
-                "summary": "Supports Gaelic language education within the council area."
-              },
-              {
-                "type_of_spending": "Scottish Attainment Challenge",
-                "cost": "£0.762 million",
-                "summary": "National program aimed at improving educational outcomes in areas of deprivation."
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "spending_level_1": {
-        "type_of_spending": "Housing Services",
-        "cost": "£99.621 million",
-        "summary": "Covers all costs associated with the provision and maintenance of council housing, including management of housing stock and support services for tenants.",
-        "spending_level_2": [
-          {
-            "type_of_spending": "Housing, Customer, and Building Services",
-            "cost": "£23.672 million",
-            "summary": "Management and support of housing services, customer service centers, and building maintenance.",
-            "spending_level_3": []
-          },
-          {
-            "type_of_spending": "Housing Revenue Account (HRA)",
-            "cost": "£75.949 million",
-            "summary": "Includes repairs and maintenance, supervision and management, depreciation of housing assets, and other housing-related costs.",
-            "spending_level_3": [
-              {
-                "type_of_spending": "Repairs and Maintenance",
-                "cost": "£24.555 million",
-                "summary": "Routine and emergency repairs to council housing stock."
-              },
-              {
-                "type_of_spending": "Supervision and Management",
-                "cost": "£9.045 million",
-                "summary": "Administrative costs associated with managing council housing."
-              },
-              {
-                "type_of_spending": "Depreciation and Impairment",
-                "cost": "£38.143 million",
-                "summary": "Accounting charges reflecting the consumption of housing assets."
-              },
-              {
-                "type_of_spending": "Bad Debt Provision",
-                "cost": "£1.112 million",
-                "summary": "Funds set aside to cover potential losses from unpaid rent."
-              },
-              {
-                "type_of_spending": "Other Expenditure",
-                "cost": "£3.094 million",
-                "summary": "Miscellaneous costs related to housing services."
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "spending_level_1": {
-        "type_of_spending": "Corporate and Central Services",
-        "cost": "£134.487 million",
-        "summary": "Central administrative functions that support the operations of the council, including executive management and support services.",
-        "spending_level_2": [
-          {
-            "type_of_spending": "Chief Executive, Finance, and Property Services",
-            "cost": "£132.021 million",
-            "summary": "Corporate management, financial services, property management, legal services, and human resources.",
-            "spending_level_3": []
-          },
-          {
-            "type_of_spending": "Corporate Services",
-            "cost": "£2.466 million",
-            "summary": "Support services including IT and communications.",
-            "spending_level_3": []
-          }
-        ]
-      }
-    },
-    {
-      "spending_level_1": {
-        "type_of_spending": "Culture, Leisure, and Recreation",
-        "cost": "£13.351 million",
-        "summary": "Funding for cultural activities, recreational facilities, and leisure services to enhance the quality of life for residents.",
-        "spending_level_2": [
-          {
-            "type_of_spending": "West Lothian Leisure Ltd.",
-            "cost": "£13.351 million",
-            "summary": "Operation of leisure centers, sports facilities, swimming pools, and recreational programs.",
-            "spending_level_3": []
-          }
-        ]
-      }
-    },
-    {
-      "spending_level_1": {
-        "type_of_spending": "Trading Operations",
-        "cost": "£2.940 million",
-        "summary": "Costs associated with the council's trading activities, primarily focusing on property management for economic development.",
-        "spending_level_2": [
-          {
-            "type_of_spending": "Economic Development Properties",
-            "cost": "£2.940 million",
-            "summary": "Management and leasing of industrial units, offices, and shops to support local businesses.",
-            "spending_level_3": []
-          }
-        ]
-      }
-    },
-  ]
-}
-
-
-Here is the breakdown of the costs and their percentage of the total:
-
-Education Services: £220.806 million, representing 46.86% of the total budget.
-Housing Services: £99.621 million, representing 21.14% of the total budget.
-Corporate and Central Services: £134.487 million, representing 28.54% of the total budget.
-Culture, Leisure, and Recreation: £13.351 million, representing 2.83% of the total budget.
-Trading Operations: £2.940 million, representing 0.62% of the total budget.
-
-Right now, when the user clicks on the Budget screen they will be shown this: 
-- Education Services, Housing Services, Corporate and Central Services, Miscellanous
-  - The last two are grouped under Miscellaneous since they're all less than five percent of total spending 
-- when the user clicks on  Education Services, they are shown Schools and Education Support, 
-- When the user clicks Schools and Education Support, they are shown Early Learning and Childcare, Pupil Equity Funding etc
-- These represent spending levels 1, 2 and 3 
-- Right now, the user can navigate from spending level 1 to spending level 2, by clicking on the legend in the budget screen
-- However the user cannot navigate back from spending level 2 to spending level 1
-- I want to add a back screen on all sub levels of spending (i.e. spending level 2, spending level 3 etc) that takes the user back to the previous level of spending 
