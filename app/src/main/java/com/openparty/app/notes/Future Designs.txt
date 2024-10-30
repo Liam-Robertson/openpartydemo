@@ -41,3 +41,7 @@ Maybe:
     - You allow the user to perform ad hoc data science on these metrics to find patterns
     - Just let them generate their own graphs and charts
 
+- Customised Newsfeed:
+    - A newsfeed but not one that shows everything
+    - Instead, it figures out what issues you genuinely care about and shows you news in the local government related to that
+

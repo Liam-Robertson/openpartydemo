@@ -1,8 +1,8 @@
-// File: app/src/main/java/com/openparty/app/navigation/BottomNavBar.kt
 package com.openparty.app.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Article
+import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material.icons.filled.PieChart
 import androidx.compose.material3.*

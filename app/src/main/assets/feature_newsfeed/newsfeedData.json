@@ -1,0 +1,44 @@
+{
+  "newsfeed": [
+    {
+      "id": 1,
+      "title": "City Council Approves New Park Renovation",
+      "subheader": "Transforming the city's outdoor spaces",
+      "image": "assets/images/park_renovation",
+      "content": "The city council has unanimously approved a new project to renovate the city's central park, aiming to add new playgrounds, walking trails, and green spaces. The renovation project, expected to start next month, is part of a larger initiative to promote outdoor activities and enhance the city's natural environment for families and individuals alike. Funding for this project has been allocated through both local government and state grants, ensuring the park will become a hub for the community.",
+      "timestamp": "2023-10-20T10:00:00Z"
+    },
+    {
+      "id": 2,
+      "title": "Public Transportation Fares Reduced by 20%",
+      "subheader": "Making transit more accessible",
+      "image": "assets/images/public_transport",
+      "content": "In an effort to increase accessibility and reduce emissions, the local government has reduced public transportation fares by 20% across all services. The change, which takes effect immediately, is part of a broader sustainability initiative aimed at encouraging citizens to opt for public transit over personal vehicles. Officials say this will make daily commuting easier and more affordable for residents.",
+      "timestamp": "2023-10-19T14:00:00Z"
+    },
+    {
+      "id": 3,
+      "title": "New Waste Management Program Announced",
+      "subheader": "Cleaner streets, greener city",
+      "image": "assets/images/waste_management",
+      "content": "Starting next month, the city will implement a new waste management program designed to reduce littering and promote recycling. The program will see the addition of new recycling bins in public areas, and residents will receive clear instructions on proper disposal methods. The city hopes this initiative will lead to a cleaner, more sustainable community.",
+      "timestamp": "2023-10-18T09:30:00Z"
+    },
+    {
+      "id": 4,
+      "title": "Local Schools to Receive Additional Funding",
+      "subheader": "Enhancing education and resources",
+      "image": "assets/images/school_funding",
+      "content": "The local government has announced a substantial increase in funding for public schools, which will be used to improve facilities, acquire new learning materials, and provide additional training for teachers. This initiative is part of an ongoing commitment to enhance education quality and ensure that students have the resources they need to succeed.",
+      "timestamp": "2023-10-17T11:00:00Z"
+    },
+    {
+      "id": 5,
+      "title": "New Bike Lanes to Be Installed Downtown",
+      "subheader": "Safer, greener commuting options",
+      "image": "assets/images/bike_lanes",
+      "content": "To promote eco-friendly commuting, the city has approved the installation of new bike lanes throughout the downtown area. These lanes will make cycling a safer and more viable option for residents, as the city works to reduce traffic congestion and carbon emissions. Construction is set to begin later this month, with completion expected by early next year.",
+      "timestamp": "2023-10-16T08:45:00Z"
+    }
+  ]
+}

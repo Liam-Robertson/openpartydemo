@@ -1,4 +1,3 @@
-// File: app/src/main/java/com/openparty/app/navigation/AppNavHost.kt
 package com.openparty.app.navigation
 
 import androidx.compose.runtime.Composable
@@ -10,6 +9,7 @@ import com.openparty.app.feature_issues.presentation.IssuesScreen
 import com.openparty.app.feature_issues.presentation.RaiseIssueScreen
 import com.openparty.app.feature_issues.presentation.ViewIssueScreen
 import com.openparty.app.feature_newsfeed.presentation.NewsfeedScreen
+import com.openparty.app.feature_newsfeed.presentation.NewsfeedItemScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
@@ -27,7 +27,10 @@ fun AppNavHost(navController: NavHostController) {
             RaiseIssueScreen(navController)
         }
         composable(Screen.Newsfeed.route) {
-            NewsfeedScreen()
+            NewsfeedScreen(navController)
+        }
+        composable("newsfeed_item") {
+            NewsfeedItemScreen(navController)
         }
     }
 }
