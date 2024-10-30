@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class BudgetResponse(
-    @SerialName("areas_of_spending") val areasOfSpending: List<BudgetItem>
+    @SerialName("areas_of_spending") val areasOfSpending: List<SpendingLevel1>
 )

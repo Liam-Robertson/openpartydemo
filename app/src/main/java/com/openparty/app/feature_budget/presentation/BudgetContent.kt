@@ -12,9 +12,12 @@ import com.openparty.app.feature_budget.domain.model.BudgetItem
 import com.openparty.app.feature_budget.presentation.components.BudgetPieChart
 import com.openparty.app.feature_budget.presentation.components.Legend
 
+import androidx.compose.material3.Button
+
 @Composable
 fun BudgetContent(budgetItems: List<BudgetItem>) {
     var currentItems by remember(budgetItems) { mutableStateOf(groupSmallBudgetItems(budgetItems)) }
+    val navigationStack = remember { mutableStateListOf<List<BudgetItem>>() }
 
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp)
@@ -25,6 +28,19 @@ fun BudgetContent(budgetItems: List<BudgetItem>) {
             modifier = Modifier.align(Alignment.Start)
         )
 
+        if (navigationStack.isNotEmpty()) {
+            Button(
+                onClick = {
+                    if (navigationStack.isNotEmpty()) {
+                        currentItems = navigationStack.removeLast()
+                    }
+                },
+                modifier = Modifier.padding(vertical = 16.dp)
+            ) {
+                Text("Back")
+            }
+        }
+
         Spacer(modifier = Modifier.height(32.dp))
 
         Box(
@@ -34,14 +50,15 @@ fun BudgetContent(budgetItems: List<BudgetItem>) {
             BudgetPieChart(
                 budgetItems = currentItems,
                 onItemClick = { selectedItem ->
-                    if (selectedItem.typeOfSpending == "Miscellaneous" && selectedItem.groupedItems != null) {
-                        currentItems = groupSmallBudgetItems(selectedItem.groupedItems)
-                    } else {
-                        currentItems = when {
-                            selectedItem.subtypesLevel1.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel1)
-                            selectedItem.subtypesLevel2.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel2)
-                            else -> listOf(selectedItem)
-                        }
+                    val nextLevelItems = when {
+                        selectedItem.subtypesLevel2.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel2)
+                        selectedItem.subtypesLevel3.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel3)
+                        else -> listOf(selectedItem)
+                    }
+
+                    if (nextLevelItems != currentItems) {
+                        navigationStack.add(currentItems)
+                        currentItems = nextLevelItems
                     }
                 }
             )
@@ -52,14 +69,15 @@ fun BudgetContent(budgetItems: List<BudgetItem>) {
         Legend(
             budgetItems = currentItems,
             onItemClick = { selectedItem ->
-                if (selectedItem.typeOfSpending == "Miscellaneous" && selectedItem.groupedItems != null) {
-                    currentItems = groupSmallBudgetItems(selectedItem.groupedItems)
-                } else {
-                    currentItems = when {
-                        selectedItem.subtypesLevel1.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel1)
-                        selectedItem.subtypesLevel2.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel2)
-                        else -> listOf(selectedItem)
-                    }
+                val nextLevelItems = when {
+                    selectedItem.subtypesLevel2.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel2)
+                    selectedItem.subtypesLevel3.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel3)
+                    else -> listOf(selectedItem)
+                }
+
+                if (nextLevelItems != currentItems) {
+                    navigationStack.add(currentItems)
+                    currentItems = nextLevelItems
                 }
             }
         )

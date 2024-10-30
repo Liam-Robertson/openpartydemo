@@ -1,13 +1,14 @@
-// File: feature-budget/src/main/java/com/openparty/feature_budget/data/datasource/BudgetDataSource.kt
 package com.openparty.app.feature_budget.data.datasource
 
 import android.content.Context
 import com.openparty.app.feature_budget.domain.model.BudgetItem
 import com.openparty.app.feature_budget.domain.model.BudgetResponse
+import com.openparty.app.feature_budget.domain.model.SpendingLevel1
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 class BudgetDataSource @Inject constructor(
@@ -20,6 +21,6 @@ class BudgetDataSource @Inject constructor(
             context.assets.open("financeDataV1.json").bufferedReader().use { it.readText() }
         }
         val response = jsonFormat.decodeFromString<BudgetResponse>(jsonString)
-        return response.areasOfSpending
+        return response.areasOfSpending.map { it.level1 }
     }
 }
