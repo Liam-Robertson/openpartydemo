@@ -16,7 +16,7 @@ class BudgetDataSource @Inject constructor(
 
     suspend fun fetchBudgetData(): List<BudgetItem> {
         val jsonString = withContext(Dispatchers.IO) {
-            context.assets.open("feature_budget/budgetData.json").bufferedReader().use { it.readText() }
+            context.assets.open("feature_budget/fakeBudgetData.json").bufferedReader().use { it.readText() }
         }
         val response = jsonFormat.decodeFromString<BudgetResponse>(jsonString)
         return response.areasOfSpending.map { it.level1 }

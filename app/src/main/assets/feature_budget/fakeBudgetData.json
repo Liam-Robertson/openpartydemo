@@ -1,0 +1,272 @@
+{
+  "areas_of_spending": [
+    {
+      "spending_level_1": {
+        "type_of_spending": "Social Policy",
+        "cost": "£257.899 million",
+        "summary": "This category encompasses all social policy expenditures, including services managed by the Integration Joint Board (IJB) and non-IJB services. It includes adult social care, services for the elderly, children's services, child protection, foster care, adoption services, support for people with disabilities, and other health and social care services.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "IJB, Adult, and Elderly Services",
+            "cost": "£207.377 million",
+            "summary": "Expenditures related to adult social care, services for the elderly, and health and social care services managed in partnership with the West Lothian Integration Joint Board. This includes home care, residential care, support for adults with disabilities, and mental health services.",
+            "spending_level_3": [
+              {
+                "type_of_spending": "Home Care Services",
+                "cost": "£52.431 million",
+                "summary": "Provision of care services to adults and the elderly in their own homes."
+              },
+              {
+                "type_of_spending": "Residential Care",
+                "cost": "£79.876 million",
+                "summary": "Services related to care homes and supported living facilities for adults and the elderly."
+              },
+              {
+                "type_of_spending": "Disability Support",
+                "cost": "£41.992 million",
+                "summary": "Support services for adults with physical or learning disabilities."
+              },
+              {
+                "type_of_spending": "Mental Health Services",
+                "cost": "£33.078 million",
+                "summary": "Community and residential services for individuals with mental health needs."
+              }
+            ]
+          },
+          {
+            "type_of_spending": "Non-IJB, Children's Services",
+            "cost": "£50.522 million",
+            "summary": "Expenditures on children's social care services, including child protection, foster care, adoption services, youth justice, and services for children with disabilities.",
+            "spending_level_3": [
+              {
+                "type_of_spending": "Child Protection",
+                "cost": "£15.634 million",
+                "summary": "Services aimed at safeguarding children from abuse and neglect."
+              },
+              {
+                "type_of_spending": "Foster Care and Adoption",
+                "cost": "£13.992 million",
+                "summary": "Recruitment, training, and support for foster carers and adoptive parents."
+              },
+              {
+                "type_of_spending": "Youth Justice",
+                "cost": "£8.234 million",
+                "summary": "Programs to prevent youth offending and support rehabilitation."
+              },
+              {
+                "type_of_spending": "Disability Services for Children",
+                "cost": "£12.662 million",
+                "summary": "Support for children with physical or learning disabilities."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "spending_level_1": {
+        "type_of_spending": "Schools and Education Support",
+        "cost": "£220.806 million",
+        "summary": "This category encompasses all spending related to educational services provided by the council, including staffing costs for teachers and support staff, educational materials, school maintenance, and administrative support.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Primary Education",
+            "cost": "£80.342 million",
+            "summary": "Educational services for primary school students, including teaching staff and school operations."
+          },
+          {
+            "type_of_spending": "Secondary Education",
+            "cost": "£94.987 million",
+            "summary": "Educational services for secondary school students, including teaching staff and school operations."
+          },
+          {
+            "type_of_spending": "Early Learning and Childcare",
+            "cost": "£17.850 million",
+            "summary": "Provision of early childhood education and childcare services for children under the age of five."
+          },
+          {
+            "type_of_spending": "Special Education Needs",
+            "cost": "£14.998 million",
+            "summary": "Support services for students with additional learning needs."
+          },
+          {
+            "type_of_spending": "Educational Support Services",
+            "cost": "£5.345 million",
+            "summary": "Includes educational psychology, curriculum development, and administrative support."
+          },
+          {
+            "type_of_spending": "Pupil Equity Funding",
+            "cost": "£5.449 million",
+            "summary": "Additional funding allocated directly to schools to reduce the poverty-related attainment gap."
+          },
+          {
+            "type_of_spending": "Gaelic Education",
+            "cost": "£0.006 million",
+            "summary": "Supports Gaelic language education within the council area."
+          },
+          {
+            "type_of_spending": "Scottish Attainment Challenge",
+            "cost": "£0.762 million",
+            "summary": "National program aimed at improving educational outcomes in areas of deprivation."
+          }
+        ]
+      }
+    },
+    {
+      "spending_level_1": {
+        "type_of_spending": "Chief Executive, Finance, and Property",
+        "cost": "£132.021 million",
+        "summary": "Costs associated with corporate management functions, including the Chief Executive's office, financial management, property services, human resources, IT services, and administrative support.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Chief Executive's Office",
+            "cost": "£15.437 million",
+            "summary": "Overall strategic leadership and governance of the council."
+          },
+          {
+            "type_of_spending": "Finance Services",
+            "cost": "£19.856 million",
+            "summary": "Financial management, budgeting, accounting, and treasury services."
+          },
+          {
+            "type_of_spending": "Property Services",
+            "cost": "£30.265 million",
+            "summary": "Management and maintenance of the council's property portfolio (excluding housing)."
+          },
+          {
+            "type_of_spending": "IT Services",
+            "cost": "£25.437 million",
+            "summary": "Provision and maintenance of information technology infrastructure and support."
+          },
+          {
+            "type_of_spending": "Human Resources",
+            "cost": "£11.673 million",
+            "summary": "Recruitment, training, employee relations, and payroll services."
+          },
+          {
+            "type_of_spending": "Legal Services",
+            "cost": "£10.113 million",
+            "summary": "Legal advice and support across the council's operations."
+          },
+          {
+            "type_of_spending": "Procurement Services",
+            "cost": "£19.240 million",
+            "summary": "Managing the acquisition of goods and services."
+          }
+        ]
+      }
+    },
+    {
+      "spending_level_1": {
+        "type_of_spending": "Operational Services",
+        "cost": "£92.841 million",
+        "summary": "This includes expenditures on essential day-to-day services such as roads and transportation, waste management, environmental health, street cleaning, parks and open spaces, and fleet services.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Roads and Transportation",
+            "cost": "£29.439 million",
+            "summary": "Maintenance of roads, bridges, and transportation infrastructure."
+          },
+          {
+            "type_of_spending": "Waste Management",
+            "cost": "£19.843 million",
+            "summary": "Refuse collection, recycling services, and waste disposal."
+          },
+          {
+            "type_of_spending": "Environmental Health",
+            "cost": "£10.124 million",
+            "summary": "Food safety, pollution control, and public health services."
+          },
+          {
+            "type_of_spending": "Street Cleaning",
+            "cost": "£7.324 million",
+            "summary": "Cleaning and maintenance of public spaces."
+          },
+          {
+            "type_of_spending": "Parks and Open Spaces",
+            "cost": "£15.082 million",
+            "summary": "Maintenance of parks, playgrounds, and recreational areas."
+          },
+          {
+            "type_of_spending": "Fleet Services",
+            "cost": "£11.029 million",
+            "summary": "Management of the council's vehicles and equipment."
+          }
+        ]
+      }
+    },
+    {
+      "spending_level_1": {
+        "type_of_spending": "Housing Revenue Account (HRA)",
+        "cost": "£75.949 million",
+        "summary": "Costs related to the management and maintenance of the council's housing stock, including repairs, housing management, rent collection, and housing support services for tenants.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Repairs and Maintenance",
+            "cost": "£24.555 million",
+            "summary": "Upkeep and repair of council-owned housing properties."
+          },
+          {
+            "type_of_spending": "Supervision and Management",
+            "cost": "£9.045 million",
+            "summary": "Housing management services including rent collection and tenancy management."
+          },
+          {
+            "type_of_spending": "Depreciation and Revaluation",
+            "cost": "£38.143 million",
+            "summary": "Accounting for the value and depreciation of housing assets."
+          },
+          {
+            "type_of_spending": "Bad or Doubtful Debts",
+            "cost": "£1.112 million",
+            "summary": "Provision for rent arrears and uncollectible debts."
+          },
+          {
+            "type_of_spending": "Other Expenditure",
+            "cost": "£3.094 million",
+            "summary": "Other costs related to housing services."
+          }
+        ]
+      }
+    },
+    {
+      "spending_level_1": {
+        "type_of_spending": "Other Services",
+        "cost": "£58.722 million",
+        "summary": "This category includes various services not classified elsewhere, such as cultural services, community development, library services, and support for voluntary organizations. It also includes the operational costs of West Lothian Leisure Ltd.",
+        "spending_level_2": [
+          {
+            "type_of_spending": "Cultural and Community Services",
+            "cost": "£9.831 million",
+            "summary": "Libraries, museums, arts programs, and community development initiatives."
+          },
+          {
+            "type_of_spending": "Public Health Services",
+            "cost": "£7.942 million",
+            "summary": "Health promotion, disease prevention, and health education."
+          },
+          {
+            "type_of_spending": "Economic Development Properties",
+            "cost": "£5.213 million",
+            "summary": "Management of commercial properties to support local businesses."
+          },
+          {
+            "type_of_spending": "Emergency Planning",
+            "cost": "£7.234 million",
+            "summary": "Preparedness and response planning for emergencies and disasters."
+          },
+          {
+            "type_of_spending": "Corporate and Democratic Core",
+            "cost": "£15.151 million",
+            "summary": "Costs associated with democratic representation and management."
+          },
+          {
+            "type_of_spending": "West Lothian Leisure Ltd.",
+            "cost": "£13.351 million",
+            "summary": "Operational costs of providing leisure services, including sports facilities, swimming pools, fitness centers, and recreational programs."
+          }
+        ]
+      }
+    }
+  ]
+}
