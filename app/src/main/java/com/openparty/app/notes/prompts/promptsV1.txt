@@ -44,379 +44,407 @@ com.openparty.app
 
 ---------------------------------
 
-package com.openparty.app.di
-
-import com.openparty.app.feature_issues.data.datasource.IssueDataSource
-import com.openparty.app.feature_issues.data.repository.IssueRepositoryImpl
-import com.openparty.app.feature_issues.domain.repository.IssueRepository
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
-
-@Module
-@InstallIn(SingletonComponent::class)
-object IssueModule {
-
-    @Provides
-    @Singleton
-    fun provideIssueRepository(
-        dataSource: IssueDataSource
-    ): IssueRepository = IssueRepositoryImpl(dataSource)
-}// File: feature_issues/src/main/java/com/openparty/feature_issues/data/datasource/IssueDataSource.kt
-package com.openparty.app.feature_issues.data.datasource
+package com.openparty.app.feature_budget.data.datasource
 
 import android.content.Context
-import com.openparty.app.feature_issues.domain.model.Issue
-import com.openparty.app.feature_issues.domain.model.IssueResponse
+import com.openparty.app.feature_budget.domain.model.BudgetItem
+import com.openparty.app.feature_budget.domain.model.BudgetResponse
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
-class IssueDataSource @Inject constructor(
+class BudgetDataSource @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
     private val jsonFormat = Json { ignoreUnknownKeys = true }
 
-    suspend fun fetchIssues(): List<Issue> {
+    suspend fun fetchBudgetData(): List<BudgetItem> {
         val jsonString = withContext(Dispatchers.IO) {
-            context.assets.open("issueScreen/issues.json").bufferedReader().use { it.readText() }
+            context.assets.open("feature_budget/budgetData.json").bufferedReader().use { it.readText() }
         }
-        val response = jsonFormat.decodeFromString<IssueResponse>(jsonString)
-        return response.issues
+        val response = jsonFormat.decodeFromString<BudgetResponse>(jsonString)
+        return response.areasOfSpending.map { it.level1 }
     }
 }
-// File: feature_issues/src/main/java/com/openparty/feature_issues/data/repository/IssueRepositoryImpl.kt
-package com.openparty.app.feature_issues.data.repository
+// File: feature-budget/src/main/java/com/openparty/feature_budget/data/repository/BudgetRepositoryImpl.kt
+package com.openparty.app.feature_budget.data.repository
 
-import com.openparty.app.feature_issues.data.datasource.IssueDataSource
-import com.openparty.app.feature_issues.domain.model.Issue
-import com.openparty.app.feature_issues.domain.repository.IssueRepository
+import com.openparty.app.feature_budget.data.datasource.BudgetDataSource
+import com.openparty.app.feature_budget.domain.model.BudgetItem
+import com.openparty.app.feature_budget.domain.repository.BudgetRepository
 import javax.inject.Inject
 
-class IssueRepositoryImpl @Inject constructor(
-    private val dataSource: IssueDataSource
-) : IssueRepository {
-    override suspend fun getIssues(): List<Issue> {
-        return dataSource.fetchIssues()
+class BudgetRepositoryImpl @Inject constructor(
+    private val dataSource: BudgetDataSource
+) : BudgetRepository {
+    override suspend fun getBudgetData(): List<BudgetItem> {
+        return dataSource.fetchBudgetData()
     }
 }
-package com.openparty.app.feature_issues.domain.model
+package com.openparty.app.feature_budget.domain.model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Comment(
-    val id: Int,
-    val text: String,
-    val author: String,
-    val upvotes: Int
-)package com.openparty.app.feature_issues.domain.model
-
-import kotlinx.serialization.Serializable
-
-@Serializable
-data class Issue(
-    val id: Int,
-    val title: String,
+data class BudgetItem(
+    @SerialName("type_of_spending") val typeOfSpending: String,
+    val cost: String,
     val summary: String,
-    val author: String,
-    val upvotes: Int,
-    val comments: List<Comment> = emptyList()
-)package com.openparty.app.feature_issues.domain.model
+    @SerialName("spending_level_2") val subtypesLevel2: List<BudgetItem> = emptyList(),
+    @SerialName("spending_level_3") val subtypesLevel3: List<BudgetItem> = emptyList(),
+    val groupedItems: List<BudgetItem>? = null
+)
+// File: feature-budget/src/main/java/com/openparty/feature_budget/domain/model/BudgetResponse.kt
+package com.openparty.app.feature_budget.domain.model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class IssueResponse(
-    val issues: List<Issue>
-)// File: feature_issues/src/main/java/com/openparty/feature_issues/domain/repository/IssueRepository.kt
-package com.openparty.app.feature_issues.domain.repository
+data class BudgetResponse(
+    @SerialName("areas_of_spending") val areasOfSpending: List<SpendingLevel1>
+)package com.openparty.app.feature_budget.domain.model
 
-import com.openparty.app.feature_issues.domain.model.Issue
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-interface IssueRepository {
-    suspend fun getIssues(): List<Issue>
+@Serializable
+data class SpendingLevel1(
+    @SerialName("spending_level_1") val level1: BudgetItem
+)// File: feature-budget/src/main/java/com/openparty/feature_budget/domain/repository/BudgetRepository.kt
+package com.openparty.app.feature_budget.domain.repository
+
+import com.openparty.app.feature_budget.domain.model.BudgetItem
+
+interface BudgetRepository {
+    suspend fun getBudgetData(): List<BudgetItem>
 }
-// File: feature_issues/src/main/java/com/openparty/feature_issues/domain/usecase/GetIssuesUseCase.kt
-package com.openparty.app.feature_issues.domain.usecase
+// File: feature-budget/src/main/java/com/openparty/feature_budget/domain/usecase/GetBudgetDataUseCase.kt
+package com.openparty.app.feature_budget.domain.usecase
 
-import com.openparty.app.feature_issues.domain.model.Issue
-import com.openparty.app.feature_issues.domain.repository.IssueRepository
+import com.openparty.app.feature_budget.domain.model.BudgetItem
+import com.openparty.app.feature_budget.domain.repository.BudgetRepository
 import javax.inject.Inject
 
-class GetIssuesUseCase @Inject constructor(
-    private val repository: IssueRepository
+class GetBudgetDataUseCase @Inject constructor(
+    private val repository: BudgetRepository
 ) {
-    suspend operator fun invoke(): List<Issue> {
-        return repository.getIssues()
-    }
+    suspend operator fun invoke(): List<BudgetItem> = repository.getBudgetData()
 }
-// File: feature_issues/src/main/java/com/openparty/feature_issues/presentation/IssuesContent.kt
-package com.openparty.app.feature_issues.presentation
+// File: feature-budget/src/main/java/com/openparty/feature_budget/presentation/components/Legend.kt
+package com.openparty.app.feature_budget.presentation.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ThumbUp
-import androidx.compose.material3.*
+import androidx.compose.foundation.background
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.openparty.app.feature_issues.domain.model.Issue
+import com.openparty.app.feature_budget.domain.model.BudgetItem
+import com.openparty.app.feature_budget.presentation.getColorForItem
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun IssuesContent(
-    issues: List<Issue>,
-    onIssueClick: (Issue) -> Unit,
-    onAddIssueClick: () -> Unit
+fun Legend(
+    budgetItems: List<BudgetItem>,
+    onItemClick: (BudgetItem) -> Unit
 ) {
-    Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(onClick = onAddIssueClick) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add Issue")
+    Column {
+        budgetItems.forEach { item ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onItemClick(item) }
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(16.dp)
+                        .background(color = getColorForItem(item))
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "${item.typeOfSpending} - ${item.cost}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
         }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
+    }
+}
+// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/BudgetContent.kt
+package com.openparty.app.feature_budget.presentation
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.openparty.app.feature_budget.domain.model.BudgetItem
+import com.openparty.app.feature_budget.presentation.BudgetPieChart
+import com.openparty.app.feature_budget.presentation.components.Legend
+
+import androidx.compose.material3.Button
+
+@Composable
+fun BudgetContent(budgetItems: List<BudgetItem>) {
+    var currentItems by remember(budgetItems) { mutableStateOf(groupSmallBudgetItems(budgetItems)) }
+    val navigationStack = remember { mutableStateListOf<List<BudgetItem>>() }
+
+    Column(
+        modifier = Modifier.fillMaxSize().padding(16.dp)
+    ) {
+        Text(
+            text = "West Lothian Budget",
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.align(Alignment.Start)
+        )
+
+        if (navigationStack.isNotEmpty()) {
+            Button(
+                onClick = {
+                    if (navigationStack.isNotEmpty()) {
+                        currentItems = navigationStack.removeLast()
+                    }
+                },
+                modifier = Modifier.padding(vertical = 16.dp)
+            ) {
+                Text("Back")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = "Issues",
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(16.dp)
+            BudgetPieChart(
+                budgetItems = currentItems,
+                onItemClick = { selectedItem ->
+                    val nextLevelItems = when {
+                        selectedItem.subtypesLevel2.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel2)
+                        selectedItem.subtypesLevel3.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel3)
+                        else -> listOf(selectedItem)
+                    }
+
+                    if (nextLevelItems != currentItems) {
+                        navigationStack.add(currentItems)
+                        currentItems = nextLevelItems
+                    }
+                }
             )
-            LazyColumn {
-                items(issues.size) { index ->
-                    val issue = issues[index]
-                    IssueCard(issue, onIssueClick)
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Legend(
+            budgetItems = currentItems,
+            onItemClick = { selectedItem ->
+                val nextLevelItems = when {
+                    selectedItem.subtypesLevel2.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel2)
+                    selectedItem.subtypesLevel3.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel3)
+                    else -> listOf(selectedItem)
+                }
+
+                if (nextLevelItems != currentItems) {
+                    navigationStack.add(currentItems)
+                    currentItems = nextLevelItems
                 }
             }
-        }
+        )
     }
 }
 
-@Composable
-fun IssueCard(issue: Issue, onIssueClick: (Issue) -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .clickable { onIssueClick(issue) }
-    ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(text = issue.title, style = MaterialTheme.typography.bodyLarge)
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(imageVector = Icons.Default.ThumbUp, contentDescription = "Upvotes")
-                Text(text = issue.upvotes.toString())
-            }
-        }
+fun groupSmallBudgetItems(budgetItems: List<BudgetItem>): List<BudgetItem> {
+    val totalCost = budgetItems.sumOf { parseCost(it.cost) }
+    val threshold = totalCost * 0.05
+
+    val (largeItems, smallItems) = budgetItems.partition { parseCost(it.cost) >= threshold }
+
+    return if (smallItems.isNotEmpty()) {
+        val miscellaneousCost = smallItems.sumOf { parseCost(it.cost) }
+        largeItems + BudgetItem(
+            typeOfSpending = "Miscellaneous",
+            cost = formatCost(miscellaneousCost),
+            summary = "Grouped small items",
+            groupedItems = smallItems
+        )
+    } else {
+        budgetItems
     }
 }
-// File: feature_issues/src/main/java/com/openparty/feature_issues/presentation/IssuesScreen.kt
-package com.openparty.app.feature_issues.presentation
+
+fun parseCost(costString: String): Double {
+    return costString
+        .replace("£", "")
+        .replace(",", "")
+        .replace(" million", "")
+        .trim()
+        .toDoubleOrNull() ?: 0.0
+}
+
+fun formatCost(cost: Double): String {
+    return "£${"%.3f".format(cost)} million"
+}
+// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/components/BudgetPieChart.kt
+package com.openparty.app.feature_budget.presentation.components
+
+import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import me.bytebeats.views.charts.pie.PieChart
+import me.bytebeats.views.charts.pie.PieChartData
+import me.bytebeats.views.charts.pie.render.SimpleSliceDrawer
+import com.openparty.app.feature_budget.domain.model.BudgetItem
+import com.openparty.app.feature_budget.presentation.getColorForItem
+import com.openparty.app.feature_budget.presentation.parseCost
+
+@Composable
+fun BudgetPieChart(
+    budgetItems: List<BudgetItem>,
+    onItemClick: (BudgetItem) -> Unit
+) {
+    val pieSlices = budgetItems.mapNotNull { item ->
+        val value = parseCost(item.cost).toFloat()
+
+        PieChartData.Slice(
+            value = value,
+            color = getColorForItem(item)
+        )
+    }
+
+    PieChart(
+        pieChartData = PieChartData(pieSlices),
+        modifier = Modifier.size(200.dp),
+        sliceDrawer = SimpleSliceDrawer(sliceThickness = 50f)
+    )
+}
+// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/BudgetScreen.kt
+package com.openparty.app.feature_budget.presentation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 
 @Composable
-fun IssuesScreen(
-    navController: NavController,
-    viewModel: IssuesViewModel = hiltViewModel()
+fun BudgetScreen(
+    viewModel: BudgetViewModel = hiltViewModel()
 ) {
-    val issues = viewModel.issues.collectAsState().value
-    IssuesContent(
-        issues = issues,
-        onIssueClick = { issue ->
-            navController.currentBackStackEntry?.savedStateHandle?.set("issue", issue)
-            navController.navigate("view_issue")
-        },
-        onAddIssueClick = {
-            navController.navigate("raise_issue")
-        }
-    )
+    val isLoading = viewModel.isLoading.collectAsState().value
+    val budgetData = viewModel.budgetData.collectAsState().value
+    if (isLoading) {
+        LoadingScreen()
+    } else {
+        BudgetContent(budgetData)
+    }
 }
-// File: feature_issues/src/main/java/com/openparty/feature_issues/presentation/IssuesViewModel.kt
-package com.openparty.app.feature_issues.presentation
+// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/BudgetViewModel.kt
+package com.openparty.app.feature_budget.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.openparty.app.feature_issues.domain.model.Issue
-import com.openparty.app.feature_issues.domain.usecase.GetIssuesUseCase
+import com.openparty.app.feature_budget.domain.model.BudgetItem
+import com.openparty.app.feature_budget.domain.usecase.GetBudgetDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class IssuesViewModel @Inject constructor(
-    private val getIssuesUseCase: GetIssuesUseCase
+class BudgetViewModel @Inject constructor(
+    private val getBudgetDataUseCase: GetBudgetDataUseCase
 ) : ViewModel() {
 
-    private val _issues = MutableStateFlow<List<Issue>>(emptyList())
-    val issues: StateFlow<List<Issue>> = _issues.asStateFlow()
+    private val _budgetData = MutableStateFlow<List<BudgetItem>>(emptyList())
+    val budgetData: StateFlow<List<BudgetItem>> = _budgetData.asStateFlow()
+
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     init {
         viewModelScope.launch {
-            val data = getIssuesUseCase()
-            _issues.value = data.sortedByDescending { it.upvotes }
+            val startTime = System.currentTimeMillis()
+            val data = getBudgetDataUseCase()
+            _budgetData.value = data
+            val elapsedTime = System.currentTimeMillis() - startTime
+            val remainingTime = 1000L - elapsedTime
+            if (remainingTime > 0) {
+                delay(remainingTime)
+            }
+            _isLoading.value = false
         }
     }
 }
-// File: feature_issues/src/main/java/com/openparty/feature_issues/presentation/RaiseIssueScreen.kt
-package com.openparty.app.feature_issues.presentation
+// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/getColorForItem.kt
+package com.openparty.app.feature_budget.presentation
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.compose.ui.graphics.Color
+import com.openparty.app.feature_budget.domain.model.BudgetItem
+import com.openparty.app.ui.theme.BudgetColors
+import com.openparty.app.ui.theme.DefaultColor
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun RaiseIssueScreen(navController: NavController) {
-    var text by remember { mutableStateOf("") }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Text(
-            text = "Raise An Issue",
-            style = MaterialTheme.typography.headlineSmall
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(
-            value = text,
-            onValueChange = { text = it },
-            label = { Text("Describe your issue") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            onClick = {
-                // Handle submission (for now, we can just navigate back)
-                navController.popBackStack()
-            },
-            modifier = Modifier.align(Alignment.End)
-        ) {
-            Text("Submit")
-        }
-    }
+private val assignedColors = mutableMapOf<String, Color>()
+private var colorIndex = 0
+
+fun getColorForItem(item: BudgetItem): Color {
+    assignedColors[item.typeOfSpending]?.let { return it }
+
+    val color = BudgetColors.getOrElse(colorIndex) { DefaultColor }
+    assignedColors[item.typeOfSpending] = color
+
+    colorIndex = (colorIndex + 1) % BudgetColors.size
+    return color
 }
-// File: feature_issues/src/main/java/com/openparty/feature_issues/presentation/ViewIssueScreen.kt
-package com.openparty.app.feature_issues.presentation
+// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/LoadingScreen.kt
+package com.openparty.app.feature_budget.presentation
 
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ThumbUp
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Compost
+import androidx.compose.material3.Icon
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.openparty.app.feature_issues.domain.model.Issue
 
 @Composable
-fun ViewIssueScreen(
-    navController: NavController
-) {
-    val issue = navController.previousBackStackEntry?.savedStateHandle?.get<Issue>("issue")
-    issue?.let {
-        IssueDetailContent(issue)
-    } ?: run {
-        // Handle error or navigate back
-    }
-}
+fun LoadingScreen() {
+    val infiniteTransition = rememberInfiniteTransition()
+    val scale by infiniteTransition.animateFloat(
+        initialValue = 0.8f,
+        targetValue = 1.2f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(500, easing = LinearOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
 
-@Composable
-fun IssueDetailContent(issue: Issue) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = issue.title,
-            style = MaterialTheme.typography.headlineSmall
+        Icon(
+            imageVector = Icons.Default.Compost,
+            contentDescription = "Loading",
+            modifier = Modifier
+                .size(64.dp)
+                .scale(scale)
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = issue.summary,
-            style = MaterialTheme.typography.bodyLarge
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(text = "By ${issue.author}")
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(imageVector = Icons.Default.ThumbUp, contentDescription = "Upvotes")
-                Text(text = issue.upvotes.toString())
-            }
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Divider()
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "Comments",
-            style = MaterialTheme.typography.headlineSmall
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        LazyColumn {
-            items(issue.comments.size) { index ->
-                val comment = issue.comments[index]
-                CommentCard(comment)
-            }
-        }
     }
 }
-
-@Composable
-fun CommentCard(comment: com.openparty.app.feature_issues.domain.model.Comment) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = comment.text)
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(text = "By ${comment.author}")
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(imageVector = Icons.Default.ThumbUp, contentDescription = "Upvotes")
-                    Text(text = comment.upvotes.toString())
-                }
-            }
-        }
-    }
-}
-// File: app/src/main/java/com/openparty/app/navigation/AppNavHost.kt
 package com.openparty.app.navigation
 
 import androidx.compose.runtime.Composable
@@ -428,6 +456,7 @@ import com.openparty.app.feature_issues.presentation.IssuesScreen
 import com.openparty.app.feature_issues.presentation.RaiseIssueScreen
 import com.openparty.app.feature_issues.presentation.ViewIssueScreen
 import com.openparty.app.feature_newsfeed.presentation.NewsfeedScreen
+import com.openparty.app.feature_newsfeed.presentation.NewsfeedItemScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
@@ -445,16 +474,19 @@ fun AppNavHost(navController: NavHostController) {
             RaiseIssueScreen(navController)
         }
         composable(Screen.Newsfeed.route) {
-            NewsfeedScreen()
+            NewsfeedScreen(navController)
+        }
+        composable("newsfeed_item") {
+            NewsfeedItemScreen(navController)
         }
     }
 }
-// File: app/src/main/java/com/openparty/app/navigation/BottomNavBar.kt
 package com.openparty.app.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Article
-import androidx.compose.material.icons.filled.BugReport // Changed icon
+import androidx.compose.material.icons.filled.BugReport
+import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material.icons.filled.PieChart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -473,7 +505,7 @@ fun BottomNavBar(navController: NavHostController) {
         items.forEach { screen ->
             val icon = when (screen) {
                 is Screen.Budget -> Icons.Default.PieChart
-                is Screen.Issues -> Icons.Default.BugReport
+                is Screen.Issues -> Icons.Default.Lightbulb
                 is Screen.Newsfeed -> Icons.Default.Article
             }
             NavigationBarItem(
@@ -491,7 +523,6 @@ fun BottomNavBar(navController: NavHostController) {
         }
     }
 }
-// File: navigation/src/main/java/com/openparty/navigation/Screen.kt
 package com.openparty.app.navigation
 
 sealed class Screen(val route: String) {
@@ -499,173 +530,33 @@ sealed class Screen(val route: String) {
     object Issues : Screen("issues")
     object Newsfeed : Screen("newsfeed")
 }
-// File: app/src/main/java/com/openparty/app/MainActivity.kt
-package com.openparty.app
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.navigation.compose.rememberNavController
-import com.openparty.app.navigation.AppNavHost
-import com.openparty.app.navigation.BottomNavBar
-import dagger.hilt.android.AndroidEntryPoint
+package com.openparty.app.ui.theme
 
-@AndroidEntryPoint
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            OpenPartyApp()
-        }
-    }
-}
+import androidx.compose.ui.graphics.Color
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun OpenPartyApp() {
-    val navController = rememberNavController()
-    Scaffold(
-        bottomBar = { BottomNavBar(navController) }
-    ) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues)) {
-            AppNavHost(navController)
-        }
-    }
-}
-// File: app/src/main/java/com/openparty/app/MyApplication.kt
-package com.openparty.app
+val Purple80 = Color(0xFFD0BCFF)
+val PurpleGrey80 = Color(0xFFCCC2DC)
+val Pink80 = Color(0xFFEFB8C8)
 
-import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+val Purple40 = Color(0xFF6650a4)
+val PurpleGrey40 = Color(0xFF625b71)
+val Pink40 = Color(0xFF7D5260)
 
-@HiltAndroidApp
-class MyApplication : Application()
+val BudgetColors = listOf(
+    Color(0xFFDF6868),  // Soft Red
+    Color(0xFF6897DF),  // Soft Blue
+    Color(0xFFF0C05A),  // Soft Golden Yellow
+    Color(0xFF68DF68),  // Soft Green
+    Color(0xFFFFA250),  // Soft Orange
+    Color(0xFFA068DF),  // Soft Purple
+    Color(0xFFDF88B0),  // Soft Pink
+    Color(0xFFC79A7A),  // Soft Brown
+    Color(0xFF606060),  // Medium Gray (for Black)
+    Color(0xFFECECEC)   // Light Gray (for White)
+)
 
--------------------
+val DefaultColor = Color(0xFFBDBDBD)
 
-Raise Issue Screen:
-- The issue screen allows users to raise issues about the local area that will be seen by the councillors and other consistuents 
-- It also allows the user to see all the issues raised by other users 
-
-What the Raise Issues screen will look like: 
-- The user clicks on the issue icon in the footer to go to the issues screen
-- There is a title in the top left that says "Issues" 
-- Under that there are cards, each containing a issue 
-    - The card has a title on it that says what the issue is 
-    - It also has a thumbs up icon which shows how many upvotes the issue has 
-    - Issues are ranked by upvotes, so the issues with the most upvotes will be shown at the top of the page and the less upvotes will be shown further down 
-    - If a user clicks on a card, it navigates to the View Issue Screen
-- Near the bottom of the screen, centred horizontally, would be a big + button
-    - This button would be circular with a plus inside it 
-    - A user would click the button to navigate to the Raise Issue Screen 
-- The bottom of the screen shows the navigation footer with the budget icon, issues icon and newsfeed icon 
-- When the user is on the issues screen, the issues icon will be the one that's highlighted 
-
-What the View Issue Screen will look like: 
-- The view issue screen allows the user to see a specific issue in more detail
-- It has a title which is the name of the issue 
-- It has a Summary of the issue which is written by the user. It states what the issue the user is raising is 
-    - For example, the user might be raising an issue about long wait list for social housing 
-    - They would write a summary of their problem 
-- At the bottom of the summary on the left hand side, it shows the name of the user who raised the issue
-- At the bottom of the summary on the right hand side, it shows how many upvotes the issue has 
-- Under the summary, there is a comments section where other users can reply to the the issue 
-- Each comment has text saying what the comment is
-    - On the left bottom of the comment it says the name of the user who raised it 
-    - On the right bottom of the comment it says the number of upvotes for the comment 
-
-What the Raise Issue Screen would look like: 
-- In the top left, there is a title that says "Raise An Issue" 
-- In the centre of the screen, there is a text box where a user can input text they want to submit 
-- There is also a submit button
-
-Data: 
-- In future this system will use a database to store all of it's data
-- However this is just a version 1 so right now all of the data is hardcoded in json 
-- The data will be stored in app/assets/issueScreen
-
--------------
-
-Above you've got some of the code in my app and an outline of it. Now I want to add a new feature 
-
-The new feature will be called the newsfeed. I want you to create the code for it. When you give me code, give me the entire file. Here is the description of it: 
-
-Newsfeed Screen: 
-- The newsfeed screen should be a newsfeed showing latest things that have happened in local goverment 
-- The newsfeed screen should consist of these parts: 
-- Title saying "Newsfeed" in the top left
-- Cards that show each newsfeed item 
-    - Each card should have an image relating to the newsfeed item
-    - It also has a title relating to the newsfeed item that gives a one line summary of the item 
-        - The title should be attention grabbing or eye catching 
-- If the user clicks on a newsfeed item, it navigates them to the newsfeedItemScreen 
-
-Newsfeed Item Screen:
-- The newsfeed item screen shows the newsfeed shows the item in classic newspaper format 
-- The text should all be centred in the middle 90% of the screen 
-- There should be a big bold title
-- There should be a subtitle
-- There should be an image under that 
-- Then there should be the content of the article itself 
-
-Data: 
-- In future this system will use a database to store all of it's data
-- However this is just a version 1 so right now all of the data is hardcoded in json 
-- The data will be stored in app/assets/newsfeedScreen
-
-The data for each newsfeed item would look like this: 
-- It would be json
-- it would have a id, title, a subheader, a reference to where the image is stored, content, timestamp 
-
-Here is some example fake data: 
-{
-  "newsfeed": [
-    {
-      "id": 1,
-      "title": "City Council Approves New Park Renovation",
-      "subheader": "Transforming the city's outdoor spaces",
-      "image": "assets/images/park_renovation.jpg",
-      "content": "The city council has unanimously approved a new project to renovate the city's central park, aiming to add new playgrounds, walking trails, and green spaces. The renovation project, expected to start next month, is part of a larger initiative to promote outdoor activities and enhance the city's natural environment for families and individuals alike. Funding for this project has been allocated through both local government and state grants, ensuring the park will become a hub for the community.",
-      "timestamp": "2023-10-20T10:00:00Z"
-    },
-    {
-      "id": 2,
-      "title": "Public Transportation Fares Reduced by 20%",
-      "subheader": "Making transit more accessible",
-      "image": "assets/images/public_transport.jpg",
-      "content": "In an effort to increase accessibility and reduce emissions, the local government has reduced public transportation fares by 20% across all services. The change, which takes effect immediately, is part of a broader sustainability initiative aimed at encouraging citizens to opt for public transit over personal vehicles. Officials say this will make daily commuting easier and more affordable for residents.",
-      "timestamp": "2023-10-19T14:00:00Z"
-    },
-    {
-      "id": 3,
-      "title": "New Waste Management Program Announced",
-      "subheader": "Cleaner streets, greener city",
-      "image": "assets/images/waste_management.jpg",
-      "content": "Starting next month, the city will implement a new waste management program designed to reduce littering and promote recycling. The program will see the addition of new recycling bins in public areas, and residents will receive clear instructions on proper disposal methods. The city hopes this initiative will lead to a cleaner, more sustainable community.",
-      "timestamp": "2023-10-18T09:30:00Z"
-    },
-    {
-      "id": 4,
-      "title": "Local Schools to Receive Additional Funding",
-      "subheader": "Enhancing education and resources",
-      "image": "assets/images/school_funding.jpg",
-      "content": "The local government has announced a substantial increase in funding for public schools, which will be used to improve facilities, acquire new learning materials, and provide additional training for teachers. This initiative is part of an ongoing commitment to enhance education quality and ensure that students have the resources they need to succeed.",
-      "timestamp": "2023-10-17T11:00:00Z"
-    },
-    {
-      "id": 5,
-      "title": "New Bike Lanes to Be Installed Downtown",
-      "subheader": "Safer, greener commuting options",
-      "image": "assets/images/bike_lanes.jpg",
-      "content": "To promote eco-friendly commuting, the city has approved the installation of new bike lanes throughout the downtown area. These lanes will make cycling a safer and more viable option for residents, as the city works to reduce traffic congestion and carbon emissions. Construction is set to begin later this month, with completion expected by early next year.",
-      "timestamp": "2023-10-16T08:45:00Z"
-    }
-  ]
-}
+-------------------------
 

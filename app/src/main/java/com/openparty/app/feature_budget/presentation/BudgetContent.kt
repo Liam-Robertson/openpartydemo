@@ -1,4 +1,3 @@
-// File: feature_budget/src/main/java/com/openparty/feature_budget/presentation/BudgetContent.kt
 package com.openparty.app.feature_budget.presentation
 
 import androidx.compose.foundation.layout.*
@@ -11,13 +10,17 @@ import androidx.compose.ui.unit.dp
 import com.openparty.app.feature_budget.domain.model.BudgetItem
 import com.openparty.app.feature_budget.presentation.components.BudgetPieChart
 import com.openparty.app.feature_budget.presentation.components.Legend
-
-import androidx.compose.material3.Button
+import com.openparty.app.ui.theme.BudgetColors
 
 @Composable
-fun BudgetContent(budgetItems: List<BudgetItem>) {
-    var currentItems by remember(budgetItems) { mutableStateOf(groupSmallBudgetItems(budgetItems)) }
-    val navigationStack = remember { mutableStateListOf<List<BudgetItem>>() }
+fun BudgetContent(
+    budgetItems: List<BudgetItem>,
+    onItemClick: (BudgetItem) -> Unit
+) {
+    val groupedItems = groupSmallBudgetItems(budgetItems)
+    val colorMapping = groupedItems.mapIndexed { index, item ->
+        item to BudgetColors[index % BudgetColors.size]
+    }.toMap()
 
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp)
@@ -28,19 +31,6 @@ fun BudgetContent(budgetItems: List<BudgetItem>) {
             modifier = Modifier.align(Alignment.Start)
         )
 
-        if (navigationStack.isNotEmpty()) {
-            Button(
-                onClick = {
-                    if (navigationStack.isNotEmpty()) {
-                        currentItems = navigationStack.removeLast()
-                    }
-                },
-                modifier = Modifier.padding(vertical = 16.dp)
-            ) {
-                Text("Back")
-            }
-        }
-
         Spacer(modifier = Modifier.height(32.dp))
 
         Box(
@@ -48,38 +38,18 @@ fun BudgetContent(budgetItems: List<BudgetItem>) {
             contentAlignment = Alignment.Center
         ) {
             BudgetPieChart(
-                budgetItems = currentItems,
-                onItemClick = { selectedItem ->
-                    val nextLevelItems = when {
-                        selectedItem.subtypesLevel2.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel2)
-                        selectedItem.subtypesLevel3.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel3)
-                        else -> listOf(selectedItem)
-                    }
-
-                    if (nextLevelItems != currentItems) {
-                        navigationStack.add(currentItems)
-                        currentItems = nextLevelItems
-                    }
-                }
+                budgetItems = groupedItems,
+                colorMapping = colorMapping,
+                onItemClick = onItemClick
             )
         }
 
         Spacer(modifier = Modifier.height(32.dp))
 
         Legend(
-            budgetItems = currentItems,
-            onItemClick = { selectedItem ->
-                val nextLevelItems = when {
-                    selectedItem.subtypesLevel2.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel2)
-                    selectedItem.subtypesLevel3.isNotEmpty() -> groupSmallBudgetItems(selectedItem.subtypesLevel3)
-                    else -> listOf(selectedItem)
-                }
-
-                if (nextLevelItems != currentItems) {
-                    navigationStack.add(currentItems)
-                    currentItems = nextLevelItems
-                }
-            }
+            budgetItems = groupedItems,
+            colorMapping = colorMapping,
+            onItemClick = onItemClick
         )
     }
 }

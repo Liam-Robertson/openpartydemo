@@ -1,4 +1,3 @@
-// File: feature-budget/src/main/java/com/openparty/feature_budget/presentation/components/Legend.kt
 package com.openparty.app.feature_budget.presentation.components
 
 import androidx.compose.foundation.clickable
@@ -9,13 +8,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.openparty.app.feature_budget.domain.model.BudgetItem
-import com.openparty.app.feature_budget.presentation.getColorForItem
 
 @Composable
 fun Legend(
     budgetItems: List<BudgetItem>,
+    colorMapping: Map<BudgetItem, Color>,
     onItemClick: (BudgetItem) -> Unit
 ) {
     Column {
@@ -27,10 +27,11 @@ fun Legend(
                     .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                val color = colorMapping[item] ?: MaterialTheme.colorScheme.primary
                 Box(
                     modifier = Modifier
                         .size(16.dp)
-                        .background(color = getColorForItem(item))
+                        .background(color)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
