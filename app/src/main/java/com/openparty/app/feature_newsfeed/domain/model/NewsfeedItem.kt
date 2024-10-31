@@ -8,6 +8,11 @@ data class NewsfeedItem(
     val title: String,
     val subheader: String,
     val image: String,
-    val content: String,
+    val content: Content,
     val timestamp: String
+)
+
+@Serializable
+data class Content(
+    val paragraphs: List<String>
 )
