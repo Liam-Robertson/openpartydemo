@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.compose.charts)
+    implementation(libs.androidx.runtime.livedata)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
