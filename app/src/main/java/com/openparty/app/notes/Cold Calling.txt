@@ -5,3 +5,35 @@ Aims:
 - The system has two current aims which are:
     - to increase the participation of the constituents in local government
     - to make it easier for constituents to understand how the budget of the local council is spent and where
+
+My current goal
+- Have meetings with three councillors
+
+Script:
+Hi X, I'm Liam. I'm working as part of an initiative to make local government more acccessible in Bathgate and Linlithgow and I was hoping to get your advice on it.
+
+So right now we have two major aims, one of them is to make local government more accessible to people, so to make it easier for constituents to raise issues and get their problems solved
+The second one is to make it more clear where the budget for the government is spent and why it's spent that way
+Right now we're a group of about 10 people working in Bathgate and Linlithgow and we're trying to come up with solutions on how to meet those goals
+I was hoping to get a meeting with you so I could get a bit of background on how you see the local community and how you think we could go about this
+Could we be book in a meeting to go over this?
+
+- **Councillor William Boyle**
+  - **Ward**: Bathgate
+  - **Phone**: 01506 281718
+  - **Email**: william.boyle@westlothian.gov.uk
+
+- **Councillor Harry Cartmill**
+  - **Ward**: Bathgate
+  - **Phone**: 01506 281748
+  - **Email**: harry.cartmill@westlothian.gov.uk
+
+- **Councillor Tony Pearson**
+  - **Ward**: Bathgate
+  - **Phone**: 01506 281751
+  - **Email**: tony.pearson@westlothian.gov.uk
+
+- **Councillor Pauline Stafford**
+  - **Ward**: Bathgate
+  - **Phone**: 01506 283073
+  - **Email**: pauline.stafford@westlothian.gov.uk
