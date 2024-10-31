@@ -1,4 +1,3 @@
-// File: feature_issues/src/main/java/com/openparty/feature_issues/presentation/ViewIssueScreen.kt
 package com.openparty.app.feature_issues.presentation
 
 import androidx.compose.foundation.layout.*
@@ -6,7 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp

@@ -1,4 +1,3 @@
-// File: feature_issues/src/main/java/com/openparty/feature_issues/presentation/IssuesScreen.kt
 package com.openparty.app.feature_issues.presentation
 
 import androidx.compose.runtime.Composable
