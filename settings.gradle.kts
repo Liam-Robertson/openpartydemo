@@ -20,5 +20,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Open Party"
+rootProject.name = "Open Party Demo"
 include(":app")
